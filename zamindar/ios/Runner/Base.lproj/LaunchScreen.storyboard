@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="EHf-IW-A2E">
+            <objects>
+                <viewController id="01J-lp-oVM" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="iPX-e6-dYe"/>
+                        <viewControllerLayoutGuide type="bottom" id="UnD-1G-KNo"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="4kc-5c-bSg">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KFa-aJ-ww6">
+                                <rect key="frame" x="70" y="344" width="274" height="218"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="JPJ-AP-m2R">
+                                        <rect key="frame" x="0.0" y="0.0" width="274" height="218"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="274" id="aZ8-vg-6yr"/>
+                                            <constraint firstAttribute="height" constant="218" id="wO2-k0-2QC"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="JPJ-AP-m2R" secondAttribute="trailing" id="45p-e7-vgT"/>
+                                    <constraint firstItem="JPJ-AP-m2R" firstAttribute="leading" secondItem="KFa-aJ-ww6" secondAttribute="leading" id="5kA-XV-WJQ"/>
+                                    <constraint firstItem="JPJ-AP-m2R" firstAttribute="top" secondItem="KFa-aJ-ww6" secondAttribute="top" id="HcL-bI-JeM"/>
+                                    <constraint firstAttribute="bottom" secondItem="JPJ-AP-m2R" secondAttribute="bottom" id="Riy-Un-oQ9"/>
+                                    <constraint firstAttribute="width" constant="274" id="dfr-4I-8bJ"/>
+                                    <constraint firstAttribute="height" constant="218" id="fhV-Gy-1cc"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="KFa-aJ-ww6" firstAttribute="top" secondItem="iPX-e6-dYe" secondAttribute="bottom" constant="300" id="0qJ-5i-xvM"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="KFa-aJ-ww6" secondAttribute="trailing" constant="50" id="7UT-nS-p4g"/>
+                            <constraint firstItem="KFa-aJ-ww6" firstAttribute="leading" secondItem="4kc-5c-bSg" secondAttribute="leadingMargin" constant="50" id="fSB-vp-msd"/>
+                            <constraint firstItem="UnD-1G-KNo" firstAttribute="top" secondItem="KFa-aJ-ww6" secondAttribute="bottom" constant="300" id="oWp-rQ-hsI"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="76.811594202898561" y="251.11607142857142"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="logo" width="5109" height="4873"/>
+    </resources>
+</document>
