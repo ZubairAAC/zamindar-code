@@ -51,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
               activeIcon: Icon(Icons.home, color: theme.accentColor),
               icon: Icon(Icons.home_outlined, color: Colors.grey),
               title: Text(
-                'itemHome'.tr,
+                'Home'.tr,
                 style: TextStyle(color: theme.accentColor),
               ),
             ),
@@ -61,8 +61,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 color: theme.accentColor,
               ),
               icon: Icon(Icons.store_outlined, color: Colors.grey),
-              title: Text('itemMarket'.tr,
-                  style: TextStyle(color: theme.accentColor)),
+              title:
+                  Text('Market'.tr, style: TextStyle(color: theme.accentColor)),
             ),
             BottomNavigationBarItem(
               activeIcon: SvgPicture.asset(
@@ -77,19 +77,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 width: 25,
                 color: Colors.grey,
               ),
-              title: Text('itemCrops'.tr,
-                  style: TextStyle(color: theme.accentColor)),
+              title:
+                  Text('Crops'.tr, style: TextStyle(color: theme.accentColor)),
             ),
             BottomNavigationBarItem(
               activeIcon: Icon(Icons.email, color: theme.accentColor),
               icon: Icon(Icons.email_outlined, color: Colors.grey),
-              title: Text('itemMessage'.tr,
+              title: Text('Message'.tr,
                   style: TextStyle(color: theme.accentColor)),
             ),
             BottomNavigationBarItem(
               activeIcon: Icon(Icons.account_circle, color: theme.accentColor),
               icon: Icon(Icons.account_circle_outlined, color: Colors.grey),
-              title: Text('itemProfile'.tr,
+              title: Text('Profile'.tr,
                   style: TextStyle(color: theme.accentColor)),
             ),
           ],

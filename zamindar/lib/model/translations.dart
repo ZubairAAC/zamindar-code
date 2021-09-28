@@ -5,11 +5,11 @@ class myTranslations extends Translations {
   // TODO: implement keys
   Map<String, Map<String, String>> get keys => {
         'en_US': {
-          'itemHome': 'Home',
-          'itemMarket': 'Market',
-          'itemCrops': 'Crops',
-          'itemMessage': 'Message',
-          'itemProfile': 'Profile',
+          'Home': 'Home',
+          'Market': 'Market',
+          'Crops': 'Crops',
+          'Message': 'Message',
+          'Profile': 'Profile',
           'Zamindar': 'Zamindar',
           'How App Work': 'How App Work',
           'Chat With Zamindar': 'Chat With Zamindar',
@@ -30,11 +30,11 @@ class myTranslations extends Translations {
           'Farmer of new era': 'Farmer of new era',
         },
         'ur_PK': {
-          'itemHome': 'ہوم',
-          'itemMarket': 'بازار',
-          'itemCrops': 'فصل',
-          'itemMessage': 'پیغام',
-          'itemProfile': 'پروفایل',
+          'Home': 'ہوم',
+          'Market': 'بازار',
+          'Crops': 'فصل',
+          'Message': 'پیغام',
+          'Profile': 'پروفایل',
           'Zamindar': 'زامیندر',
           'How App Work': 'ایپ کیسے کام کرتی ہے',
           'Chat With Zamindar': 'زامیندر کے ساتھ چیٹ کریں',

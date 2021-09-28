@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zamindar/model/translations.dart';
 import 'package:zamindar/provider/theme.dart';
-import 'package:zamindar/view/myhome.dart';
+import 'package:zamindar/view/parent/myhome.dart';
 
 void main() {
   runApp(MyApp());
