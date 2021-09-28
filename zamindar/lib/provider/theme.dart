@@ -15,6 +15,7 @@ class CustomTheme with ChangeNotifier {
 
   static ThemeData get lightTheme {
     return ThemeData(
+        cardColor: Colors.white,
         brightness: Brightness.light,
         colorScheme: ColorScheme.light(),
         primaryColor: Colors.black,
