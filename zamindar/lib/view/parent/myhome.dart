@@ -7,7 +7,7 @@ import 'package:zamindar/view/home.dart';
 import 'package:zamindar/view/market.dart';
 import 'package:zamindar/view/message.dart';
 import 'package:zamindar/view/profile.dart';
-import 'package:zamindar/widgets/drawer.dart';
+import 'package:zamindar/view/widgets/drawer.dart';
 
 class HomeScreen extends StatefulWidget {
   @override

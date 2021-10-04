@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 // import 'package:get/instance_manager.dart';
 
@@ -18,14 +20,17 @@ class CustomTheme with ChangeNotifier {
         cardColor: Colors.white,
         brightness: Brightness.light,
         colorScheme: ColorScheme.light(),
-        primaryColor: Colors.black,
+        hoverColor: Colors.green,
+        primaryColor: Colors.white,
         primaryColorLight: Colors.black,
-        primarySwatch: Colors.red,
+        primarySwatch: Colors.green,
         accentColor: Colors.green,
         backgroundColor: Colors.grey[200],
         scaffoldBackgroundColor: Colors.grey[200],
+        focusColor: Colors.green,
+        shadowColor: Colors.white,
         textTheme: TextTheme(
-          caption: TextStyle(color: Colors.black),
+          caption: TextStyle(color: Colors.white),
           headline1: TextStyle(color: Colors.green),
           headline2: TextStyle(color: Colors.black),
           bodyText1: TextStyle(color: Colors.black),
@@ -39,11 +44,15 @@ class CustomTheme with ChangeNotifier {
   static ThemeData get darkTheme {
     return ThemeData(
         cardColor: Colors.black,
-        primaryColor: Colors.white,
+        primaryColor: Colors.black,
+        hoverColor: Colors.black,
+        shadowColor: Colors.yellow[700],
+        primaryColorLight: Colors.white,
         colorScheme: ColorScheme.dark(),
-        primarySwatch: Colors.green,
+        primarySwatch: Colors.yellow,
         accentColor: Colors.yellow[700],
         backgroundColor: Colors.grey[900],
+        focusColor: Colors.black,
         scaffoldBackgroundColor: Colors.grey[900],
         textTheme: TextTheme(
           headline1: TextStyle(color: Colors.yellow[700]),

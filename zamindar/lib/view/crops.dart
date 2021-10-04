@@ -33,6 +33,7 @@ class _cropsState extends State<crops> {
         ),
         body: SingleChildScrollView(
             child: Container(
+          margin: EdgeInsets.only(bottom: 50),
           child: Column(children: [
             Divider(
               color: theme.accentColor,

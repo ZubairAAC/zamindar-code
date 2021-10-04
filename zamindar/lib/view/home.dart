@@ -1,9 +1,14 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
+import 'package:get/instance_manager.dart';
 import 'package:zamindar/model/homePageData.dart';
-import 'package:zamindar/widgets/drawer.dart';
+import 'package:zamindar/view/Supporting%20Screens/PostView.dart';
+import 'package:zamindar/view/Supporting%20Screens/askQuestion.dart';
+import 'package:zamindar/view/Supporting%20Screens/notification.dart';
+import 'package:zamindar/view/widgets/drawer.dart';
 
 class mainHome extends StatefulWidget {
   mainHome({Key? key}) : super(key: key);
@@ -48,7 +53,9 @@ class _mainHomeState extends State<mainHome>
                 Icons.notifications,
                 color: theme.iconTheme.color,
               ),
-              onPressed: () {},
+              onPressed: () {
+                Get.to(() => NotificationScreen());
+              },
             )
           ],
         ),
@@ -71,31 +78,37 @@ class _mainHomeState extends State<mainHome>
               scrollDirection: Axis.horizontal,
               itemCount: 4,
               itemBuilder: (BuildContext context, int index) {
-                return Container(
-                    margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                    height: 70,
-                    width: 70,
-                    decoration: BoxDecoration(
-                      color: theme.backgroundColor,
-                      borderRadius: BorderRadius.circular(50),
-                    ),
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(
-                            HomeImages[index],
-                            height: 20,
-                            width: 20,
-                            color: theme.accentColor,
-                          ),
-                          SizedBox(height: 5),
-                          Text(
-                            HomeNames[index].tr,
-                            style: TextStyle(fontSize: 8),
-                            overflow: TextOverflow.ellipsis,
-                          )
-                        ]));
+                return InkWell(
+                  onTap: () {
+                    print(HomeNames[index]);
+                    Get.to(AskQuestion());
+                  },
+                  child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                      height: 70,
+                      width: 70,
+                      decoration: BoxDecoration(
+                        color: theme.backgroundColor,
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              HomeImages[index],
+                              height: 20,
+                              width: 20,
+                              color: theme.accentColor,
+                            ),
+                            SizedBox(height: 5),
+                            Text(
+                              HomeNames[index].tr,
+                              style: TextStyle(fontSize: 8),
+                              overflow: TextOverflow.ellipsis,
+                            )
+                          ])),
+                );
               },
             ),
           ),
@@ -123,12 +136,12 @@ class _mainHomeState extends State<mainHome>
                 new Tab(
                   child: Text(
                     "Agri-Info".tr,
-                    style: TextStyle(color: theme.primaryColor),
+                    style: TextStyle(color: theme.primaryColorLight),
                   ),
                 ),
                 new Tab(
                     child: Text("My Village".tr,
-                        style: TextStyle(color: theme.primaryColor))),
+                        style: TextStyle(color: theme.primaryColorLight))),
               ],
             ),
           ),
@@ -144,83 +157,95 @@ class _mainHomeState extends State<mainHome>
                   physics: NeverScrollableScrollPhysics(),
                   itemCount: 3,
                   itemBuilder: (BuildContext context, int index) {
-                    return Container(
-                      margin: EdgeInsets.only(left: 10, right: 10, bottom: 5),
-                      height: 300,
-                      decoration: BoxDecoration(
-                          color: theme.cardColor,
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: theme.backgroundColor)),
-                      child: Column(
-                        children: [
-                          SizedBox(height: 10),
-                          Container(
-                            height: 50,
-                            // color: Colors.red,
-                            padding: EdgeInsets.symmetric(horizontal: 20),
-                            child: Row(
-                              children: [
-                                Column(
-                                  children: [
-                                    Container(
-                                      height: 40,
-                                      width: 40,
-                                      decoration: BoxDecoration(
-                                          color: Colors.blue,
-                                          borderRadius:
-                                              BorderRadius.circular(50)),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(width: 10),
-                                Container(
-                                  height: 50,
-                                  width: 265,
-                                  // color: Colors.blue,
-                                  child: Column(
+                    return InkWell(
+                      onTap: () {
+                        print(index);
+                        Get.to(() => PostView());
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(left: 10, right: 10, bottom: 5),
+                        height: 300,
+                        decoration: BoxDecoration(
+                            color: theme.cardColor,
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(color: theme.backgroundColor)),
+                        child: Column(
+                          children: [
+                            SizedBox(height: 10),
+                            Container(
+                              height: 50,
+                              // color: Colors.red,
+                              padding: EdgeInsets.symmetric(horizontal: 20),
+                              child: Row(
+                                children: [
+                                  Column(
                                     children: [
-                                      Row(
-                                        children: [
-                                          Text(
-                                            "Zamindar",
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 8),
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        children: [
-                                          Text(
-                                            "60 mints ago",
-                                            style: TextStyle(fontSize: 5),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(height: 5),
                                       Container(
-                                          child: Text(
-                                              "This is sample text for the post of agri info in zamindar app specialy designed for farmers community in Pakistan",
-                                              maxLines: 2,
-                                              style: TextStyle(fontSize: 10),
-                                              overflow: TextOverflow.ellipsis)),
+                                        height: 40,
+                                        width: 40,
+                                        decoration: BoxDecoration(
+                                            color: Colors.black,
+                                            borderRadius:
+                                                BorderRadius.circular(50)),
+                                        child: Image.asset(
+                                          "asset/logo/splash.png",
+                                          fit: BoxFit.fill,
+                                        ),
+                                      ),
                                     ],
                                   ),
-                                )
-                              ],
+                                  SizedBox(width: 10),
+                                  Container(
+                                    height: 50,
+                                    width: 265,
+                                    // color: Colors.blue,
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Text(
+                                              "Zamindar",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 8),
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              "60 mints ago",
+                                              style: TextStyle(fontSize: 5),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(height: 5),
+                                        Container(
+                                            child: Text(
+                                                "This is sample text for the post of agri info in zamindar app specialy designed for farmers community in Pakistan",
+                                                maxLines: 2,
+                                                style: TextStyle(fontSize: 10),
+                                                overflow:
+                                                    TextOverflow.ellipsis)),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
-                          ),
-                          Container(
-                            height: 238,
-                            decoration: BoxDecoration(
-                                color: Colors.red,
-                                border: Border.all(
-                                    color: Color(0xFF707070).withOpacity(0.30)),
-                                borderRadius: BorderRadius.only(
-                                    bottomLeft: Radius.circular(10),
-                                    bottomRight: Radius.circular(10))),
-                          )
-                        ],
+                            Container(
+                              height: 238,
+                              decoration: BoxDecoration(
+                                  color: Colors.red,
+                                  border: Border.all(
+                                      color:
+                                          Color(0xFF707070).withOpacity(0.30)),
+                                  borderRadius: BorderRadius.only(
+                                      bottomLeft: Radius.circular(10),
+                                      bottomRight: Radius.circular(10))),
+                            )
+                          ],
+                        ),
                       ),
                     );
                   },

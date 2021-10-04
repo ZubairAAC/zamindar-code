@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
+import 'package:get/instance_manager.dart';
 import 'package:zamindar/model/MarketData.dart';
+import 'package:zamindar/view/Supporting%20Screens/MarketAdView.dart';
+import 'package:zamindar/view/Supporting%20Screens/PostAd.dart';
 
 class Market extends StatefulWidget {
   Market({Key? key}) : super(key: key);
@@ -52,31 +56,38 @@ class _MarketState extends State<Market> {
                 scrollDirection: Axis.horizontal,
                 itemCount: 5,
                 itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                      margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                      height: 70,
-                      width: 70,
-                      decoration: BoxDecoration(
-                        color: theme.backgroundColor,
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset(
-                              MarketImages[index],
-                              height: 20,
-                              width: 20,
-                              color: theme.accentColor,
-                            ),
-                            SizedBox(height: 5),
-                            Text(
-                              MarketNames[index].tr,
-                              style: TextStyle(fontSize: 8),
-                              overflow: TextOverflow.ellipsis,
-                            )
-                          ]));
+                  return InkWell(
+                    onTap: () {
+                      print(MarketNames[index]);
+                      Get.to(PostAd());
+                    },
+                    child: Container(
+                        margin:
+                            EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                        height: 70,
+                        width: 70,
+                        decoration: BoxDecoration(
+                          color: theme.backgroundColor,
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                MarketImages[index],
+                                height: 20,
+                                width: 20,
+                                color: theme.accentColor,
+                              ),
+                              SizedBox(height: 5),
+                              Text(
+                                MarketNames[index].tr,
+                                style: TextStyle(fontSize: 8),
+                                overflow: TextOverflow.ellipsis,
+                              )
+                            ])),
+                  );
                 },
               ),
             ),
@@ -99,90 +110,98 @@ class _MarketState extends State<Market> {
             ),
             Container(
               height: MediaQuery.of(context).size.height,
-              margin: EdgeInsets.only(top: 10),
+              margin: EdgeInsets.only(
+                top: 10,
+              ),
               child: ListView.builder(
                 physics: NeverScrollableScrollPhysics(),
                 itemCount: 10,
                 itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                      height: 100,
-                      decoration: BoxDecoration(
-                        color: theme.cardColor,
-                        border: Border(
-                            bottom: BorderSide(color: theme.backgroundColor)),
-                      ),
-                      child: Column(children: [
-                        Container(
-                          height: 99,
-                          child: Row(children: [
-                            Container(
-                              height: 100,
-                              width: 100,
-                              decoration: BoxDecoration(
-                                  // color: Colors.red,
-                                  border:
-                                      Border.all(color: theme.backgroundColor)),
-                              child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Container(
-                                        height: 15,
-                                        width: 15,
-                                        decoration: BoxDecoration(
-                                          color: theme.accentColor,
-                                        ),
-                                        child: Center(
-                                          child: Text(
-                                            "3",
-                                            style: TextStyle(
-                                                fontSize: 10,
-                                                color: theme.cardColor),
-                                          ),
-                                        ))
-                                  ]),
-                            ),
-                            Container(
-                              height: 100,
-                              width: 250,
-                              // color: Colors.red,
-                              margin: EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 10),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "This is Title Data for the post of zamindar market Place mobile app",
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(fontSize: 15),
-                                  ),
-                                  SizedBox(height: 5),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        "ads format citi for zamindar app",
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(fontSize: 9),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: 20),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        "31-Dec-2021",
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(fontSize: 9),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            )
-                          ]),
+                  return InkWell(
+                    onTap: () {
+                      print(index);
+                      Get.to(() => MarketAdView());
+                    },
+                    child: Container(
+                        height: 100,
+                        decoration: BoxDecoration(
+                          color: theme.cardColor,
+                          border: Border(
+                              bottom: BorderSide(color: theme.backgroundColor)),
                         ),
-                        // Divider(color: theme.accentColor),
-                      ]));
+                        child: Column(children: [
+                          Container(
+                            height: 99,
+                            child: Row(children: [
+                              Container(
+                                height: 100,
+                                width: 100,
+                                decoration: BoxDecoration(
+                                    // color: Colors.red,
+                                    border: Border.all(
+                                        color: theme.backgroundColor)),
+                                child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Container(
+                                          height: 15,
+                                          width: 15,
+                                          decoration: BoxDecoration(
+                                            color: theme.accentColor,
+                                          ),
+                                          child: Center(
+                                            child: Text(
+                                              "3",
+                                              style: TextStyle(
+                                                  fontSize: 10,
+                                                  color: theme.cardColor),
+                                            ),
+                                          ))
+                                    ]),
+                              ),
+                              Container(
+                                height: 100,
+                                width: 250,
+                                // color: Colors.red,
+                                margin: EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 10),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "This is Title Data for the post of zamindar market Place mobile app",
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(fontSize: 15),
+                                    ),
+                                    SizedBox(height: 5),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          "ads format citi for zamindar app",
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(fontSize: 9),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 20),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          "31-Dec-2021",
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(fontSize: 9),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ]),
+                          ),
+                          // Divider(color: theme.accentColor),
+                        ])),
+                  );
                 },
               ),
             )
