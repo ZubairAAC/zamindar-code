@@ -1,15 +1,20 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:zamindar/model/CropsData.dart';
 
+// ignore: camel_case_types
 class crops extends StatefulWidget {
+  // ignore: prefer_const_constructors_in_immutables
   crops({Key? key}) : super(key: key);
 
   @override
   _cropsState createState() => _cropsState();
 }
 
+// ignore: camel_case_types
 class _cropsState extends State<crops> {
   @override
   Widget build(BuildContext context) {
@@ -25,6 +30,7 @@ class _cropsState extends State<crops> {
             children: [
               Text("Crops".tr,
                   style: TextStyle(
+                      // ignore: deprecated_member_use
                       color: theme.accentColor,
                       fontSize: 20,
                       fontWeight: FontWeight.bold)),
@@ -33,9 +39,11 @@ class _cropsState extends State<crops> {
         ),
         body: SingleChildScrollView(
             child: Container(
+          // ignore: prefer_const_constructors
           margin: EdgeInsets.only(bottom: 50),
           child: Column(children: [
             Divider(
+              // ignore: deprecated_member_use
               color: theme.accentColor,
             ),
             Container(
@@ -69,6 +77,7 @@ class _cropsState extends State<crops> {
                             ScrolImages[index],
                             height: 20,
                             width: 20,
+                            // ignore: deprecated_member_use
                             color: theme.accentColor,
                           ),
                           SizedBox(height: 5),
@@ -119,6 +128,7 @@ class _cropsState extends State<crops> {
                             CropFeatureImages[index],
                             height: 50,
                             width: 50,
+                            // ignore: deprecated_member_use
                             color: theme.accentColor,
                           ),
                           SizedBox(height: 5),

@@ -149,7 +149,7 @@ class _MarketAdViewState extends State<MarketAdView> {
                       child: Row(
                         children: [
                           Container(
-                            height: 100,
+                            height: 105,
                             width: 100,
                             decoration: BoxDecoration(
                                 // color: theme.backgroundColor,

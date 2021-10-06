@@ -1,7 +1,9 @@
 import 'package:get/route_manager.dart';
 
+// ignore: camel_case_types
 class myTranslations extends Translations {
   @override
+  // ignore: todo
   // TODO: implement keys
   Map<String, Map<String, String>> get keys => {
         'en_US': {
@@ -31,6 +33,7 @@ class myTranslations extends Translations {
           'Zamindar Market': 'Zamindar Market',
           'Best Today': 'Best Today',
           'Agri-Info': 'Agri-Info',
+          // ignore: equal_keys_in_map
           'My Village': 'My Village',
           'Fertiliser Calculator': 'Fertiliser Calculator',
           'Crop Manuals': 'Crop Manuals',
@@ -55,10 +58,17 @@ class myTranslations extends Translations {
           'Contact us': 'Contact us',
           'Rate us': 'Rate us',
           'Terms & Policies': 'Terms & Policies',
+          // ignore: equal_keys_in_map
           'Change Language': 'Change Language',
           'About Zamindar': 'About Zamindar',
           'Edit': 'Edit',
           'Logout': 'Logout',
+          'Select Your Language': 'Select Your Language',
+          'Please': 'Please',
+          'Select Your': 'Select Your',
+          'Custom Screen': 'Custom Screen',
+          'Color': 'Color',
+          'Continue': 'Continue',
         },
         'ur_PK': {
           'Home': 'ہوم',
@@ -87,6 +97,7 @@ class myTranslations extends Translations {
           'Zamindar Market': 'زمیندار مارکیٹ',
           'Best Today': 'آج کا بہترین',
           'Agri-Info': 'زرعی معلومات',
+          // ignore: equal_keys_in_map
           'My Village': 'میرا گاؤں',
           'Fertiliser Calculator': 'کھاد کیلکولیٹر',
           'Crop Manuals': 'فصل کے دستور',
@@ -111,10 +122,17 @@ class myTranslations extends Translations {
           'Contact us': 'ہم سے رابطہ کریں',
           'Terms & Policies': 'شرائط اور پالیسیاں',
           'Rate us': 'ہمیں درجہ دیں',
+          // ignore: equal_keys_in_map
           'Change Language': 'زبان تبدیل کریں',
           'About Zamindar': 'زمیندار کے بارے میں',
           'Edit': 'ترمیم کریں',
           'Logout': 'لاگ آوٹ',
+          'Select Your Language': 'اپنی زبان منتخب کریں',
+          'Please': 'برائے مہربانی',
+          'Select Your': ' منتخب کریں',
+          'Custom Screen': 'اپنی مرضی کی سکرین',
+          'Color': 'رنگ',
+          'Continue': 'اگلی سکرین',
         }
       };
 }

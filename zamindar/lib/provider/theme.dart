@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -16,14 +18,17 @@ class CustomTheme with ChangeNotifier {
   }
 
   static ThemeData get lightTheme {
+    // ignore: duplicate_ignore
     return ThemeData(
         cardColor: Colors.white,
         brightness: Brightness.light,
+        // ignore: prefer_const_constructors
         colorScheme: ColorScheme.light(),
         hoverColor: Colors.green,
         primaryColor: Colors.white,
         primaryColorLight: Colors.black,
         primarySwatch: Colors.green,
+        // ignore: deprecated_member_use
         accentColor: Colors.green,
         backgroundColor: Colors.grey[200],
         scaffoldBackgroundColor: Colors.grey[200],
@@ -50,6 +55,7 @@ class CustomTheme with ChangeNotifier {
         primaryColorLight: Colors.white,
         colorScheme: ColorScheme.dark(),
         primarySwatch: Colors.yellow,
+        // ignore: deprecated_member_use
         accentColor: Colors.yellow[700],
         backgroundColor: Colors.grey[900],
         focusColor: Colors.black,

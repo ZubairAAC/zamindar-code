@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -10,23 +12,29 @@ import 'package:zamindar/view/Supporting%20Screens/askQuestion.dart';
 import 'package:zamindar/view/Supporting%20Screens/notification.dart';
 import 'package:zamindar/view/widgets/drawer.dart';
 
+// ignore: camel_case_types
 class mainHome extends StatefulWidget {
+  // ignore: prefer_const_constructors_in_immutables
   mainHome({Key? key}) : super(key: key);
 
   @override
   _mainHomeState createState() => _mainHomeState();
 }
 
+// ignore: camel_case_types
 class _mainHomeState extends State<mainHome>
     with SingleTickerProviderStateMixin {
   late TabController _controller;
   @override
   void initState() {
+    // ignore: todo
     // TODO: implement initState
     super.initState();
+    // ignore: unnecessary_new
     _controller = new TabController(length: 2, vsync: this);
   }
 
+  // ignore: annotate_overrides
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
@@ -35,6 +43,7 @@ class _mainHomeState extends State<mainHome>
           elevation: 0.0,
           backgroundColor: theme.backgroundColor,
           leading: Builder(builder: (BuildContext context) {
+            // ignore: deprecated_member_use
             return FlatButton(
                 // tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
                 onPressed: () {
@@ -59,8 +68,10 @@ class _mainHomeState extends State<mainHome>
             )
           ],
         ),
+        // ignore: prefer_const_constructors
         drawer: mydrawer(),
         body: SingleChildScrollView(
+            // ignore: avoid_unnecessary_containers
             child: Container(
                 child: Column(children: [
           Container(
@@ -80,6 +91,7 @@ class _mainHomeState extends State<mainHome>
               itemBuilder: (BuildContext context, int index) {
                 return InkWell(
                   onTap: () {
+                    // ignore: avoid_print
                     print(HomeNames[index]);
                     Get.to(AskQuestion());
                   },
@@ -99,6 +111,7 @@ class _mainHomeState extends State<mainHome>
                               HomeImages[index],
                               height: 20,
                               width: 20,
+                              // ignore: deprecated_member_use
                               color: theme.accentColor,
                             ),
                             SizedBox(height: 5),
@@ -133,12 +146,14 @@ class _mainHomeState extends State<mainHome>
                 ),
               ),
               tabs: [
+                // ignore: unnecessary_new
                 new Tab(
                   child: Text(
                     "Agri-Info".tr,
                     style: TextStyle(color: theme.primaryColorLight),
                   ),
                 ),
+                // ignore: unnecessary_new
                 new Tab(
                     child: Text("My Village".tr,
                         style: TextStyle(color: theme.primaryColorLight))),
