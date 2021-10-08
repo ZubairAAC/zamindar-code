@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="a83d6406-2930-44a7-9a42-e8eb4e38a5ce" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/zamindar/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/zamindar/android/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/zamindar/lib/view/Supporting Screens/weather.dart" beforeDir="false" afterPath="$PROJECT_DIR$/zamindar/lib/view/Supporting Screens/weather.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/zamindar/lib/view/widgets/LoginChecker.dart" beforeDir="false" afterPath="$PROJECT_DIR$/zamindar/lib/view/widgets/LoginChecker.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/zamindar/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/zamindar/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/zamindar/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/zamindar/pubspec.yaml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1zDoUzct6GHpDMooYN73gRQr2LH" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="android.sdk.path" value="$USER_HOME$/Library/Android/sdk" />
+    <property name="dart.analysis.tool.window.visible" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
+    <property name="show.migrate.to.gradle.popup" value="false" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="a83d6406-2930-44a7-9a42-e8eb4e38a5ce" name="Default Changelist" comment="" />
+      <created>1633692038615</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1633692038615</updated>
+    </task>
+    <servers />
+  </component>
+</project>

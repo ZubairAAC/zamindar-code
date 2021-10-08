@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:zamindar/view/Supporting%20Screens/otp%20Verification.dart';
 
 void loginCheckers(BuildContext context) {
   final _sSize = MediaQuery.of(context).size.height;
@@ -30,7 +31,7 @@ void loginCheckers(BuildContext context) {
       backgroundColor: Colors.transparent,
       context: context,
       builder: (context) => Container(
-            height: _sSize * 0.38,
+            height: _sSize * 0.42,
             decoration: BoxDecoration(
                 color: theme.backgroundColor,
                 borderRadius: BorderRadius.only(
@@ -80,14 +81,14 @@ void loginCheckers(BuildContext context) {
                         labelStyle: TextStyle(color: theme.accentColor),
                         hintStyle: TextStyle(fontSize: 15),
                         focusedBorder: OutlineInputBorder(
-                          // borderRadius: BorderRadius.circular(50),
+                          borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide(
                             color: theme.accentColor,
                             width: 2.0,
                           ),
                         ),
                         enabledBorder: OutlineInputBorder(
-                            // borderRadius: BorderRadius.circular(50),
+                            borderRadius: BorderRadius.circular(10),
                             borderSide: BorderSide(
                                 color: theme.accentColor, width: 2))),
                   ),
@@ -114,25 +115,29 @@ void loginCheckers(BuildContext context) {
                   ),
                 ),
                 SizedBox(height: 20),
-                Center(
-                    child: Container(
-                  height: 43,
-                  width: 166,
-                  decoration: BoxDecoration(
-                    color: theme.accentColor,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Center(
-                    child: Text(
-                      "Send",
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          color: theme.primaryColor,
-                          fontSize: 15,
-                          fontWeight: FontWeight.normal),
-                    ),
-                  ),
-                ))
+                InkWell(
+                    onTap: () {
+                      Get.to(() => OTPScreen());
+                    },
+                    child: Center(
+                        child: Container(
+                      height: 43,
+                      width: 166,
+                      decoration: BoxDecoration(
+                        color: theme.accentColor,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Center(
+                        child: Text(
+                          "Send",
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              color: theme.primaryColor,
+                              fontSize: 15,
+                              fontWeight: FontWeight.normal),
+                        ),
+                      ),
+                    )))
               ],
             ),
           ));

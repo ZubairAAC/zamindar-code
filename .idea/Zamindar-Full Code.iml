@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/zamindar/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/zamindar/build" />
+      <excludeFolder url="file://$MODULE_DIR$/zamindar/ios/.symlinks/plugins/assets_audio_player/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/zamindar/ios/.symlinks/plugins/assets_audio_player/assets_audio_player_web/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/zamindar/ios/.symlinks/plugins/assets_audio_player/assets_audio_player_web/build" />
+      <excludeFolder url="file://$MODULE_DIR$/zamindar/ios/.symlinks/plugins/assets_audio_player/build" />
+      <excludeFolder url="file://$MODULE_DIR$/zamindar/ios/.symlinks/plugins/assets_audio_player/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/zamindar/ios/.symlinks/plugins/assets_audio_player/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/zamindar/ios/.symlinks/plugins/assets_audio_player_web/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/zamindar/ios/.symlinks/plugins/assets_audio_player_web/build" />
+      <excludeFolder url="file://$MODULE_DIR$/zamindar/ios/.symlinks/plugins/geocoding/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/zamindar/ios/.symlinks/plugins/geocoding/build" />
+      <excludeFolder url="file://$MODULE_DIR$/zamindar/ios/.symlinks/plugins/geocoding/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/zamindar/ios/.symlinks/plugins/geocoding/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/zamindar/ios/.symlinks/plugins/geolocator_apple/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/zamindar/ios/.symlinks/plugins/geolocator_apple/build" />
+      <excludeFolder url="file://$MODULE_DIR$/zamindar/ios/.symlinks/plugins/geolocator_apple/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/zamindar/ios/.symlinks/plugins/geolocator_apple/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/zamindar/ios/.symlinks/plugins/path_provider/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/zamindar/ios/.symlinks/plugins/path_provider/build" />
+      <excludeFolder url="file://$MODULE_DIR$/zamindar/ios/.symlinks/plugins/path_provider/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/zamindar/ios/.symlinks/plugins/path_provider/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/zamindar/ios/.symlinks/plugins/share_plus/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/zamindar/ios/.symlinks/plugins/share_plus/build" />
+      <excludeFolder url="file://$MODULE_DIR$/zamindar/ios/.symlinks/plugins/share_plus/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/zamindar/ios/.symlinks/plugins/share_plus/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/zamindar/ios/.symlinks/plugins/url_launcher/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/zamindar/ios/.symlinks/plugins/url_launcher/build" />
+      <excludeFolder url="file://$MODULE_DIR$/zamindar/ios/.symlinks/plugins/url_launcher/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/zamindar/ios/.symlinks/plugins/url_launcher/example/build" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>

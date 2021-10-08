@@ -40,7 +40,7 @@ class _EditInfoState extends State<EditInfo> {
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(10))),
       content: Container(
-        height: 400,
+        height: 450,
         width: MediaQuery.of(context).size.width * 0.90,
         decoration: BoxDecoration(
           color: theme.backgroundColor,
@@ -70,7 +70,7 @@ class _EditInfoState extends State<EditInfo> {
             ),
             SizedBox(height: 10),
             Container(
-              height: 200,
+              height: 150,
               // color: Colors.blue,
               margin: EdgeInsets.symmetric(horizontal: 20),
               child: Column(
