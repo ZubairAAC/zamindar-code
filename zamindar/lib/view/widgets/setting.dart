@@ -251,7 +251,7 @@ class _MySettingState extends State<MySetting> {
             child: Center(
                 child: SvgPicture.asset(
               "asset/icons/close.svg",
-              color: Colors.white,
+              color: theme.cardColor,
               height: 7,
               width: 7,
             ))));

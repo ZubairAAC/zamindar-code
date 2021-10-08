@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
+import 'package:zamindar/view/widgets/EditInfo.dart';
 import 'package:zamindar/view/widgets/MyProfile.dart';
 import 'package:zamindar/view/widgets/about.dart';
 import 'package:zamindar/view/widgets/setting.dart';
@@ -32,7 +33,14 @@ class _profileState extends State<profile> with SingleTickerProviderStateMixin {
           elevation: 0,
           actions: [
             TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return EditInfo();
+                    },
+                  );
+                },
                 child: Text(
                   "Edit".tr,
                   style: TextStyle(color: theme.shadowColor),

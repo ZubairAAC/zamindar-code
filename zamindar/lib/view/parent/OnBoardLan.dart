@@ -34,7 +34,8 @@ class _StartLanguageScreenState extends State<StartLanguageScreen> {
 
                   // color: Colors.red,
                   child: Column(
-                    // mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Padding(padding: EdgeInsets.only(top: 10)),
                       Spacer(),
@@ -76,7 +77,7 @@ class _StartLanguageScreenState extends State<StartLanguageScreen> {
                                 decoration: BoxDecoration(
                                     color: Colors.grey[200],
                                     borderRadius: BorderRadius.circular(10)),
-                                margin: EdgeInsets.only(right: 20, top: 10),
+                                margin: EdgeInsets.only(right: 5, top: 10),
                                 child: Padding(
                                   padding: const EdgeInsets.only(left: 20),
                                   child: Row(
@@ -104,7 +105,7 @@ class _StartLanguageScreenState extends State<StartLanguageScreen> {
                                 decoration: BoxDecoration(
                                     color: Colors.grey[200],
                                     borderRadius: BorderRadius.circular(10)),
-                                margin: EdgeInsets.only(right: 20, top: 10),
+                                margin: EdgeInsets.only(right: 5, top: 10),
                                 child: Padding(
                                   padding: const EdgeInsets.only(left: 20),
                                   child: Row(

@@ -39,6 +39,7 @@ class _MyProfileState extends State<MyProfile> {
             child: ListView.builder(
               // physics: NeverScrollableScrollPhysics(),
               itemCount: 10,
+              shrinkWrap: true,
               itemBuilder: (BuildContext context, int index) {
                 return Container(
                   margin: EdgeInsets.only(left: 10, right: 10, bottom: 5),

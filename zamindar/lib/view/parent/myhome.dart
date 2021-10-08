@@ -16,6 +16,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
+  bool _isLogin = false;
   List<Widget> tabs = [mainHome(), Market(), crops(), Message(), profile()];
   PageController _pageController = PageController();
   void _onPageChanged(int index) {
@@ -60,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
       //     )
       //   ],
       // ),
-      drawer: mydrawer(),
+      drawer: openDrawerFromAnyWhere(),
       bottomNavigationBar: BottomNavigationBar(
         onTap: _onTabItem,
         type: BottomNavigationBarType.fixed,
@@ -111,13 +112,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 Text('Profile'.tr, style: TextStyle(color: theme.accentColor)),
           ),
         ],
-        // onTap: (index) {
-        //   setState(() {
-        //     _selectedIndex = index;
-        //     // print(_selectedIndex);
-        //     gotTapped();
-        //   });
-        // }
       ),
       body: PageView(
         controller: _pageController,
@@ -141,4 +135,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
     assetsAudioPlayer.play();
   }
+}
+
+openDrawerFromAnyWhere() {
+  return mydrawer();
 }

@@ -4,8 +4,9 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:get/route_manager.dart';
-import 'package:provider/provider.dart';
-import 'package:zamindar/provider/theme.dart';
+import 'package:zamindar/view/widgets/ContactUs.dart';
+import 'package:zamindar/view/widgets/RateUs.dart';
+import 'package:zamindar/view/widgets/colorswitcher.dart';
 
 class mydrawer extends StatelessWidget {
   const mydrawer({Key? key}) : super(key: key);
@@ -49,9 +50,10 @@ class mydrawer extends StatelessWidget {
                       foregroundImage: AssetImage('asset/icons/logo.png'),
                     ),
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: 7),
                   Text(
                     "Zamindar".tr,
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
@@ -60,6 +62,7 @@ class mydrawer extends StatelessWidget {
                   SizedBox(height: 5),
                   Text(
                     "Farmer of new era".tr,
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontWeight: FontWeight.normal,
                         color: Colors.white,
@@ -70,8 +73,6 @@ class mydrawer extends StatelessWidget {
             ),
             // SizedBox(height: 20),
             Container(
-                // height: MediaQuery.of(context).size.height * 0.55,
-                // color: Colors.red,
                 margin: EdgeInsets.only(top: 10),
                 child: Column(
                   children: [
@@ -84,150 +85,55 @@ class mydrawer extends StatelessWidget {
                         text: "Chat With Zamindar".tr,
                         assetName: "asset/icons/chat.svg"),
                     buildMenuItem(
+                        onClicked: () {
+                          Get.back();
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return rateMe();
+                            },
+                          );
+                        },
                         iconcolor: theme.accentColor,
                         text: "Rate & Feedback".tr,
                         assetName: "asset/icons/star.svg"),
                     buildMenuItem(
                         onClicked: () {
                           Navigator.pop(context, true);
-                          Get.defaultDialog(
-                              title: "Please Select your preferred language".tr,
-                              titleStyle: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.normal,
-                                color: theme.iconTheme.color,
-                              ),
-                              backgroundColor: theme.backgroundColor,
-                              content: Column(children: [
-                                InkWell(
-                                  onTap: () {
-                                    print("english");
-                                    updateLocale(Locale("en_US"), context);
-                                    Get.back();
-                                  },
-                                  child: Container(
-                                      height: 50,
-                                      decoration: BoxDecoration(
-                                        color: theme.cardColor,
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: ListTile(
-                                          title: Text(
-                                        "English",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.normal,
-                                            color: theme.iconTheme.color),
-                                      ))),
-                                ),
-                                SizedBox(height: 10),
-                                InkWell(
-                                  onTap: () {
-                                    print("urdu");
-                                    updateLocale(Locale("ur_PK"), context);
-                                    Get.back();
-                                  },
-                                  child: Container(
-                                      height: 50,
-                                      decoration: BoxDecoration(
-                                        color: theme.cardColor,
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: ListTile(
-                                          title: Text(
-                                        "اُردو",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.normal,
-                                            color: theme.iconTheme.color),
-                                      ))),
-                                ),
-                              ]),
-                              radius: 10);
+                          showAlertDialog(context);
                         },
                         iconcolor: theme.accentColor,
                         text: "Change Language".tr,
                         assetName: "asset/icons/global.svg"),
 
                     buildMenuItem(
-                        iconcolor: theme.accentColor,
-                        text: "Invite Friends".tr,
-                        assetName: "asset/icons/invite.svg"),
-                    buildMenuItem(
+                        onClicked: () {},
                         iconcolor: theme.accentColor,
                         text: "Share Zamindar App".tr,
                         assetName: "asset/icons/share.svg"),
                     buildMenuItem(
+                        onClicked: () {
+                          Get.back();
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return contactme();
+                            },
+                          );
+                        },
                         iconcolor: theme.accentColor,
                         text: "Suggestion".tr,
                         assetName: "asset/icons/bulb.svg"),
-                    buildMenuItem(
-                        iconcolor: theme.accentColor,
-                        text: "Become Supporter".tr,
-                        assetName: "asset/icons/superhero.svg"),
-                    buildMenuItem(
-                        iconcolor: theme.accentColor,
-                        text: "My Village".tr,
-                        assetName: "asset/icons/neighborhood.svg"),
+
                     buildMenuItem(
                         onClicked: () {
                           Navigator.pop(context, true);
-                          Get.defaultDialog(
-                              title:
-                                  "Please Select your preferred app appearance"
-                                      .tr,
-                              titleStyle: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.normal,
-                                color: theme.iconTheme.color,
-                              ),
-                              backgroundColor: theme.backgroundColor,
-                              content: Column(children: [
-                                InkWell(
-                                  onTap: () {
-                                    currentTheme.toggleTheme();
-                                    Get.back();
-                                  },
-                                  child: Container(
-                                      height: 50,
-                                      decoration: BoxDecoration(
-                                        color: theme.cardColor,
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: ListTile(
-                                          leading: Icon(Icons.light_mode,
-                                              size: 20,
-                                              color: theme.iconTheme.color),
-                                          title: Text(
-                                            "Light Mode".tr,
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.normal,
-                                                color: theme.iconTheme.color),
-                                          ))),
-                                ),
-                                SizedBox(height: 10),
-                                InkWell(
-                                  onTap: () {
-                                    currentTheme.toggleTheme();
-                                    Get.back();
-                                  },
-                                  child: Container(
-                                      height: 50,
-                                      decoration: BoxDecoration(
-                                        color: theme.cardColor,
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: ListTile(
-                                          leading: Icon(Icons.dark_mode,
-                                              size: 20,
-                                              color: theme.iconTheme.color),
-                                          title: Text(
-                                            "Dark Mode".tr,
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.normal,
-                                                color: theme.iconTheme.color),
-                                          ))),
-                                ),
-                              ]),
-                              radius: 10);
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return ColorSwitcher();
+                            },
+                          );
                         },
                         iconcolor: theme.accentColor,
                         text: "App Apearance".tr,
@@ -241,7 +147,10 @@ class mydrawer extends StatelessWidget {
               margin: EdgeInsets.symmetric(horizontal: 10),
               child: Row(
                 children: [
-                  Text("Made in Pakistan With"),
+                  Text(
+                    "Made in Pakistan With",
+                    overflow: TextOverflow.ellipsis,
+                  ),
                   SizedBox(width: 5),
                   Icon(
                     Icons.favorite,
@@ -260,6 +169,7 @@ class mydrawer extends StatelessWidget {
                 children: [
                   Text(
                     "Zamindar V1.0",
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         // color: Colors.black,
                         fontSize: 10,
@@ -270,6 +180,7 @@ class mydrawer extends StatelessWidget {
                     margin: EdgeInsets.only(right: 20),
                     child: Text(
                       "All rights are reserved",
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           // color: Colors.black,
                           fontSize: 10,
@@ -283,10 +194,125 @@ class mydrawer extends StatelessWidget {
     );
   }
 
-  updateLocale(Locale locale, BuildContext context) async {
-    Get.updateLocale(locale);
-    // await setLocale(locale);
+  //language setter
+  showAlertDialog(BuildContext context) {
+    updateLocale(Locale locale, BuildContext context) async {
+      Get.updateLocale(locale);
+      // await setLocale(locale);
+    }
+
+    // set up the button
+    final theme = Theme.of(context);
+
+    Widget closeButton = IconButton(
+        onPressed: () {
+          Get.back();
+        },
+        icon: Container(
+            height: 15,
+            width: 15,
+            decoration: BoxDecoration(
+                color: theme.accentColor,
+                borderRadius: BorderRadius.circular(50)),
+            child: Center(
+                child: SvgPicture.asset(
+              "asset/icons/close.svg",
+              color: Colors.white,
+              height: 7,
+              width: 7,
+            ))));
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      contentPadding: EdgeInsets.all(0),
+      content: Container(
+        margin: EdgeInsets.only(left: 20),
+        decoration: BoxDecoration(
+          color: theme.backgroundColor,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        height: 190,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: 35,
+              child: Row(
+                children: [
+                  Spacer(),
+                  closeButton,
+                ],
+              ),
+            ),
+            Text(
+              "Change Language",
+              style: TextStyle(fontSize: 18),
+            ),
+            InkWell(
+              onTap: () {
+                updateLocale(Locale("en_US"), context);
+                Get.back();
+              },
+              child: Container(
+                height: 50,
+                decoration: BoxDecoration(
+                    color: theme.cardColor,
+                    borderRadius: BorderRadius.circular(10)),
+                margin: EdgeInsets.only(right: 20, top: 10),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 20),
+                  child: Row(
+                    children: [
+                      Text("English"),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                updateLocale(Locale("ur_PK"), context);
+                Get.back();
+              },
+              child: Container(
+                height: 50,
+                decoration: BoxDecoration(
+                    color: theme.cardColor,
+                    borderRadius: BorderRadius.circular(10)),
+                margin: EdgeInsets.only(right: 20, top: 10),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 20),
+                  child: Row(
+                    children: [
+                      Text("اردو"),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+      elevation: 0.0,
+      backgroundColor: theme.backgroundColor,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10))),
+      // actions: [
+      //   closeButton,
+      // ],
+    );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
+}
+
+updateLocale(Locale locale, BuildContext context) async {
+  Get.updateLocale(locale);
+  // await setLocale(locale);
 }
 
 Widget buildMenuItem({
@@ -316,6 +342,7 @@ Widget buildMenuItem({
           SizedBox(width: 10),
           Text(
             text,
+            overflow: TextOverflow.ellipsis,
           )
         ],
       ),

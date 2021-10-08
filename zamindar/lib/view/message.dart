@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
+import 'package:zamindar/view/widgets/LoginChecker.dart';
 
 class Message extends StatefulWidget {
   Message({Key? key}) : super(key: key);
@@ -21,7 +22,9 @@ class _MessageState extends State<Message> {
         elevation: 0,
         actions: [
           IconButton(
-              onPressed: () {},
+              onPressed: () {
+                loginCheckers(context);
+              },
               icon: SvgPicture.asset(
                 assetName,
                 height: 15,
@@ -45,13 +48,14 @@ class _MessageState extends State<Message> {
         child: Container(
           margin: EdgeInsets.only(top: 20, left: 5, right: 5),
           padding: EdgeInsets.only(top: 40),
-          height: MediaQuery.of(context).size.height,
+          // height: MediaQuery.of(context).size.height,
           decoration: BoxDecoration(
               color: theme.cardColor,
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(50), topRight: Radius.circular(50))),
           child: ListView.builder(
-            itemCount: 10,
+            itemCount: 20,
+            shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
             itemBuilder: (BuildContext context, int index) {
               return Container(

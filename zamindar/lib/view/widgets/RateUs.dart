@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/route_manager.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 
 class rateMe extends StatefulWidget {
   rateMe({Key? key}) : super(key: key);
@@ -17,7 +18,7 @@ class rateMe extends StatefulWidget {
 class _rateMeState extends State<rateMe> {
   bool _isLiked = false;
   bool _isDisliked = false;
-  double _height = 200;
+  double _height = 230;
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -66,7 +67,7 @@ class _rateMeState extends State<rateMe> {
                 ),
               ),
               Text(
-                "Rate us",
+                "Rate us".tr,
                 style: TextStyle(fontSize: 18),
               ),
               SizedBox(
@@ -114,11 +115,11 @@ class _rateMeState extends State<rateMe> {
                                   height: 75,
                                   width: 75,
                                 )),
-                            SizedBox(height: 10),
+                            SizedBox(height: 7),
                             Text(
-                              "Like it",
+                              "Like it".tr,
                               style: TextStyle(
-                                fontSize: 10,
+                                fontSize: 8,
                                 color: _isLiked ? theme.accentColor : null,
                               ),
                             )
@@ -152,12 +153,12 @@ class _rateMeState extends State<rateMe> {
                                   height: 75,
                                   width: 75,
                                 )),
-                            SizedBox(height: 10),
+                            SizedBox(height: 7),
                             Text(
-                              "Not Like it",
+                              "Not Like it".tr,
                               style: TextStyle(
                                 color: _isDisliked ? theme.accentColor : null,
-                                fontSize: 10,
+                                fontSize: 8,
                               ),
                             )
                           ],
@@ -220,7 +221,7 @@ class _rateMeState extends State<rateMe> {
                                   borderSide: BorderSide(
                                       color: theme.accentColor, width: 2)),
                               // hintText: 'Add Question Details',
-                              labelText: 'Tell us Why?',
+                              labelText: 'Tell us Why?'.tr,
                               fillColor: theme.cardColor,
                               filled: true,
                               isDense: true,
@@ -238,7 +239,7 @@ class _rateMeState extends State<rateMe> {
                           ),
                           child: Center(
                             child: Text(
-                              "Send",
+                              "Send".tr,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                   color: theme.primaryColor,
