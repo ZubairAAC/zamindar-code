@@ -7,14 +7,17 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:zamindar/view/Supporting%20Screens/SetUsername.dart';
 
 class OTPScreen extends StatefulWidget {
-  OTPScreen({Key? key}) : super(key: key);
+  String phone;
+  OTPScreen({Key? key, required this.phone}) : super(key: key);
 
   @override
-  _OTPScreenState createState() => _OTPScreenState();
+  _OTPScreenState createState() => _OTPScreenState(phone);
 }
 
 class _OTPScreenState extends State<OTPScreen> {
-  String PhoneNumber = '+923204647247';
+  String phone;
+  _OTPScreenState(this.phone);
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -23,15 +26,6 @@ class _OTPScreenState extends State<OTPScreen> {
         appBar: AppBar(
           backgroundColor: theme.backgroundColor,
           elevation: 0,
-          // leading: IconButton(
-          //   onPressed: () {
-          //     Get.back();
-          //   },
-          //   icon: Icon(
-          //     Icons.arrow_back,
-          //     color: theme.accentColor,
-          //   ),
-          // ),
           title: Row(
             children: [
               Text(
@@ -102,7 +96,7 @@ class _OTPScreenState extends State<OTPScreen> {
                       style: TextStyle(fontSize: 16, color: theme.accentColor),
                     ),
                     Text(
-                      PhoneNumber,
+                      widget.phone,
                       style: TextStyle(
                           fontSize: 16,
                           color: theme.accentColor,
@@ -122,8 +116,8 @@ class _OTPScreenState extends State<OTPScreen> {
                     //  Navigator.of(context).pushReplacement(
                     //                 MaterialPageRoute(
                     //                     builder: (context) => ColorSelection());
-                    Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: (context) => SetProfile()));
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => SetProfile(phone: phone)));
                   },
                   child: Center(
                       child: Container(

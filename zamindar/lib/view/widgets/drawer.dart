@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:get/route_manager.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:zamindar/view/widgets/ContactUs.dart';
 import 'package:zamindar/view/widgets/RateUs.dart';
 import 'package:zamindar/view/widgets/colorswitcher.dart';
@@ -107,7 +108,15 @@ class mydrawer extends StatelessWidget {
                         assetName: "asset/icons/global.svg"),
 
                     buildMenuItem(
-                        onClicked: () {},
+                        onClicked: () async {
+                          // final phone = "12345678";
+                          // final msg = 'hello there';
+                          // final url = 'sms:$phone';
+
+                          // if (await canLaunch(url)) {
+                          //   await launch(url);
+                          // }
+                        },
                         iconcolor: theme.accentColor,
                         text: "Share Zamindar App".tr,
                         assetName: "asset/icons/share.svg"),

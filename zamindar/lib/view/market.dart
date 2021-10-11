@@ -15,6 +15,12 @@ class Market extends StatefulWidget {
 }
 
 class _MarketState extends State<Market> {
+  int _selectedIndex = -1;
+
+  _onSelected(int index) {
+    setState(() => _selectedIndex = index);
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -59,7 +65,12 @@ class _MarketState extends State<Market> {
                   return InkWell(
                     onTap: () {
                       print(MarketNames[index]);
-                      Get.to(PostAd());
+                      _onSelected(index);
+                      if (index == 0) {
+                        // Get.to(PostAd());
+                        Get.to(() => PostAd());
+                        _onSelected(index - 1);
+                      } else {}
                     },
                     child: Container(
                         margin:
@@ -67,7 +78,10 @@ class _MarketState extends State<Market> {
                         height: 70,
                         width: 70,
                         decoration: BoxDecoration(
-                          color: theme.backgroundColor,
+                          color:
+                              _selectedIndex != null && _selectedIndex == index
+                                  ? theme.accentColor
+                                  : theme.backgroundColor,
                           borderRadius: BorderRadius.circular(50),
                         ),
                         child: Column(
@@ -78,12 +92,20 @@ class _MarketState extends State<Market> {
                                 MarketImages[index],
                                 height: 20,
                                 width: 20,
-                                color: theme.accentColor,
+                                color: _selectedIndex != null &&
+                                        _selectedIndex == index
+                                    ? theme.cardColor
+                                    : theme.accentColor,
                               ),
                               SizedBox(height: 5),
                               Text(
                                 MarketNames[index].tr,
-                                style: TextStyle(fontSize: 8),
+                                style: TextStyle(
+                                    fontSize: 8,
+                                    color: _selectedIndex != null &&
+                                            _selectedIndex == index
+                                        ? theme.cardColor
+                                        : null),
                                 overflow: TextOverflow.ellipsis,
                               )
                             ])),

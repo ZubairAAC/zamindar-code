@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:get/instance_manager.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:zamindar/model/homePageData.dart';
 import 'package:zamindar/view/Supporting%20Screens/PostView.dart';
 import 'package:zamindar/view/Supporting%20Screens/askQuestion.dart';
@@ -187,6 +188,7 @@ class _mainHomeState extends State<mainHome>
                               height: 50,
                               width: 265,
                               // color: Colors.blue,
+                              margin: EdgeInsets.only(right: 10),
                               child: Column(
                                 children: [
                                   Row(
@@ -268,77 +270,144 @@ class _mainHomeState extends State<mainHome>
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
-                        height: 30,
-                        width: 30,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
-                        ),
-                        child: SvgPicture.asset(
-                          "asset/icons/fb.svg",
-                          height: 5,
-                          width: 5,
-                          color: theme.accentColor,
-                        ),
-                      ),
-                      // SizedBox(width: 5),
-                      Container(
-                        height: 50,
-                        width: 50,
-                        decoration: BoxDecoration(
-                          // color: theme.accentColor,
-                          borderRadius: BorderRadius.circular(50),
-                        ),
-                        child: SvgPicture.asset(
-                          "asset/icons/insta.svg",
-                          height: 15,
-                          width: 15,
-                          color: theme.accentColor,
+                      InkWell(
+                        onTap: () async {
+                          final url = 'https://facebook.com/zaamindaar';
+                          if (await canLaunch(url)) {
+                            await launch(url,
+                                forceSafariVC: false,
+                                forceWebView: false,
+                                enableJavaScript: false);
+                          } else {
+                            print("cant launch");
+                          }
+                        },
+                        child: Container(
+                          height: 30,
+                          width: 30,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50),
+                          ),
+                          child: SvgPicture.asset(
+                            "asset/icons/fb.svg",
+                            height: 5,
+                            width: 5,
+                            color: theme.accentColor,
+                          ),
                         ),
                       ),
                       // SizedBox(width: 5),
-                      Container(
-                        height: 50,
-                        width: 50,
-                        decoration: BoxDecoration(
-                          // color: theme.accentColor,
-                          borderRadius: BorderRadius.circular(50),
-                        ),
-                        child: SvgPicture.asset(
-                          "asset/icons/linkedin.svg",
-                          height: 15,
-                          width: 15,
-                          color: theme.accentColor,
-                        ),
-                      ),
-                      // SizedBox(width: 5),
-                      Container(
-                        height: 50,
-                        width: 50,
-                        decoration: BoxDecoration(
-                          // color: theme.accentColor,
-                          borderRadius: BorderRadius.circular(50),
-                        ),
-                        child: SvgPicture.asset(
-                          "asset/icons/twitter.svg",
-                          height: 15,
-                          width: 15,
-                          color: theme.accentColor,
+                      InkWell(
+                        onTap: () async {
+                          final url = 'https://www.instagram.com/zaamindaar/';
+                          if (await canLaunch(url)) {
+                            await launch(url,
+                                forceSafariVC: false,
+                                forceWebView: false,
+                                enableJavaScript: false);
+                          } else {
+                            print("cant launch");
+                          }
+                        },
+                        child: Container(
+                          height: 50,
+                          width: 50,
+                          decoration: BoxDecoration(
+                            // color: theme.accentColor,
+                            borderRadius: BorderRadius.circular(50),
+                          ),
+                          child: SvgPicture.asset(
+                            "asset/icons/insta.svg",
+                            height: 15,
+                            width: 15,
+                            color: theme.accentColor,
+                          ),
                         ),
                       ),
                       // SizedBox(width: 5),
-                      Container(
-                        height: 40,
-                        width: 40,
-                        decoration: BoxDecoration(
-                          // color: theme.accentColor,
-                          borderRadius: BorderRadius.circular(50),
+                      InkWell(
+                        onTap: () async {
+                          final url =
+                              'https://www.linkedin.com/company/zaamindaar';
+                          if (await canLaunch(url)) {
+                            await launch(url,
+                                forceSafariVC: false,
+                                forceWebView: false,
+                                enableJavaScript: false);
+                          } else {
+                            print("cant launch");
+                          }
+                        },
+                        child: Container(
+                          height: 50,
+                          width: 50,
+                          decoration: BoxDecoration(
+                            // color: theme.accentColor,
+                            borderRadius: BorderRadius.circular(50),
+                          ),
+                          child: SvgPicture.asset(
+                            "asset/icons/linkedin.svg",
+                            height: 15,
+                            width: 15,
+                            color: theme.accentColor,
+                          ),
                         ),
-                        child: SvgPicture.asset(
-                          "asset/icons/yt.svg",
-                          height: 10,
-                          width: 10,
-                          color: theme.accentColor,
+                      ),
+                      // SizedBox(width: 5),
+                      InkWell(
+                        onTap: () async {
+                          final url = 'https://twitter.com/zaamindaar';
+                          if (await canLaunch(url)) {
+                            await launch(url,
+                                forceSafariVC: false,
+                                forceWebView: false,
+                                enableJavaScript: false);
+                          } else {
+                            print("cant launch");
+                          }
+                        },
+                        child: Container(
+                          height: 50,
+                          width: 50,
+                          decoration: BoxDecoration(
+                            // color: theme.accentColor,
+                            borderRadius: BorderRadius.circular(50),
+                          ),
+                          child: SvgPicture.asset(
+                            "asset/icons/twitter.svg",
+                            height: 15,
+                            width: 15,
+                            color: theme.accentColor,
+                          ),
+                        ),
+                      ),
+                      // SizedBox(width: 5),
+                      InkWell(
+                        onTap: () async {
+                          final url =
+                              'https://www.youtube.com/channel/UCnK_NLzsOM4t0pnhPIJoF2A';
+                          if (await canLaunch(url)) {
+                            await launch(url,
+                                forceSafariVC: false,
+                                forceWebView: false,
+                                enableJavaScript: false);
+                          } else {
+                            print("cant launch");
+                          }
+                        },
+                        child: Container(
+                          height: 40,
+                          width: 40,
+                          decoration: BoxDecoration(
+                            // color: theme.accentColor,
+                            borderRadius: BorderRadius.circular(50),
+                          ),
+                          child: SvgPicture.asset(
+                            "asset/icons/yt.svg",
+                            height: 10,
+                            width: 10,
+                            color: theme.accentColor,
+                          ),
                         ),
                       ),
                       // SizedBox(width: 5),

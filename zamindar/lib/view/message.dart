@@ -4,13 +4,16 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:zamindar/view/widgets/LoginChecker.dart';
 
 class Message extends StatefulWidget {
-  Message({Key? key}) : super(key: key);
+  Message({
+    Key? key,
+  }) : super(key: key);
 
   @override
   _MessageState createState() => _MessageState();
 }
 
 class _MessageState extends State<Message> {
+  late final Login mylogin;
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -23,7 +26,7 @@ class _MessageState extends State<Message> {
         actions: [
           IconButton(
               onPressed: () {
-                loginCheckers(context);
+                Login().loginCheckers(context);
               },
               icon: SvgPicture.asset(
                 assetName,
@@ -100,8 +103,9 @@ class _MessageState extends State<Message> {
                           ],
                         ),
                       ),
-                      SizedBox(width: 10),
+                      // SizedBox(width: 10),
                       Container(
+                        margin: EdgeInsets.only(left: 10, right: 10),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
