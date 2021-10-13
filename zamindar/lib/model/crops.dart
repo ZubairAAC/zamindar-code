@@ -1,0 +1,36 @@
+List<String> cropNames = [
+  "Cotton",
+  "Sesame",
+  "Wheat",
+  "Rice",
+  "Sugarcane",
+  "Sunflower",
+  "Lentil",
+  "Potato",
+  "Garlic",
+  "Groundnut",
+  "Maize",
+  "Gram",
+  "Tomato",
+  "Onion",
+  "Chilli",
+];
+
+// ignore: non_constant_identifier_names
+List<String> CropImages = [
+  'asset/logo/cutton.png',
+  'asset/logo/sesame.png',
+  'asset/logo/wheat.jpeg',
+  'asset/logo/rice.png',
+  'asset/logo/sugarcane.jpeg',
+  'asset/logo/sun flower.jpeg',
+  'asset/logo/lentil.jpeg',
+  'asset/logo/potato.jpeg',
+  'asset/logo/garlic.jpeg',
+  'asset/logo/groundnut.jpeg',
+  'asset/logo/maize.jpeg',
+  'asset/logo/gram.png',
+  'asset/logo/tomato.png',
+  'asset/logo/onion.jpeg',
+  'asset/logo/chili.jpeg',
+];

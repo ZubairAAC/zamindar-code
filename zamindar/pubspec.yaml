@@ -43,12 +43,13 @@ dependencies:
   url_launcher: ^6.0.12
   http: ^0.13.4
   dropdown_search: ^1.0.3
+  google_maps_flutter: ^2.0.11
+  location: ^4.3.0
 
   # multi_image_picker2: ^5.0.2
   # camera: any
   image_picker: ^0.8.4+2
-  # geolocator: ^7.7.0
-#  geocoding: ^2.0.1
+  geocoding: ^2.0.1
   flutter_glow: ^0.2.0
   # flutter_sound: ^8.3.12
   form_field_validator: ^1.1.0

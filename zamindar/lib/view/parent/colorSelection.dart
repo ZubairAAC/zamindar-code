@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:get/instance_manager.dart';
+import 'package:location/location.dart';
+import 'package:zamindar/model/location_service.dart';
 import 'package:zamindar/provider/theme.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
+import 'package:zamindar/view/Supporting%20Screens/addfarms.dart';
 import 'package:zamindar/view/parent/myhome.dart';
+import 'package:zamindar/view_model/userLocation.dart';
 
 class ColorSelection extends StatefulWidget {
   ColorSelection({Key? key}) : super(key: key);
@@ -17,6 +23,17 @@ class _ColorSelectionState extends State<ColorSelection> {
   Color _textColor = Colors.black;
   Color _appBarColor = Color.fromRGBO(36, 41, 46, 1);
   Color _scaffoldBgcolor = Colors.white;
+
+  @override
+  void initState() {
+    getlocations();
+    super.initState();
+  }
+
+  Future<void> getlocations() async {
+    locationFinder().createState().locationService();
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);

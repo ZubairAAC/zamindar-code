@@ -2,17 +2,19 @@
 
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:get/instance_manager.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:zamindar/model/homePageData.dart';
+import 'package:zamindar/model/location_service.dart';
 import 'package:zamindar/view/Supporting%20Screens/PostView.dart';
 import 'package:zamindar/view/Supporting%20Screens/askQuestion.dart';
 import 'package:zamindar/view/Supporting%20Screens/notification.dart';
 import 'package:zamindar/view/parent/myhome.dart';
-import 'package:zamindar/view/widgets/drawer.dart';
 
 import 'Supporting Screens/weatherView.dart';
 
@@ -29,13 +31,31 @@ class mainHome extends StatefulWidget {
 class _mainHomeState extends State<mainHome>
     with SingleTickerProviderStateMixin {
   late TabController _controller;
+
   @override
   void initState() {
     // ignore: todo
     // TODO: implement initState
+    // locationService();
     super.initState();
     // ignore: unnecessary_new
     _controller = new TabController(length: 2, vsync: this);
+    getlocation();
+  }
+
+  getlocation() async {
+    try {
+      print(UserLocation.lat);
+      print(UserLocation.long);
+      List<Placemark> placemark =
+          await placemarkFromCoordinates(UserLocation.lat, UserLocation.long);
+      setState(() {
+        UserLocation.street = placemark[0].street!;
+        print(UserLocation.street);
+      });
+    } on PlatformException catch (e) {
+      print("=======>$e<=====================");
+    }
   }
 
   // ignore: annotate_overrides

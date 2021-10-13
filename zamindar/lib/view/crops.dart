@@ -2,8 +2,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
+import 'package:get/instance_manager.dart';
 import 'package:zamindar/model/CropsData.dart';
+import 'package:zamindar/model/location_service.dart';
+import 'package:zamindar/view/Supporting%20Screens/addfarms.dart';
+import 'package:zamindar/view/Supporting%20Screens/cropSelection.dart';
 
 // ignore: camel_case_types
 class crops extends StatefulWidget {
@@ -60,34 +65,45 @@ class _cropsState extends State<crops> {
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: 2,
+                shrinkWrap: true,
                 itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                      margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                      height: 70,
-                      width: 70,
-                      decoration: BoxDecoration(
-                        color: theme.backgroundColor,
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(
-                            ScrolImages[index],
-                            height: 20,
-                            width: 20,
-                            // ignore: deprecated_member_use
-                            color: theme.accentColor,
-                          ),
-                          SizedBox(height: 5),
-                          Text(
-                            ScrolNames[index].tr,
-                            style: TextStyle(fontSize: 8),
-                            overflow: TextOverflow.ellipsis,
-                          )
-                        ],
-                      ));
+                  return InkWell(
+                    onTap: () {
+                      if (index == 0) {
+                        Get.to(() => CropSelection());
+                      } else if (index == 1) {
+                        Get.to(() => addFarms());
+                      }
+                    },
+                    child: Container(
+                        margin:
+                            EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                        height: 70,
+                        width: 70,
+                        decoration: BoxDecoration(
+                          color: theme.backgroundColor,
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              ScrolImages[index],
+                              height: 20,
+                              width: 20,
+                              // ignore: deprecated_member_use
+                              color: theme.accentColor,
+                            ),
+                            SizedBox(height: 5),
+                            Text(
+                              ScrolNames[index].tr,
+                              style: TextStyle(fontSize: 8),
+                              overflow: TextOverflow.ellipsis,
+                            )
+                          ],
+                        )),
+                  );
                 },
               ),
             ),
@@ -95,8 +111,24 @@ class _cropsState extends State<crops> {
             Container(
               width: MediaQuery.of(context).size.width,
               height: 150,
-              color: theme.cardColor,
-              child: Text("Weather data in your Village"),
+              color: Colors.blue,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: Text("Weather data in ${UserLocation.street}")),
+                  SizedBox(height: 10),
+                  // ListView.builder(
+                  //   shrinkWrap: true,
+                  //   itemCount: 7,
+                  //   scrollDirection: Axis.horizontal,
+                  //   itemBuilder: (BuildContext context, int index) {
+                  //     return Container();
+                  //   },
+                  // ),
+                ],
+              ),
             ),
             SizedBox(height: 40),
             Container(
