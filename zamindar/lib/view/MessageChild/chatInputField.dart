@@ -8,6 +8,8 @@ class ChatInputField extends StatefulWidget {
 }
 
 class _ChatInputFieldState extends State<ChatInputField> {
+  bool isTyping = false;
+  TextEditingController msgController = new TextEditingController();
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -39,7 +41,7 @@ class _ChatInputFieldState extends State<ChatInputField> {
                   horizontal: 20 * 0.75,
                 ),
                 decoration: BoxDecoration(
-                  color: theme.accentColor.withOpacity(0.10),
+                  color: theme.backgroundColor,
                   borderRadius: BorderRadius.circular(40),
                 ),
                 child: Row(
@@ -48,21 +50,60 @@ class _ChatInputFieldState extends State<ChatInputField> {
                     Expanded(
                       child: TextField(
                         cursorColor: theme.accentColor,
+                        controller: msgController,
                         decoration: InputDecoration(
                           hintText: "Type message",
                           border: InputBorder.none,
                         ),
+                        onChanged: (values) {
+                          if (values.length > 0) {
+                            setState(() {
+                              isTyping = true;
+                            });
+                          } else {
+                            setState(() {
+                              isTyping = false;
+                            });
+                          }
+                        },
                       ),
                     ),
-                    Icon(
-                      Icons.attach_file,
-                      color: theme.accentColor,
-                    ),
-                    SizedBox(width: 20 / 4),
-                    Icon(
-                      Icons.camera_alt_outlined,
-                      color: theme.accentColor,
-                    ),
+                    isTyping
+                        ? Container(
+                            height: 40,
+                            width: 40,
+                            decoration: BoxDecoration(
+                                color: theme.accentColor,
+                                borderRadius: BorderRadius.circular(50)),
+                            child: Center(
+                              child: IconButton(
+                                  onPressed: () {
+                                    msgController.clear();
+                                    setState(() {
+                                      isTyping = false;
+                                    });
+                                  },
+                                  icon: Icon(
+                                    Icons.send,
+                                    size: 20,
+                                    color: theme.cardColor,
+                                  )),
+                            ))
+                        : Container(
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.attach_file,
+                                  color: theme.accentColor,
+                                ),
+                                SizedBox(width: 20 / 4),
+                                Icon(
+                                  Icons.camera_alt_outlined,
+                                  color: theme.accentColor,
+                                ),
+                              ],
+                            ),
+                          )
                   ],
                 ),
               ),

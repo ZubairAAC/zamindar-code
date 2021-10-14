@@ -145,7 +145,7 @@ class TextMessage extends StatelessWidget {
       child: Text(
         message!.text,
         style: TextStyle(
-          color: message!.isSender ? Theme.of(context).cardColor : Colors.white,
+          color: message!.isSender ? Theme.of(context).cardColor : null,
         ),
       ),
     );
