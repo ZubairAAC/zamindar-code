@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
@@ -7,8 +8,12 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:get/instance_manager.dart';
 import 'package:zamindar/model/CropsData.dart';
 import 'package:zamindar/model/location_service.dart';
+import 'package:zamindar/view/CropChilds/CropManuals.dart';
+import 'package:zamindar/view/CropChilds/fertiliserCalculator.dart';
 import 'package:zamindar/view/Supporting%20Screens/addfarms.dart';
 import 'package:zamindar/view/Supporting%20Screens/cropSelection.dart';
+import 'package:zamindar/view/CropChilds/zamindarcenters.dart';
+import 'package:zamindar/view_model/internetChecker.dart';
 
 // ignore: camel_case_types
 class crops extends StatefulWidget {
@@ -21,6 +26,12 @@ class crops extends StatefulWidget {
 
 // ignore: camel_case_types
 class _cropsState extends State<crops> {
+  @override
+  void initState() {
+    connectivityChecker(); // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -117,7 +128,7 @@ class _cropsState extends State<crops> {
                 children: [
                   Padding(
                       padding: EdgeInsets.symmetric(horizontal: 20),
-                      child: Text("Weather data in ${UserLocation.street}")),
+                      child: Text("Weather ${UserLocation.street}")),
                   SizedBox(height: 10),
                   // ListView.builder(
                   //   shrinkWrap: true,
@@ -147,33 +158,67 @@ class _cropsState extends State<crops> {
                 ),
                 itemCount: 6,
                 itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                    margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                    height: 5,
-                    width: 5,
-                    // color: theme.accentColor,
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(
-                            CropFeatureImages[index],
-                            height: 50,
-                            width: 50,
-                            // ignore: deprecated_member_use
-                            color: theme.accentColor,
-                          ),
-                          SizedBox(height: 5),
-                          Text(
-                            CropFeatureName[index].tr,
-                            style: TextStyle(fontSize: 10),
-                          )
-                        ]),
+                  return InkWell(
+                    onTap: () {
+                      print(index);
+                      if (index == 0) {
+                        Get.to(() => Calculator());
+                      }
+                      if (index == 1) {
+                        Get.to(() => CropManuals());
+                      }
+                      if (index == 2) {
+                        Get.to(() => zamindarCenter());
+                      }
+                      if (index == 3 || index == 4 || index == 5) {
+                        gotUpdated();
+                        Get.snackbar("Comming Soon",
+                            'This Feature is commong soon. Stay Tunned to get updated',
+                            backgroundColor: theme.backgroundColor);
+                      }
+                    },
+                    child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                      height: 5,
+                      width: 5,
+                      // color: theme.accentColor,
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              CropFeatureImages[index],
+                              height: 50,
+                              width: 50,
+                              // ignore: deprecated_member_use
+                              color: theme.accentColor,
+                            ),
+                            SizedBox(height: 5),
+                            Text(
+                              CropFeatureName[index].tr,
+                              style: TextStyle(fontSize: 10),
+                            )
+                          ]),
+                    ),
                   );
                 },
               ),
             )
           ]),
         )));
+  }
+
+  gotUpdated() {
+    final assetsAudioPlayer = AssetsAudioPlayer();
+    try {
+      assetsAudioPlayer.open(
+        Audio("asset/music/update.wav"),
+      );
+      // print("loaded");
+    } catch (e) {
+      print(e);
+    }
+
+    assetsAudioPlayer.play();
   }
 }

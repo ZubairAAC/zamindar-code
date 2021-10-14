@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
+import 'package:zamindar/model/user.dart';
 import 'package:zamindar/view/widgets/EditInfo.dart';
 import 'package:zamindar/view/widgets/MyProfile.dart';
 import 'package:zamindar/view/widgets/about.dart';
@@ -66,6 +67,9 @@ class _profileState extends State<profile> with SingleTickerProviderStateMixin {
                           color: Colors.blue,
                           borderRadius: BorderRadius.circular(50),
                         ),
+                        // child: CircleAvatar(
+                        //   foregroundImage: MemoryImage(user.image.),
+                        // ),
                       ),
                       SizedBox(width: 10),
                       Container(
@@ -78,13 +82,15 @@ class _profileState extends State<profile> with SingleTickerProviderStateMixin {
                           children: [
                             SizedBox(height: 10),
                             Text(
-                              "Zubair Ayaz Asim Chaudhry",
+                              user.name.isNotEmpty ? user.name : "Zamindar",
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                             SizedBox(height: 5),
                             Text(
-                              "0320*******",
+                              user.phone.isNotEmpty
+                                  ? user.phone
+                                  : '0300123****',
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(fontWeight: FontWeight.normal),
                             ),

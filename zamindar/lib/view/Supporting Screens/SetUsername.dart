@@ -10,6 +10,7 @@ import 'package:get/instance_manager.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:zamindar/model/MarketData.dart';
 import 'package:zamindar/model/category.dart';
+import 'package:zamindar/model/user.dart';
 import 'package:zamindar/view/parent/myhome.dart';
 import 'package:zamindar/view_model/filePicker.dart';
 
@@ -303,14 +304,17 @@ class _SetProfileState extends State<SetProfile> {
                     onTap: () {
                       try {
                         if (formkey.currentState!.validate()) {
-                          // print(userName);
-                          // print(byteArray);
-                          // print(gender);
-                          // print(phone);
                           if (userName.isNotEmpty) {
                             if (byteArray.isNotEmpty) {
                               if (gender.isNotEmpty) {
                                 print("proceed");
+                                setState(() {
+                                  user.name = userName;
+                                  user.gender = gender;
+                                  user.image = byteArray;
+                                  user.phone = phone;
+                                });
+
                                 Get.offAll(() => HomeScreen());
                               } else {
                                 showAlertDialog(context);

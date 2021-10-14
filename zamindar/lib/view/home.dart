@@ -15,6 +15,7 @@ import 'package:zamindar/view/Supporting%20Screens/PostView.dart';
 import 'package:zamindar/view/Supporting%20Screens/askQuestion.dart';
 import 'package:zamindar/view/Supporting%20Screens/notification.dart';
 import 'package:zamindar/view/parent/myhome.dart';
+import 'package:zamindar/view_model/internetChecker.dart';
 
 import 'Supporting Screens/weatherView.dart';
 
@@ -41,12 +42,18 @@ class _mainHomeState extends State<mainHome>
     // ignore: unnecessary_new
     _controller = new TabController(length: 2, vsync: this);
     getlocation();
+    checkInternet();
+    connectivityChecker();
   }
 
   getlocation() async {
     try {
       print(UserLocation.lat);
       print(UserLocation.long);
+      String address = 'Lahore';
+      // var addresses =
+      //     await GeocodingPlatform.instance.locationFromAddress(address);
+      // print(addresses);
       List<Placemark> placemark =
           await placemarkFromCoordinates(UserLocation.lat, UserLocation.long);
       setState(() {
