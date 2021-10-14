@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/instance_manager.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:zamindar/view/MessageChild/inchat.dart';
 
 class MarketAdView extends StatefulWidget {
   MarketAdView({Key? key}) : super(key: key);
@@ -205,31 +206,36 @@ class _MarketAdViewState extends State<MarketAdView> {
                                         ),
                                       ),
                                       SizedBox(width: 20),
-                                      Container(
-                                        height: 50,
-                                        width: 50,
-                                        decoration: BoxDecoration(
-                                            color: theme.backgroundColor,
-                                            borderRadius:
-                                                BorderRadius.circular(10)),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Icon(
-                                              Icons.email_outlined,
-                                              size: 15,
-                                              color: theme.accentColor,
-                                            ),
-                                            SizedBox(height: 5),
-                                            Text(
-                                              "Message",
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(fontSize: 10),
-                                            )
-                                          ],
+                                      InkWell(
+                                        onTap: () {
+                                          Get.to(() => inChat());
+                                        },
+                                        child: Container(
+                                          height: 50,
+                                          width: 50,
+                                          decoration: BoxDecoration(
+                                              color: theme.backgroundColor,
+                                              borderRadius:
+                                                  BorderRadius.circular(10)),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Icon(
+                                                Icons.email_outlined,
+                                                size: 15,
+                                                color: theme.accentColor,
+                                              ),
+                                              SizedBox(height: 5),
+                                              Text(
+                                                "Message",
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(fontSize: 10),
+                                              )
+                                            ],
+                                          ),
                                         ),
                                       )
                                     ],
