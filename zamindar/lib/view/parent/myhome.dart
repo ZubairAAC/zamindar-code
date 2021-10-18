@@ -2,11 +2,13 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:zamindar/model/user.dart';
 import 'package:zamindar/view/crops.dart';
 import 'package:zamindar/view/home.dart';
 import 'package:zamindar/view/market.dart';
 import 'package:zamindar/view/message.dart';
 import 'package:zamindar/view/profile.dart';
+import 'package:zamindar/view/widgets/LoginChecker.dart';
 import 'package:zamindar/view/widgets/drawer.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -15,6 +17,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   int _selectedIndex = 0;
   bool _isLogin = false;
   List<Widget> tabs = [mainHome(), Market(), crops(), Message(), profile()];
@@ -22,6 +29,12 @@ class _HomeScreenState extends State<HomeScreen> {
   void _onPageChanged(int index) {
     setState(() {
       _selectedIndex = index;
+      // changeTabOnUserState();
+      if (_selectedIndex == 2 || _selectedIndex == 3 || _selectedIndex == 4) {
+        return user.userlogin ? Market() : Login().loginCheckers(context);
+      }
+      // print(user.userlogin);
+      // tabs[1] = user.userlogin ? Market() : Login().loginCheckers(context);
       print(index);
       gotTapped();
     });
@@ -35,33 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
-      // appBar: AppBar(
-      //   elevation: 0.0,
-      //   backgroundColor: theme.backgroundColor,
-      //   leading: Builder(builder: (BuildContext context) {
-      //     return FlatButton(
-      //         // tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-      //         onPressed: () {
-      //           Scaffold.of(context).openDrawer();
-      //         },
-      //         child: SvgPicture.asset(
-      //           "asset/icons/drawerIcon.svg",
-      //           color: theme.iconTheme.color,
-      //           height: 20,
-      //           width: 20,
-      //         ));
-      //   }),
-      //   actions: <Widget>[
-      //     IconButton(
-      //       icon: Icon(
-      //         Icons.notifications,
-      //         color: theme.iconTheme.color,
-      //       ),
-      //       onPressed: () {},
-      //     )
-      //   ],
-      // ),
-      drawer: openDrawerFromAnyWhere(),
+      // drawer: openDrawerFromAnyWhere(),
       bottomNavigationBar: BottomNavigationBar(
         onTap: _onTabItem,
         type: BottomNavigationBarType.fixed,

@@ -7,7 +7,7 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:zamindar/view/Supporting%20Screens/otp%20Verification.dart';
 
 class Login extends GetxController {
-  void loginCheckers(BuildContext context) {
+  loginCheckers(BuildContext context) {
     TextEditingController phoneController = new TextEditingController();
     GlobalKey<FormState> formkey = GlobalKey<FormState>();
     final _sSize = MediaQuery.of(context).size.height;

@@ -4,8 +4,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:get/instance_manager.dart';
+import 'package:zamindar/model/user.dart';
 import 'package:zamindar/view/Supporting%20Screens/AboutView.dart';
 import 'package:zamindar/view/Supporting%20Screens/Terms&PoliciesView.dart';
+import 'package:zamindar/view/parent/myhome.dart';
 import 'package:zamindar/view/widgets/ContactUs.dart';
 import 'package:zamindar/view/widgets/RateUs.dart';
 
@@ -206,21 +208,29 @@ class _MySettingState extends State<MySetting> {
             ),
           ),
           SizedBox(height: 40),
-          Container(
-            height: 56,
-            width: MediaQuery.of(context).size.width * 0.70,
-            decoration: BoxDecoration(
-              color: theme.accentColor,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Center(
-              child: Text(
-                "Logout".tr,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                    color: theme.primaryColor,
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold),
+          InkWell(
+            onTap: () {
+              setState(() {
+                user.userlogin = false;
+                Get.offAll(() => HomeScreen());
+              });
+            },
+            child: Container(
+              height: 56,
+              width: MediaQuery.of(context).size.width * 0.70,
+              decoration: BoxDecoration(
+                color: theme.accentColor,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Center(
+                child: Text(
+                  "Logout".tr,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      color: theme.primaryColor,
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold),
+                ),
               ),
             ),
           )

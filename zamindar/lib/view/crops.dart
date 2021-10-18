@@ -8,6 +8,7 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:get/instance_manager.dart';
 import 'package:zamindar/model/CropsData.dart';
 import 'package:zamindar/model/location_service.dart';
+import 'package:zamindar/model/user.dart';
 import 'package:zamindar/view/CropChilds/CropManuals.dart';
 import 'package:zamindar/view/CropChilds/fertiliserCalculator.dart';
 import 'package:zamindar/view/Supporting%20Screens/addfarms.dart';
@@ -26,6 +27,7 @@ class crops extends StatefulWidget {
 
 // ignore: camel_case_types
 class _cropsState extends State<crops> {
+  bool _isvisible = true;
   @override
   void initState() {
     connectivityChecker(); // TODO: implement initState
@@ -53,159 +55,170 @@ class _cropsState extends State<crops> {
             ],
           ),
         ),
-        body: SingleChildScrollView(
-            child: Container(
-          // ignore: prefer_const_constructors
-          margin: EdgeInsets.only(bottom: 50),
-          child: Column(children: [
-            Divider(
-              // ignore: deprecated_member_use
-              color: theme.accentColor,
-            ),
-            Container(
-              height: 85,
-              margin: EdgeInsets.only(
-                left: MediaQuery.of(context).size.width * 0.55,
-              ),
-              decoration: BoxDecoration(
-                  color: theme.cardColor,
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(50),
-                    topLeft: Radius.circular(50),
-                  )),
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 2,
-                shrinkWrap: true,
-                itemBuilder: (BuildContext context, int index) {
-                  return InkWell(
-                    onTap: () {
-                      if (index == 0) {
-                        Get.to(() => CropSelection());
-                      } else if (index == 1) {
-                        Get.to(() => addFarms());
-                      }
-                    },
-                    child: Container(
-                        margin:
-                            EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                        height: 70,
-                        width: 70,
-                        decoration: BoxDecoration(
-                          color: theme.backgroundColor,
-                          borderRadius: BorderRadius.circular(50),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset(
-                              ScrolImages[index],
-                              height: 20,
-                              width: 20,
-                              // ignore: deprecated_member_use
-                              color: theme.accentColor,
-                            ),
-                            SizedBox(height: 5),
-                            Text(
-                              ScrolNames[index].tr,
-                              style: TextStyle(fontSize: 8),
-                              overflow: TextOverflow.ellipsis,
-                            )
-                          ],
-                        )),
-                  );
-                },
-              ),
-            ),
-            SizedBox(height: 20),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: 150,
-              color: Colors.blue,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      child: Text("Weather ${UserLocation.street}")),
-                  SizedBox(height: 10),
-                  // ListView.builder(
-                  //   shrinkWrap: true,
-                  //   itemCount: 7,
-                  //   scrollDirection: Axis.horizontal,
-                  //   itemBuilder: (BuildContext context, int index) {
-                  //     return Container();
-                  //   },
-                  // ),
-                ],
-              ),
-            ),
-            SizedBox(height: 40),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: 240,
-              margin: EdgeInsets.symmetric(horizontal: 20),
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-              decoration: BoxDecoration(
-                color: theme.cardColor,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: GridView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                ),
-                itemCount: 6,
-                itemBuilder: (BuildContext context, int index) {
-                  return InkWell(
-                    onTap: () {
-                      print(index);
-                      if (index == 0) {
-                        Get.to(() => Calculator());
-                      }
-                      if (index == 1) {
-                        Get.to(() => CropManuals());
-                      }
-                      if (index == 2) {
-                        Get.to(() => zamindarCenter());
-                      }
-                      if (index == 3 || index == 4 || index == 5) {
-                        gotUpdated();
-                        Get.snackbar("Comming Soon",
-                            'This Feature is commong soon. Stay Tunned to get updated',
-                            backgroundColor: theme.backgroundColor);
-                      }
-                    },
-                    child: Container(
-                      margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                      height: 5,
-                      width: 5,
-                      // color: theme.accentColor,
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset(
-                              CropFeatureImages[index],
-                              height: 50,
-                              width: 50,
-                              // ignore: deprecated_member_use
-                              color: theme.accentColor,
-                            ),
-                            SizedBox(height: 5),
-                            Text(
-                              CropFeatureName[index].tr,
-                              style: TextStyle(fontSize: 10),
-                            )
-                          ]),
+        body: user.userlogin
+            ? SingleChildScrollView(
+                child: Container(
+                // ignore: prefer_const_constructors
+                margin: EdgeInsets.only(bottom: 50),
+                child: Column(children: [
+                  Divider(
+                    // ignore: deprecated_member_use
+                    color: theme.accentColor,
+                  ),
+                  Container(
+                    height: 85,
+                    margin: EdgeInsets.only(
+                      left: MediaQuery.of(context).size.width * 0.55,
                     ),
-                  );
-                },
-              ),
-            )
-          ]),
-        )));
+                    decoration: BoxDecoration(
+                        color: theme.cardColor,
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(50),
+                          topLeft: Radius.circular(50),
+                        )),
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: 2,
+                      shrinkWrap: true,
+                      itemBuilder: (BuildContext context, int index) {
+                        return InkWell(
+                          onTap: () {
+                            if (index == 0) {
+                              Get.to(() => CropSelection());
+                            } else if (index == 1) {
+                              Get.to(() => addFarms());
+                            }
+                          },
+                          child: Visibility(
+                            visible: _isvisible,
+                            child: Container(
+                                margin: EdgeInsets.symmetric(
+                                    horizontal: 8, vertical: 8),
+                                height: 70,
+                                width: 70,
+                                decoration: BoxDecoration(
+                                  color: theme.backgroundColor,
+                                  borderRadius: BorderRadius.circular(50),
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    SvgPicture.asset(
+                                      ScrolImages[index],
+                                      height: 20,
+                                      width: 20,
+                                      // ignore: deprecated_member_use
+                                      color: theme.accentColor,
+                                    ),
+                                    SizedBox(height: 5),
+                                    Text(
+                                      ScrolNames[index].tr,
+                                      style: TextStyle(fontSize: 8),
+                                      overflow: TextOverflow.ellipsis,
+                                    )
+                                  ],
+                                )),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 150,
+                    color: Colors.blue,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 20),
+                            child: Text("Weather ${UserLocation.street}")),
+                        SizedBox(height: 10),
+                        // ListView.builder(
+                        //   shrinkWrap: true,
+                        //   itemCount: 7,
+                        //   scrollDirection: Axis.horizontal,
+                        //   itemBuilder: (BuildContext context, int index) {
+                        //     return Container();
+                        //   },
+                        // ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 40),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 240,
+                    margin: EdgeInsets.symmetric(horizontal: 20),
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    decoration: BoxDecoration(
+                      color: theme.cardColor,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: GridView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                      ),
+                      itemCount: 6,
+                      itemBuilder: (BuildContext context, int index) {
+                        return InkWell(
+                          onTap: () {
+                            print(index);
+                            if (index == 0) {
+                              Get.to(() => Calculator());
+                            }
+                            if (index == 1) {
+                              Get.to(() => CropManuals());
+                            }
+                            if (index == 2) {
+                              Get.to(() => zamindarCenter());
+                            }
+                            if (index == 3 || index == 4 || index == 5) {
+                              gotUpdated();
+                              Get.snackbar("Comming Soon",
+                                  'This Feature is commong soon. Stay Tunned to get updated',
+                                  backgroundColor: theme.backgroundColor);
+                            }
+                          },
+                          child: Container(
+                            margin: EdgeInsets.symmetric(
+                                horizontal: 5, vertical: 5),
+                            height: 5,
+                            width: 5,
+                            // color: theme.accentColor,
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  SvgPicture.asset(
+                                    CropFeatureImages[index],
+                                    height: 50,
+                                    width: 50,
+                                    // ignore: deprecated_member_use
+                                    color: theme.accentColor,
+                                  ),
+                                  SizedBox(height: 5),
+                                  Text(
+                                    CropFeatureName[index].tr,
+                                    style: TextStyle(fontSize: 10),
+                                  )
+                                ]),
+                          ),
+                        );
+                      },
+                    ),
+                  )
+                ]),
+              ))
+            : Container(
+                child: Center(
+                  child: Text("Please Login to see"),
+                ),
+              ));
   }
 
   gotUpdated() {

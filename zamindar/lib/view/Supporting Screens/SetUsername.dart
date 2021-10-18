@@ -12,6 +12,7 @@ import 'package:zamindar/model/MarketData.dart';
 import 'package:zamindar/model/category.dart';
 import 'package:zamindar/model/user.dart';
 import 'package:zamindar/view/parent/myhome.dart';
+import 'package:zamindar/view_model/RegisterUserApi.dart';
 import 'package:zamindar/view_model/filePicker.dart';
 
 class SetProfile extends StatefulWidget {
@@ -315,7 +316,12 @@ class _SetProfileState extends State<SetProfile> {
                                   user.phone = phone;
                                 });
 
+                                // registerUser();
+
                                 Get.offAll(() => HomeScreen());
+                                setState(() {
+                                  user.userlogin = true;
+                                });
                               } else {
                                 showAlertDialog(context);
                               }
