@@ -11,8 +11,8 @@ import 'package:zamindar/model/location_service.dart';
 import 'package:zamindar/model/user.dart';
 import 'package:zamindar/view/CropChilds/CropManuals.dart';
 import 'package:zamindar/view/CropChilds/fertiliserCalculator.dart';
-import 'package:zamindar/view/Supporting%20Screens/addfarms.dart';
-import 'package:zamindar/view/Supporting%20Screens/cropSelection.dart';
+import 'package:zamindar/view/CropChilds/addfarms.dart';
+import 'package:zamindar/view/CropChilds/cropSelection.dart';
 import 'package:zamindar/view/CropChilds/zamindarcenters.dart';
 import 'package:zamindar/view_model/internetChecker.dart';
 
@@ -216,7 +216,7 @@ class _cropsState extends State<crops> {
               ))
             : Container(
                 child: Center(
-                  child: Text("Please Login to see"),
+                  child: Text("Please Login to see".tr),
                 ),
               ));
   }

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:get/instance_manager.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:zamindar/model/user.dart';
@@ -54,7 +55,7 @@ class _AskQuestionState extends State<AskQuestion> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                "Ask Question",
+                "Ask Question".tr,
                 style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -406,7 +407,7 @@ class _AskQuestionState extends State<AskQuestion> {
               ))
             : Container(
                 child: Center(
-                  child: Text("Please Login to see"),
+                  child: Text("Please Login to see".tr),
                 ),
               ));
   }

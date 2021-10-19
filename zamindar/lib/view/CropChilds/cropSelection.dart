@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:zamindar/model/crops.dart';
-import 'package:zamindar/view/Supporting%20Screens/addfarms.dart';
+import 'package:zamindar/view/CropChilds/addfarms.dart';
 
 class CropSelection extends StatefulWidget {
   CropSelection({Key? key}) : super(key: key);
@@ -40,7 +41,7 @@ class _CropSelectionState extends State<CropSelection> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              "Add Crops",
+              "Add Crop".tr,
               style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -59,7 +60,7 @@ class _CropSelectionState extends State<CropSelection> {
                     child: Row(
                       children: [
                         Text(
-                          "Next",
+                          "Next".tr,
                           style: TextStyle(
                               fontSize: 15, color: theme.primaryColorLight),
                         ),
@@ -128,7 +129,7 @@ class _CropSelectionState extends State<CropSelection> {
                   ),
                   Center(
                     child: Text(
-                      cropNames[index],
+                      cropNames[index].tr,
                       style: TextStyle(color: Colors.white),
                       overflow: TextOverflow.ellipsis,
                     ),

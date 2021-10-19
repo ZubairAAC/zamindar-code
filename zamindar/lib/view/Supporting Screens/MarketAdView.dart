@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:get/instance_manager.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:zamindar/view/MessageChild/inchat.dart';
@@ -91,7 +92,7 @@ class _MarketAdViewState extends State<MarketAdView> {
                     Row(
                       children: [
                         Text(
-                          "Details",
+                          "Details".tr,
                           style: TextStyle(fontSize: 24),
                         ),
                       ],
@@ -120,7 +121,7 @@ class _MarketAdViewState extends State<MarketAdView> {
                     Row(
                       children: [
                         Text(
-                          "Description",
+                          "Description".tr,
                           style: TextStyle(fontSize: 24),
                         ),
                       ],
@@ -136,7 +137,7 @@ class _MarketAdViewState extends State<MarketAdView> {
                     Row(
                       children: [
                         Text(
-                          "Contact Person",
+                          "Contact Person".tr,
                           style: TextStyle(fontSize: 24),
                         ),
                       ],
@@ -198,7 +199,7 @@ class _MarketAdViewState extends State<MarketAdView> {
                                             ),
                                             SizedBox(height: 5),
                                             Text(
-                                              "Call",
+                                              "Call".tr,
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(fontSize: 10),
                                             )
@@ -230,7 +231,7 @@ class _MarketAdViewState extends State<MarketAdView> {
                                               ),
                                               SizedBox(height: 5),
                                               Text(
-                                                "Message",
+                                                "Message".tr,
                                                 overflow: TextOverflow.ellipsis,
                                                 style: TextStyle(fontSize: 10),
                                               )

@@ -191,7 +191,7 @@ class _profileState extends State<profile> with SingleTickerProviderStateMixin {
               )
             : Container(
                 child: Center(
-                  child: Text("Please Login to see"),
+                  child: Text("Please Login to see".tr),
                 ),
               ));
   }

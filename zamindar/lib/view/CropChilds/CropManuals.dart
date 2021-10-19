@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 
 class CropManuals extends StatefulWidget {
   CropManuals({Key? key}) : super(key: key);
@@ -31,7 +32,7 @@ class _CropManualsState extends State<CropManuals> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              "Crop Manuals",
+              "Crop Manuals".tr,
               style: TextStyle(color: theme.primaryColorLight, fontSize: 18),
             )
           ],

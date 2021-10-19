@@ -46,7 +46,7 @@ class _PostAdState extends State<PostAd> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              "Sell Anything",
+              "Sell anything".tr,
               style: TextStyle(color: theme.primaryColorLight, fontSize: 18),
             )
           ],
@@ -353,7 +353,7 @@ class _PostAdState extends State<PostAd> {
             )
           : Container(
               child: Center(
-                child: Text("Please Login to see"),
+                child: Text("Please Login to see".tr),
               ),
             ),
     );

@@ -5,8 +5,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:zamindar/model/location_service.dart';
+import 'package:zamindar/view/crops.dart';
+import 'package:zamindar/view/parent/myhome.dart';
 import 'package:zamindar/view_model/userLocation.dart';
 
 class addFarms extends StatefulWidget {
@@ -46,7 +49,7 @@ class _addFarmsState extends State<addFarms> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              "Add Farms",
+              "Add Farms".tr,
               style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -55,23 +58,28 @@ class _addFarmsState extends State<addFarms> {
           ],
         ),
         actions: [
-          Container(
-            margin: EdgeInsets.only(right: 20),
-            child: Row(
-              children: [
-                Text(
-                  "Next",
-                  style:
-                      TextStyle(fontSize: 15, color: theme.primaryColorLight),
-                ),
-                SizedBox(width: 5),
-                SvgPicture.asset(
-                  "asset/icons/right-arrow.svg",
-                  height: 15,
-                  width: 15,
-                  color: theme.accentColor,
-                )
-              ],
+          InkWell(
+            onTap: () {
+              Get.offAll(() => HomeScreen());
+            },
+            child: Container(
+              margin: EdgeInsets.only(right: 20),
+              child: Row(
+                children: [
+                  Text(
+                    "Next".tr,
+                    style:
+                        TextStyle(fontSize: 15, color: theme.primaryColorLight),
+                  ),
+                  SizedBox(width: 5),
+                  SvgPicture.asset(
+                    "asset/icons/right-arrow.svg",
+                    height: 15,
+                    width: 15,
+                    color: theme.accentColor,
+                  )
+                ],
+              ),
             ),
           )
         ],

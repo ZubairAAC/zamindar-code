@@ -135,7 +135,7 @@ class _MessageState extends State<Message> {
             )
           : Container(
               child: Center(
-                child: Text("Please Login to see"),
+                child: Text("Please Login to see".tr),
               ),
             ),
     );

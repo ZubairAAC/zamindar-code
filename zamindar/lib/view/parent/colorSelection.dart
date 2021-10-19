@@ -7,7 +7,7 @@ import 'package:location/location.dart';
 import 'package:zamindar/model/location_service.dart';
 import 'package:zamindar/provider/theme.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
-import 'package:zamindar/view/Supporting%20Screens/addfarms.dart';
+import 'package:zamindar/view/CropChilds/addfarms.dart';
 import 'package:zamindar/view/parent/myhome.dart';
 import 'package:zamindar/view_model/userLocation.dart';
 

@@ -40,7 +40,7 @@ class _CalculatorState extends State<Calculator> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              "Fertiliser Calculator",
+              "Fertiliser Calculator".tr,
               style: TextStyle(color: theme.primaryColorLight, fontSize: 18),
             )
           ],
@@ -142,7 +142,7 @@ class _CalculatorState extends State<Calculator> {
                                       borderSide: BorderSide(
                                           color: theme.accentColor, width: 2))),
                             ),
-                            SizedBox(height: _height * 0.05),
+                            SizedBox(height: _height * 0.04),
                             TextFormField(
                               keyboardAppearance: Brightness.light,
                               keyboardType: TextInputType.number,
@@ -183,8 +183,8 @@ class _CalculatorState extends State<Calculator> {
                     Container(
                       height: _height * 0.22,
                       width: _width,
-                      margin: EdgeInsets.all(30),
-                      padding: EdgeInsets.all(30),
+                      margin: EdgeInsets.only(left: 30, right: 30, bottom: 30),
+                      padding: EdgeInsets.only(left: 30, right: 30, top: 20),
                       decoration: BoxDecoration(
                           color: theme.cardColor,
                           borderRadius: BorderRadius.circular(10)),
@@ -193,7 +193,7 @@ class _CalculatorState extends State<Calculator> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                            child: Text("Please select Area Size in Acres"),
+                            child: Text("Please select Area Size in Acres".tr),
                           ),
                           SizedBox(height: _height * 0.03),
                           Container(
@@ -266,7 +266,7 @@ class _CalculatorState extends State<Calculator> {
                           borderRadius: BorderRadius.circular(10)),
                       child: Center(
                         child: Text(
-                          "Calculate",
+                          "Calculate".tr,
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: theme.cardColor),

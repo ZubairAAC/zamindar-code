@@ -29,7 +29,7 @@ class _OTPScreenState extends State<OTPScreen> {
           title: Row(
             children: [
               Text(
-                "OTP Verification",
+                "OTP Verification".tr,
                 style: TextStyle(
                     color: theme.accentColor,
                     fontSize: 20,
@@ -72,11 +72,11 @@ class _OTPScreenState extends State<OTPScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Verification ",
+                      "Verification ".tr,
                       style: TextStyle(fontSize: 30, color: theme.accentColor),
                     ),
                     Text(
-                      "Code",
+                      "Code".tr,
                       style: TextStyle(
                           fontSize: 30,
                           color: theme.accentColor,
@@ -85,14 +85,14 @@ class _OTPScreenState extends State<OTPScreen> {
                   ],
                 ),
                 SizedBox(height: 10),
-                Text("Please type the verification code",
+                Text("Please type the verification code".tr,
                     style: TextStyle(fontSize: 16, color: theme.accentColor)),
                 SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Send to ",
+                      "Send to ".tr,
                       style: TextStyle(fontSize: 16, color: theme.accentColor),
                     ),
                     Text(

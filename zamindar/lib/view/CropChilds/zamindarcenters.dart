@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:zamindar/model/location_service.dart';
 
 class zamindarCenter extends StatefulWidget {
@@ -44,7 +45,7 @@ class _zamindarCenterState extends State<zamindarCenter> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              "Zamindar Center",
+              "Zamindar Center".tr,
               style: TextStyle(color: theme.primaryColorLight, fontSize: 18),
             )
           ],
@@ -60,7 +61,7 @@ class _zamindarCenterState extends State<zamindarCenter> {
                   color: theme.cardColor),
               child: Center(
                 child: Text(
-                  "Getting your Location data ...",
+                  "Getting your Location data ...".tr,
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
@@ -74,7 +75,7 @@ class _zamindarCenterState extends State<zamindarCenter> {
                 Container(
                   child: Column(
                     children: [
-                      Text("Currently we don't operate in your area"),
+                      Text("Currently we dont operate in your area".tr),
                       SizedBox(height: 30),
                       InkWell(
                         onTap: () {
@@ -89,7 +90,7 @@ class _zamindarCenterState extends State<zamindarCenter> {
                               borderRadius: BorderRadius.circular(10)),
                           child: Center(
                             child: Text(
-                              "Request",
+                              "Request".tr,
                               style: TextStyle(
                                   color: theme.cardColor,
                                   fontWeight: FontWeight.bold),

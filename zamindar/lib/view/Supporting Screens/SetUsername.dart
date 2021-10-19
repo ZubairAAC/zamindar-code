@@ -87,7 +87,7 @@ class _SetProfileState extends State<SetProfile> {
           title: Row(
             children: [
               Text(
-                "Set Profile",
+                "Set Profile".tr,
                 style: TextStyle(
                     color: theme.accentColor,
                     fontSize: 20,
@@ -223,8 +223,10 @@ class _SetProfileState extends State<SetProfile> {
                                   child: Row(
                                     children: [
                                       Text(
-                                        "What is your Gender?",
+                                        "What is your Gender?".tr,
                                         overflow: TextOverflow.ellipsis,
+                                        style:
+                                            TextStyle(color: theme.accentColor),
                                       )
                                     ],
                                   ),
@@ -277,7 +279,7 @@ class _SetProfileState extends State<SetProfile> {
                                                             10)),
                                                 child: Center(
                                                     child: Text(
-                                                  usergender[index],
+                                                  usergender[index].tr,
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                   style: TextStyle(
@@ -405,7 +407,7 @@ class _SetProfileState extends State<SetProfile> {
                                   ),
                                   SizedBox(height: 5),
                                   Text(
-                                    'Photo Library',
+                                    'Photo Library'.tr,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(),
                                   )
@@ -441,7 +443,7 @@ class _SetProfileState extends State<SetProfile> {
                                   ),
                                   SizedBox(height: 5),
                                   Text(
-                                    'Camera',
+                                    'Camera'.tr,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(),
                                   )
@@ -463,7 +465,7 @@ class _SetProfileState extends State<SetProfile> {
     // set up the button
     Widget okButton = TextButton(
       child: Text(
-        "OK",
+        "OK".tr,
         style: TextStyle(color: theme.accentColor),
       ),
       onPressed: () {
@@ -521,8 +523,8 @@ class _SetProfileState extends State<SetProfile> {
           ),
           Padding(
             padding: const EdgeInsets.only(right: 20),
-            child:
-                Text("Please provide all information Name, Photo, Gender etc"),
+            child: Text(
+                "Please provide all information Name, Photo, Gender etc".tr),
           )
         ]),
       ),

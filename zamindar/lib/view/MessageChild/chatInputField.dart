@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 
 class ChatInputField extends StatefulWidget {
   ChatInputField({Key? key}) : super(key: key);
@@ -52,7 +53,7 @@ class _ChatInputFieldState extends State<ChatInputField> {
                         cursorColor: theme.accentColor,
                         controller: msgController,
                         decoration: InputDecoration(
-                          hintText: "Type message",
+                          hintText: "Type message".tr,
                           border: InputBorder.none,
                         ),
                         onChanged: (values) {

@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:zamindar/view/Supporting%20Screens/otp%20Verification.dart';
 
 class Login extends GetxController {
@@ -83,7 +84,7 @@ class Login extends GetxController {
                           child: Row(
                             children: [
                               Text(
-                                "Please Enter Your Phone Number to Login",
+                                "Please Enter Your Phone Number to Login".tr,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               )
@@ -112,7 +113,7 @@ class Login extends GetxController {
                                     color: theme.accentColor,
                                   ),
                                   hintText: "03001234567",
-                                  labelText: 'Phone',
+                                  labelText: 'Phone'.tr,
                                   fillColor: theme.cardColor,
                                   filled: true,
                                   isDense: true,
@@ -172,7 +173,7 @@ class Login extends GetxController {
                               ),
                               child: Center(
                                 child: Text(
-                                  "Send",
+                                  "Send".tr,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                       color: theme.primaryColor,
