@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "877968678495",
+    "firebase_url": "https://zaamindaardotcom-default-rtdb.firebaseio.com",
+    "project_id": "zaamindaardotcom",
+    "storage_bucket": "zaamindaardotcom.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:877968678495:android:4e3c1be3b912017c24c5ea",
+        "android_client_info": {
+          "package_name": "com.ZAACProductions.zamindar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "877968678495-p29938lqc5ch872j2mj5kda1f61ja7u9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCwXtRCTcqIxgbulnKmsrGnHBpGUvHEM1E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "877968678495-p29938lqc5ch872j2mj5kda1f61ja7u9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

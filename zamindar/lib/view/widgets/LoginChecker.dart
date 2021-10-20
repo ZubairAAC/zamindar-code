@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
@@ -5,6 +6,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
+import 'package:zamindar/model/user.dart';
 import 'package:zamindar/view/Supporting%20Screens/otp%20Verification.dart';
 
 class Login extends GetxController {
@@ -15,6 +17,7 @@ class Login extends GetxController {
     final theme = Theme.of(context);
     final node = FocusScope.of(context);
     String phone = '';
+    String vid = '';
     bool _val = false;
     phonevalidator(myvalue) {
       String pattern =
@@ -100,9 +103,11 @@ class Login extends GetxController {
                               controller: phoneController,
                               validator: phonevalidator,
                               onChanged: (tf) {
-                                final mine = tf.replaceFirst("0", "92");
+                                final mine = tf.replaceFirst("0", "+92");
+
                                 phone = tf;
-                                print(mine);
+                                phone = mine;
+                                print(phone);
                               },
                               keyboardAppearance: Brightness.light,
                               keyboardType: TextInputType.number,
@@ -145,18 +150,47 @@ class Login extends GetxController {
                         ),
                         SizedBox(height: 20),
                         InkWell(
-                            onTap: () {
+                            onTap: () async {
                               try {
                                 if (formkey.currentState!.validate()) {
                                   print("Validated");
+                                  final x = phone.substring(0, 3) +
+                                      " " +
+                                      phone.substring(3, phone.length);
 
-                                  Navigator.of(context).pushAndRemoveUntil(
-                                      MaterialPageRoute(
-                                          builder: (context) => OTPScreen(
-                                                phone: phone,
-                                              )),
-                                      (Route<dynamic> route) => false);
-                                  // Get.to(() => OTPScreen());
+                                  print(x);
+                                  await FirebaseAuth.instance.verifyPhoneNumber(
+                                      timeout: Duration(seconds: 120),
+                                      phoneNumber: x,
+                                      verificationCompleted:
+                                          (verificationCompleted) async {
+                                        // Get.to(() => OTPScreen());
+                                      },
+                                      verificationFailed:
+                                          (verificationFailed) async {
+                                        print(
+                                            "failed becuase of this ============> $verificationFailed");
+                                      },
+                                      codeSent: (verificationid,
+                                          resendingtoken) async {
+                                        vid = verificationid;
+                                        Navigator.of(context)
+                                            .pushAndRemoveUntil(
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        OTPScreen(
+                                                          verificationID: vid,
+                                                          phone: phone,
+                                                        )),
+                                                (Route<dynamic> route) =>
+                                                    false);
+                                        print(
+                                            "verification id is========>$verificationid");
+                                        print(
+                                            "resend token is========>$resendingtoken");
+                                      },
+                                      codeAutoRetrievalTimeout:
+                                          (codeAutoRetrievalTimeout) async {});
                                 }
                                 {}
                               } catch (e) {

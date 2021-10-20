@@ -1,22 +1,37 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/instance_manager.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
+import 'package:zamindar/model/user.dart';
 import 'package:zamindar/view/Supporting%20Screens/SetUsername.dart';
 
 class OTPScreen extends StatefulWidget {
   String phone;
-  OTPScreen({Key? key, required this.phone}) : super(key: key);
+  String verificationID;
+  OTPScreen({Key? key, required this.phone, required this.verificationID})
+      : super(key: key);
 
   @override
-  _OTPScreenState createState() => _OTPScreenState(phone);
+  _OTPScreenState createState() => _OTPScreenState(phone, verificationID);
 }
 
 class _OTPScreenState extends State<OTPScreen> {
   String phone;
-  _OTPScreenState(this.phone);
+  String verificationID;
+  _OTPScreenState(this.phone, this.verificationID);
+
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    print(phone);
+    print(verificationID);
+  }
+
+  String otp = '';
 
   @override
   Widget build(BuildContext context) {
@@ -113,11 +128,10 @@ class _OTPScreenState extends State<OTPScreen> {
                   hoverColor: theme.cardColor,
                   focusColor: theme.cardColor,
                   onTap: () {
-                    //  Navigator.of(context).pushReplacement(
-                    //                 MaterialPageRoute(
-                    //                     builder: (context) => ColorSelection());
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) => SetProfile(phone: phone)));
+                    AuthCredential phoneAuthCredential =
+                        PhoneAuthProvider.credential(
+                            verificationId: verificationID, smsCode: user.otp);
+                    signInWithPhoneAuthCred(phoneAuthCredential);
                   },
                   child: Center(
                       child: Container(
@@ -144,6 +158,28 @@ class _OTPScreenState extends State<OTPScreen> {
           ),
         ));
   }
+
+  void signInWithPhoneAuthCred(AuthCredential phoneAuthCredential) async {
+    FirebaseAuth _auth = FirebaseAuth.instance;
+    try {
+      UserCredential authCred =
+          await _auth.signInWithCredential(phoneAuthCredential);
+
+      if (authCred.user != null) {
+        if (authCred.additionalUserInfo!.isNewUser) {
+          print("its new user update Profile");
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (context) => SetProfile(phone: phone)));
+        } else {
+          print("its an old user");
+        }
+      }
+    } on FirebaseAuthException catch (e) {
+      print(e.message);
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Some Error Occured. Try Again Later')));
+    }
+  }
 }
 
 class otpForm extends StatefulWidget {
@@ -157,6 +193,8 @@ class _otpFormState extends State<otpForm> {
   FocusNode? pin2FocusNode;
   FocusNode? pin3FocusNode;
   FocusNode? pin4FocusNode;
+  FocusNode? pin5FocusNode;
+  FocusNode? pin6FocusNode;
 
   @override
   void initState() {
@@ -164,6 +202,8 @@ class _otpFormState extends State<otpForm> {
     pin2FocusNode = FocusNode();
     pin3FocusNode = FocusNode();
     pin4FocusNode = FocusNode();
+    pin5FocusNode = FocusNode();
+    pin6FocusNode = FocusNode();
   }
 
   @override
@@ -172,7 +212,11 @@ class _otpFormState extends State<otpForm> {
     pin2FocusNode!.dispose();
     pin3FocusNode!.dispose();
     pin4FocusNode!.dispose();
+    pin5FocusNode!.dispose();
+    pin6FocusNode!.dispose();
   }
+
+  String otpCode = '';
 
   void nextField(String value, FocusNode? focusNode) {
     if (value.length == 1) {
@@ -188,8 +232,8 @@ class _otpFormState extends State<otpForm> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         SizedBox(
-          width: 60,
-          height: 60,
+          width: 50,
+          height: 50,
           child: TextFormField(
             autofocus: true,
             keyboardType: TextInputType.number,
@@ -213,13 +257,14 @@ class _otpFormState extends State<otpForm> {
                         BorderSide(color: theme.accentColor, width: 2))),
             onChanged: (values) {
               nextField(values, pin2FocusNode);
-              print(values);
+              otpCode = values;
+              print(otpCode);
             },
           ),
         ),
         SizedBox(
-          width: 60,
-          height: 60,
+          width: 50,
+          height: 50,
           child: TextFormField(
             focusNode: pin2FocusNode,
             keyboardType: TextInputType.number,
@@ -242,14 +287,16 @@ class _otpFormState extends State<otpForm> {
                     borderSide:
                         BorderSide(color: theme.accentColor, width: 2))),
             onChanged: (values) {
-              print(values);
+              final otp2 = values;
+              otpCode = otpCode + otp2;
+              print(otpCode);
               nextField(values, pin3FocusNode);
             },
           ),
         ),
         SizedBox(
-          width: 60,
-          height: 60,
+          width: 50,
+          height: 50,
           child: TextFormField(
             focusNode: pin3FocusNode,
             keyboardType: TextInputType.number,
@@ -272,14 +319,16 @@ class _otpFormState extends State<otpForm> {
                     borderSide:
                         BorderSide(color: theme.accentColor, width: 2))),
             onChanged: (values) {
-              print(values);
+              final otp3 = values;
+              otpCode = otpCode + otp3;
+              print(otpCode);
               nextField(values, pin4FocusNode);
             },
           ),
         ),
         SizedBox(
-          width: 60,
-          height: 60,
+          width: 50,
+          height: 50,
           child: TextFormField(
             focusNode: pin4FocusNode,
             keyboardType: TextInputType.number,
@@ -302,7 +351,76 @@ class _otpFormState extends State<otpForm> {
                     borderSide:
                         BorderSide(color: theme.accentColor, width: 2))),
             onChanged: (values) {
-              print(values);
+              final otp4 = values;
+              otpCode = otpCode + otp4;
+              print(otpCode);
+              nextField(values, pin5FocusNode);
+            },
+          ),
+        ),
+        SizedBox(
+          width: 50,
+          height: 50,
+          child: TextFormField(
+            focusNode: pin5FocusNode,
+            keyboardType: TextInputType.number,
+            keyboardAppearance: Brightness.light,
+            style: TextStyle(fontSize: 24),
+            cursorColor: theme.accentColor,
+            decoration: InputDecoration(
+                fillColor: theme.cardColor,
+                filled: true,
+                isDense: true,
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(100),
+                  borderSide: BorderSide(
+                    color: theme.accentColor,
+                    width: 2.0,
+                  ),
+                ),
+                enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(100),
+                    borderSide:
+                        BorderSide(color: theme.accentColor, width: 2))),
+            onChanged: (values) {
+              final otp5 = values;
+              otpCode = otpCode + otp5;
+              print(otpCode);
+              nextField(values, pin6FocusNode);
+            },
+          ),
+        ),
+        SizedBox(
+          width: 50,
+          height: 50,
+          child: TextFormField(
+            focusNode: pin6FocusNode,
+            keyboardType: TextInputType.number,
+            keyboardAppearance: Brightness.light,
+            style: TextStyle(fontSize: 24),
+            cursorColor: theme.accentColor,
+            decoration: InputDecoration(
+                fillColor: theme.cardColor,
+                filled: true,
+                isDense: true,
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(100),
+                  borderSide: BorderSide(
+                    color: theme.accentColor,
+                    width: 2.0,
+                  ),
+                ),
+                enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(100),
+                    borderSide:
+                        BorderSide(color: theme.accentColor, width: 2))),
+            onChanged: (values) {
+              final otp6 = values;
+              otpCode = otpCode + otp6;
+              setState(() {
+                user.otp = otpCode.toString();
+              });
+              print("this is user otp =====> ${user.otp}");
               pin4FocusNode!.unfocus();
             },
           ),

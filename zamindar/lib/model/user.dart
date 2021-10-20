@@ -4,4 +4,5 @@ class user {
   static String image = '';
   static String gender = '';
   static bool userlogin = false;
+  static String otp = '';
 }
