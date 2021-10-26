@@ -8,12 +8,14 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/instance_manager.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zamindar/model/MarketData.dart';
 import 'package:zamindar/model/category.dart';
 import 'package:zamindar/model/user.dart';
 import 'package:zamindar/view/parent/myhome.dart';
 import 'package:zamindar/view_model/RegisterUserApi.dart';
 import 'package:zamindar/view_model/filePicker.dart';
+import 'package:zamindar/view_model/sharedPrefForScreen.dart';
 
 class SetProfile extends StatefulWidget {
   String phone;
@@ -28,12 +30,14 @@ class _SetProfileState extends State<SetProfile> {
   _SetProfileState(this.phone);
 
   String byteArray = '';
+
   List<bool> isSelected = [false, false];
   TextEditingController nameController = new TextEditingController();
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
   String userName = '';
   String gender = '';
   int _selectedIndex = -1;
+  bool isLoading = false;
   _onSelected(int index) {
     setState(() => _selectedIndex = index);
   }
@@ -52,11 +56,15 @@ class _SetProfileState extends State<SetProfile> {
     if (photo == null) {
       return;
     }
-    String _path = photo.path;
-    final bytes = Io.File(_path).readAsBytesSync();
     setState(() {
-      byteArray = base64Encode(bytes);
+      user.image = Io.File(photo.path);
+      print("this is user image ==>${user.image}");
     });
+    // String _path = photo.path;
+    // final bytes = Io.File(_path).readAsBytesSync();
+    // setState(() {
+    //   byteArray = base64Encode(bytes);
+    // });
   }
 
   Future pickSingleImageFromCamera() async {
@@ -66,12 +74,17 @@ class _SetProfileState extends State<SetProfile> {
     if (photo == null) {
       return;
     }
-    // print(photo.path);
-    String _path = photo.path;
-    final bytes = Io.File(_path).readAsBytesSync();
     setState(() {
-      byteArray = base64Encode(bytes);
+      user.image = Io.File(photo.path);
+      print("this is user image ==>${user.image}");
     });
+
+    // print(photo.path);
+    // String _path = photo.path;
+    // final bytes = Io.File(_path).readAsBytesSync();
+    // setState(() {
+    //   byteArray = base64Encode(bytes);
+    // });
     // print(byteArray);
   }
 
@@ -96,271 +109,296 @@ class _SetProfileState extends State<SetProfile> {
             ],
           ),
         ),
-        body: GestureDetector(
-          onTap: () {
-            FocusScope.of(context).requestFocus(new FocusNode());
-          },
-          child: SingleChildScrollView(
-            child: Container(
-              margin: EdgeInsets.all(20),
-              child: Column(
-                children: [
-                  Container(
-                    height: 175,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+        body: isLoading
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : GestureDetector(
+                onTap: () {
+                  FocusScope.of(context).requestFocus(new FocusNode());
+                },
+                child: SingleChildScrollView(
+                  child: Container(
+                    margin: EdgeInsets.all(20),
+                    child: Column(
                       children: [
                         Container(
-                            height: 175,
-                            width: 175,
-                            decoration: BoxDecoration(
-                              color: theme.accentColor,
-                              borderRadius: BorderRadius.circular(100),
-                            ),
-                            child: Stack(
-                              children: [
-                                CircleAvatar(
-                                  backgroundColor: theme.accentColor,
-                                  radius: 175,
-                                  foregroundImage: byteArray.isEmpty
-                                      ? null
-                                      : MemoryImage(base64Decode(byteArray)),
-                                  // foregroundImage: FileImage(image!),
-                                  child: Icon(
-                                    Icons.person,
-                                    color: theme.cardColor,
-                                    size: 120,
+                          height: 175,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                  height: 175,
+                                  width: 175,
+                                  decoration: BoxDecoration(
+                                    color: theme.accentColor,
+                                    borderRadius: BorderRadius.circular(100),
                                   ),
-                                ),
-                                Positioned(
-                                    right: 10,
-                                    bottom: 10,
-                                    child: InkWell(
-                                      onTap: () async {
-                                        setState(() {
-                                          showImagePicker(context, byteArray);
-                                        });
-                                      },
-                                      child: Container(
-                                        height: 30,
-                                        width: 30,
-                                        decoration: BoxDecoration(
-                                            color: theme.accentColor,
-                                            shape: BoxShape.circle,
-                                            border: Border.all(
-                                                color: theme.cardColor,
-                                                width: 3)),
+                                  child: Stack(
+                                    children: [
+                                      CircleAvatar(
+                                        backgroundColor: theme.accentColor,
+                                        radius: 175,
+                                        foregroundImage: user.image.path.isEmpty
+                                            ? null
+                                            : FileImage(user.image),
+                                        // foregroundImage: FileImage(image!),
                                         child: Icon(
-                                          Icons.create,
-                                          size: 15,
+                                          Icons.person,
                                           color: theme.cardColor,
+                                          size: 120,
                                         ),
                                       ),
-                                    ))
+                                      Positioned(
+                                          right: 10,
+                                          bottom: 10,
+                                          child: InkWell(
+                                            onTap: () async {
+                                              setState(() {
+                                                showImagePicker(
+                                                    context, byteArray);
+                                              });
+                                            },
+                                            child: Container(
+                                              height: 30,
+                                              width: 30,
+                                              decoration: BoxDecoration(
+                                                  color: theme.accentColor,
+                                                  shape: BoxShape.circle,
+                                                  border: Border.all(
+                                                      color: theme.cardColor,
+                                                      width: 3)),
+                                              child: Icon(
+                                                Icons.create,
+                                                size: 15,
+                                                color: theme.cardColor,
+                                              ),
+                                            ),
+                                          ))
+                                    ],
+                                  )),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        Container(
+                            margin: EdgeInsets.symmetric(horizontal: 20),
+                            child: Column(
+                              children: [
+                                SizedBox(height: 20),
+                                Form(
+                                  key: formkey,
+                                  autovalidate: true,
+                                  child: TextFormField(
+                                    controller: nameController,
+                                    autovalidate: true,
+                                    validator: (valuess) {
+                                      namevalidator(valuess);
+                                    },
+                                    maxLength: 25,
+                                    cursorColor: theme.accentColor,
+                                    onChanged: (selected) {
+                                      setState(() {
+                                        userName = selected;
+                                      });
+                                    },
+                                    decoration: InputDecoration(
+                                        counterText: "",
+                                        hintText: "Enter Your Name here".tr,
+                                        labelText: 'Name'.tr,
+                                        fillColor: theme.cardColor,
+                                        filled: true,
+                                        isDense: true,
+                                        labelStyle:
+                                            TextStyle(color: theme.accentColor),
+                                        hintStyle: TextStyle(fontSize: 15),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          borderSide: BorderSide(
+                                            color: theme.accentColor,
+                                            width: 2.0,
+                                          ),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            borderSide: BorderSide(
+                                                color: theme.accentColor,
+                                                width: 2))),
+                                  ),
+                                ),
+                                SizedBox(height: 20),
+                                Container(
+                                  height: 125,
+                                  decoration: BoxDecoration(
+                                      color: theme.cardColor,
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                          color: theme.accentColor, width: 2)),
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        margin: EdgeInsets.all(10),
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              "What is your Gender?".tr,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                  color: theme.accentColor),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(height: 3),
+                                      Container(
+                                          height: 70,
+                                          // color: Colors.red,
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 40),
+                                          child: Center(
+                                            child: GridView.builder(
+                                              physics:
+                                                  NeverScrollableScrollPhysics(),
+                                              scrollDirection: Axis.horizontal,
+                                              gridDelegate:
+                                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                                crossAxisCount: 1,
+                                              ),
+                                              itemCount: 2,
+                                              shrinkWrap: true,
+                                              itemBuilder:
+                                                  (BuildContext context,
+                                                      int index) {
+                                                return InkWell(
+                                                    onTap: () {
+                                                      setState(() {
+                                                        print(user.image.path);
+                                                        _onSelected(index);
+                                                        String selected =
+                                                            usergender[index];
+                                                        gender = selected;
+                                                      });
+                                                    },
+                                                    child: Container(
+                                                      height: 70,
+                                                      width: 150,
+                                                      margin:
+                                                          EdgeInsets.symmetric(
+                                                              horizontal: 2),
+                                                      decoration: BoxDecoration(
+                                                          color: _selectedIndex !=
+                                                                      null &&
+                                                                  _selectedIndex ==
+                                                                      index
+                                                              ? theme
+                                                                  .accentColor
+                                                              : theme
+                                                                  .backgroundColor,
+                                                          border: Border.all(
+                                                              color: theme
+                                                                  .accentColor,
+                                                              width: 1),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      10)),
+                                                      child: Center(
+                                                          child: Text(
+                                                        usergender[index].tr,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        style: TextStyle(
+                                                            color: _selectedIndex !=
+                                                                        null &&
+                                                                    _selectedIndex ==
+                                                                        index
+                                                                ? theme
+                                                                    .cardColor
+                                                                : null),
+                                                      )),
+                                                    ));
+                                              },
+                                            ),
+                                          ))
+                                    ],
+                                  ),
+                                )
                               ],
                             )),
+                        SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.2),
+                        InkWell(
+                          splashColor: theme.cardColor,
+                          hoverColor: theme.cardColor,
+                          focusColor: theme.cardColor,
+                          onTap: () {
+                            try {
+                              if (formkey.currentState!.validate()) {
+                                if (userName.isNotEmpty) {
+                                  if (user.image.path.isNotEmpty) {
+                                    if (gender.isNotEmpty) {
+                                      print("proceed");
+                                      setState(() {
+                                        user.name = userName;
+                                        user.gender = gender;
+                                        user.phone = phone;
+                                        print(user.name);
+                                        print(user.gender);
+                                        print(user.image);
+                                        print(user.phone);
+                                      });
+
+                                      try {
+                                        setState(() {
+                                          isLoading = true;
+                                          registerUser();
+                                          Get.offAll(() => HomeScreen());
+                                          setIsLoginFlag();
+                                        });
+                                      } catch (e) {
+                                        print(
+                                            "some error in api post request =>$e");
+                                      }
+                                    } else {
+                                      showAlertDialog(context);
+                                    }
+                                  } else {
+                                    showAlertDialog(context);
+                                  }
+                                } else {
+                                  showAlertDialog(context);
+                                }
+                              }
+                            } catch (e) {}
+                          },
+                          child: Center(
+                              child: Container(
+                            height: 56,
+                            width: MediaQuery.of(context).size.width * 0.70,
+                            decoration: BoxDecoration(
+                              color: theme.accentColor,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Center(
+                              child: Text(
+                                "Continue".tr,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                    color: theme.primaryColor,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          )),
+                        ),
                       ],
                     ),
                   ),
-                  SizedBox(height: 20),
-                  Container(
-                      margin: EdgeInsets.symmetric(horizontal: 20),
-                      child: Column(
-                        children: [
-                          SizedBox(height: 20),
-                          Form(
-                            key: formkey,
-                            autovalidate: true,
-                            child: TextFormField(
-                              controller: nameController,
-                              autovalidate: true,
-                              validator: (valuess) {
-                                namevalidator(valuess);
-                              },
-                              maxLength: 25,
-                              cursorColor: theme.accentColor,
-                              onChanged: (selected) {
-                                setState(() {
-                                  userName = selected;
-                                });
-                              },
-                              decoration: InputDecoration(
-                                  counterText: "",
-                                  hintText: "Enter Your Name here".tr,
-                                  labelText: 'Name'.tr,
-                                  fillColor: theme.cardColor,
-                                  filled: true,
-                                  isDense: true,
-                                  labelStyle:
-                                      TextStyle(color: theme.accentColor),
-                                  hintStyle: TextStyle(fontSize: 15),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide: BorderSide(
-                                      color: theme.accentColor,
-                                      width: 2.0,
-                                    ),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      borderSide: BorderSide(
-                                          color: theme.accentColor, width: 2))),
-                            ),
-                          ),
-                          SizedBox(height: 20),
-                          Container(
-                            height: 125,
-                            decoration: BoxDecoration(
-                                color: theme.cardColor,
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(
-                                    color: theme.accentColor, width: 2)),
-                            child: Column(
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.all(10),
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        "What is your Gender?".tr,
-                                        overflow: TextOverflow.ellipsis,
-                                        style:
-                                            TextStyle(color: theme.accentColor),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(height: 3),
-                                Container(
-                                    height: 70,
-                                    // color: Colors.red,
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 40),
-                                    child: Center(
-                                      child: GridView.builder(
-                                        physics: NeverScrollableScrollPhysics(),
-                                        scrollDirection: Axis.horizontal,
-                                        gridDelegate:
-                                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisCount: 1,
-                                        ),
-                                        itemCount: 2,
-                                        shrinkWrap: true,
-                                        itemBuilder:
-                                            (BuildContext context, int index) {
-                                          return InkWell(
-                                              onTap: () {
-                                                setState(() {
-                                                  _onSelected(index);
-                                                  String selected =
-                                                      usergender[index];
-                                                  gender = selected;
-                                                });
-                                              },
-                                              child: Container(
-                                                height: 70,
-                                                width: 150,
-                                                margin: EdgeInsets.symmetric(
-                                                    horizontal: 2),
-                                                decoration: BoxDecoration(
-                                                    color: _selectedIndex !=
-                                                                null &&
-                                                            _selectedIndex ==
-                                                                index
-                                                        ? theme.accentColor
-                                                        : theme.backgroundColor,
-                                                    border: Border.all(
-                                                        color:
-                                                            theme.accentColor,
-                                                        width: 1),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10)),
-                                                child: Center(
-                                                    child: Text(
-                                                  usergender[index].tr,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  style: TextStyle(
-                                                      color: _selectedIndex !=
-                                                                  null &&
-                                                              _selectedIndex ==
-                                                                  index
-                                                          ? theme.cardColor
-                                                          : null),
-                                                )),
-                                              ));
-                                        },
-                                      ),
-                                    ))
-                              ],
-                            ),
-                          )
-                        ],
-                      )),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.2),
-                  InkWell(
-                    splashColor: theme.cardColor,
-                    hoverColor: theme.cardColor,
-                    focusColor: theme.cardColor,
-                    onTap: () {
-                      try {
-                        if (formkey.currentState!.validate()) {
-                          if (userName.isNotEmpty) {
-                            if (byteArray.isNotEmpty) {
-                              if (gender.isNotEmpty) {
-                                print("proceed");
-                                setState(() {
-                                  user.name = userName;
-                                  user.gender = gender;
-                                  user.image = byteArray;
-                                  user.phone = phone;
-                                });
-
-                                // registerUser();
-
-                                Get.offAll(() => HomeScreen());
-                                setState(() {
-                                  user.userlogin = true;
-                                });
-                              } else {
-                                showAlertDialog(context);
-                              }
-                            } else {
-                              showAlertDialog(context);
-                            }
-                          } else {
-                            showAlertDialog(context);
-                          }
-                        }
-                      } catch (e) {}
-                    },
-                    child: Center(
-                        child: Container(
-                      height: 56,
-                      width: MediaQuery.of(context).size.width * 0.70,
-                      decoration: BoxDecoration(
-                        color: theme.accentColor,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Center(
-                        child: Text(
-                          "Continue".tr,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                              color: theme.primaryColor,
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    )),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ));
+                ),
+              ));
   }
 
   showImagePicker(BuildContext context, String _path) {

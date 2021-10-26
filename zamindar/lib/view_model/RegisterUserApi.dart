@@ -6,24 +6,30 @@ import 'package:zamindar/model/user.dart';
 
 Future registerUser() async {
   var dio = new Dio();
-  final String url = 'http://10.0.2.2:8000/user/';
+  final String url = 'https://zamindarapi.herokuapp.com/user';
   final int number1 = Random().nextInt(99);
   final int number2 = Random().nextInt(99);
   String appname = 'Zamindar';
   final String finalId = number1.toString() + appname + number2.toString();
-  dynamic data = {
+
+  FormData formData = new FormData.fromMap({
     "id": finalId,
     "name": user.name,
-    "phone": user.phone,
+    "phone": "user.phone",
     "image": user.image,
-    "gender": user.gender
-  };
+    "gender": user.gender,
+    "Join-Date": DateTime.now()
+  });
 
   try {
-    var response = await dio.post(url, data: data);
-    print(response.data);
+    print(formData.fields);
+    var response = await dio.post(url,
+        data: formData,
+        options:
+            Options(followRedirects: false, validateStatus: (status) => true));
+    print("this is respone data =======>${response.data}");
     return response.data;
   } on HttpStatus catch (e) {
-    print(e);
+    print("this is error ========>$e");
   }
 }

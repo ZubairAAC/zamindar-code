@@ -3,13 +3,19 @@ import 'package:get/instance_manager.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 
 class PostView extends StatefulWidget {
-  PostView({Key? key}) : super(key: key);
+  String title;
+  String description;
+  PostView({Key? key, required this.title, required this.description})
+      : super(key: key);
 
   @override
-  _PostViewState createState() => _PostViewState();
+  _PostViewState createState() => _PostViewState(title, description);
 }
 
 class _PostViewState extends State<PostView> {
+  String title;
+  String description;
+  _PostViewState(this.title, this.description);
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -40,7 +46,7 @@ class _PostViewState extends State<PostView> {
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 child: Text(
-                  "This is Title for the post of zamindar app specially design for the farmers of Pakistan",
+                  title,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 5,
                   style: TextStyle(
@@ -53,7 +59,7 @@ class _PostViewState extends State<PostView> {
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 child: Text(
-                  "This is Title for the post of zamindar app specially design for the farmers of Pakistan This is Title for the post of zamindar app specially design for the farmers of Pakistan This is Title for the post of zamindar app specially design for the farmers of Pakistan This is Title for the post of zamindar app specially design for the farmers of Pakistan This is Title for the post of zamindar app specially design for the farmers of Pakistan This is Title for the post of zamindar app specially design for the farmers of Pakistan This is Title for the post of zamindar app specially design for the farmers of Pakistan This is Title for the post of zamindar app specially design for the farmers of Pakistan This is Title for the post of zamindar app specially design for the farmers of Pakistan This is Title for the post of zamindar app specially design for the farmers of Pakistan This is Title for the post of zamindar app specially design for the farmers of Pakistan",
+                  description,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 50,
                   style: TextStyle(

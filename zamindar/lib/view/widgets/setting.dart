@@ -10,6 +10,7 @@ import 'package:zamindar/view/Supporting%20Screens/Terms&PoliciesView.dart';
 import 'package:zamindar/view/parent/myhome.dart';
 import 'package:zamindar/view/widgets/ContactUs.dart';
 import 'package:zamindar/view/widgets/RateUs.dart';
+import 'package:zamindar/view_model/sharedPrefForScreen.dart';
 
 class MySetting extends StatefulWidget {
   MySetting({Key? key}) : super(key: key);
@@ -210,10 +211,8 @@ class _MySettingState extends State<MySetting> {
           SizedBox(height: 40),
           InkWell(
             onTap: () {
-              setState(() {
-                user.userlogin = false;
-                Get.offAll(() => HomeScreen());
-              });
+              removeIsLoginFlag();
+              Get.offAll(() => HomeScreen());
             },
             child: Container(
               height: 56,

@@ -19,6 +19,8 @@ class Login extends GetxController {
     String phone = '';
     String vid = '';
     bool _val = false;
+    bool isloading = false;
+    FocusNode? phoneFocusNode;
     phonevalidator(myvalue) {
       String pattern =
           r'^((\+92)|(0092))-{0,1}\d{3}-{0,1}\d{7}$|^\d{11}$|^\d{4}-\d{7}$';
@@ -28,6 +30,17 @@ class Login extends GetxController {
       } else if (!regExp.hasMatch(myvalue)) {
         return 'Please enter valid mobile number';
       }
+    }
+
+    @override
+    void initState() {
+      phoneFocusNode = FocusNode();
+    }
+
+    @override
+    void dispose() {
+      super.dispose();
+      phoneFocusNode!.dispose();
     }
 
     Widget closeButton = IconButton(
@@ -100,10 +113,16 @@ class Login extends GetxController {
                           child: Container(
                             margin: EdgeInsets.symmetric(horizontal: 40),
                             child: TextFormField(
+                              autovalidate: true,
                               controller: phoneController,
                               validator: phonevalidator,
+                              focusNode: phoneFocusNode,
                               onChanged: (tf) {
                                 final mine = tf.replaceFirst("0", "+92");
+                                if (mine.length == 11) {
+                                  // update();
+                                  // phoneFocusNode!.unfocus();
+                                }
 
                                 phone = tf;
                                 phone = mine;
@@ -151,6 +170,8 @@ class Login extends GetxController {
                         SizedBox(height: 20),
                         InkWell(
                             onTap: () async {
+                              update();
+                              isloading = true;
                               try {
                                 if (formkey.currentState!.validate()) {
                                   print("Validated");
@@ -159,40 +180,47 @@ class Login extends GetxController {
                                       phone.substring(3, phone.length);
 
                                   print(x);
-                                  await FirebaseAuth.instance.verifyPhoneNumber(
-                                      timeout: Duration(seconds: 120),
-                                      phoneNumber: x,
-                                      verificationCompleted:
-                                          (verificationCompleted) async {
-                                        // Get.to(() => OTPScreen());
-                                      },
-                                      verificationFailed:
-                                          (verificationFailed) async {
-                                        print(
-                                            "failed becuase of this ============> $verificationFailed");
-                                      },
-                                      codeSent: (verificationid,
-                                          resendingtoken) async {
-                                        vid = verificationid;
-                                        Navigator.of(context)
-                                            .pushAndRemoveUntil(
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        OTPScreen(
-                                                          verificationID: vid,
-                                                          phone: phone,
-                                                        )),
-                                                (Route<dynamic> route) =>
-                                                    false);
-                                        print(
-                                            "verification id is========>$verificationid");
-                                        print(
-                                            "resend token is========>$resendingtoken");
-                                      },
-                                      codeAutoRetrievalTimeout:
-                                          (codeAutoRetrievalTimeout) async {});
+                                  Get.to(() =>
+                                      OTPScreen(phone: '', verificationID: ''));
+
+                                  // await FirebaseAuth.instance.verifyPhoneNumber(
+                                  //     timeout: Duration(seconds: 120),
+                                  //     phoneNumber: x,
+                                  //     verificationCompleted:
+                                  //         (verificationCompleted) async {
+                                  //       // Get.to(() => OTPScreen());
+                                  //     },
+                                  //     verificationFailed:
+                                  //         (verificationFaileding) async {
+                                  //       isloading = false;
+                                  //       ScaffoldMessenger.of(context)
+                                  //           .showSnackBar(SnackBar(
+                                  //               content: Text(
+                                  //                   "$verificationFaileding")));
+                                  //       print(
+                                  //           "failed becuase of this ============> $verificationFaileding");
+                                  //     },
+                                  //     codeSent: (verificationid,
+                                  //         resendingtoken) async {
+                                  //       vid = verificationid;
+                                  //       Navigator.of(context)
+                                  //           .pushAndRemoveUntil(
+                                  //               MaterialPageRoute(
+                                  //                   builder: (context) =>
+                                  //                       OTPScreen(
+                                  //                         verificationID: vid,
+                                  //                         phone: phone,
+                                  //                       )),
+                                  //               (Route<dynamic> route) =>
+                                  //                   false);
+                                  //       print(
+                                  //           "verification id is========>$verificationid");
+                                  //       print(
+                                  //           "resend token is========>$resendingtoken");
+                                  //     },
+                                  //     codeAutoRetrievalTimeout:
+                                  //         (codeAutoRetrievalTimeout) async {});
                                 }
-                                {}
                               } catch (e) {
                                 print("Here is an error in validating ==> $e");
                               }
@@ -205,16 +233,25 @@ class Login extends GetxController {
                                 color: theme.accentColor,
                                 borderRadius: BorderRadius.circular(10),
                               ),
-                              child: Center(
-                                child: Text(
-                                  "Send".tr,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      color: theme.primaryColor,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.normal),
-                                ),
-                              ),
+                              child: isloading
+                                  ? Center(
+                                      child: Container(
+                                          height: 20,
+                                          width: 20,
+                                          child: CircularProgressIndicator(
+                                              color: theme.backgroundColor,
+                                              backgroundColor:
+                                                  theme.cardColor)))
+                                  : Center(
+                                      child: Text(
+                                        "Send".tr,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                            color: theme.primaryColor,
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.normal),
+                                      ),
+                                    ),
                             )))
                       ],
                     ),

@@ -5,6 +5,46 @@ const uuid = require('uuid');
 const dbConfig = require('../../config/database.config')
 const MongoClient = require('mongodb').MongoClient
 const ObjectId = require('mongodb').ObjectID
+const multer = require('multer');
+const { GridFsStorage } = require('multer-gridfs-storage');
+const mongoose = require('mongoose');
+const Grid = require('gridfs-stream');
+const crypto = require('crypto');
+const path = require('path');
+
+
+
+const conn = mongoose.createConnection(dbConfig.url);
+
+// Init gfs
+let gfs;
+
+conn.once('open', () => {
+    // Init stream
+    gfs = Grid(conn.db, mongoose.mongo);
+    gfs.collection('uploads');
+});
+
+// Create storage engine
+const storage = new GridFsStorage({
+    url: dbConfig.url,
+    file: (req, file) => {
+        return new Promise((resolve, reject) => {
+            crypto.randomBytes(16, (err, buf) => {
+                if (err) {
+                    return reject(err);
+                }
+                const filename = buf.toString('hex') + path.extname(file.originalname);
+                const fileInfo = {
+                    filename: filename,
+                    bucketName: 'uploads'
+                };
+                resolve(fileInfo);
+            });
+        });
+    }
+});
+const upload = multer({ storage });
 
 router.get('/', (req, res) => {
     // res.json(users);
@@ -29,12 +69,12 @@ router.get('/:id', (req, res) => {
     }
 })
 //post new user
-router.post('/', (req, res) => {
+router.post('/', upload.single('image'), (req, res) => {
     const newUser = {
         id: req.body.id,
         name: req.body.name,
         phone: req.body.phone,
-        image: req.body.image,
+        image: req.file.filename,
         gender: req.body.gender,
     }
 

@@ -4,11 +4,14 @@ import 'package:flutter_switch/flutter_switch.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/instance_manager.dart';
 import 'package:location/location.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zamindar/model/location_service.dart';
 import 'package:zamindar/provider/theme.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:zamindar/view/CropChilds/addfarms.dart';
 import 'package:zamindar/view/parent/myhome.dart';
+import 'package:zamindar/view/parent/permission.dart';
+import 'package:zamindar/view_model/sharedPrefForScreen.dart';
 import 'package:zamindar/view_model/userLocation.dart';
 
 class ColorSelection extends StatefulWidget {
@@ -26,12 +29,7 @@ class _ColorSelectionState extends State<ColorSelection> {
 
   @override
   void initState() {
-    getlocations();
     super.initState();
-  }
-
-  Future<void> getlocations() async {
-    locationFinder().createState().locationService();
   }
 
   @override
@@ -116,8 +114,8 @@ class _ColorSelectionState extends State<ColorSelection> {
             SizedBox(height: totalHeight * 0.20),
             InkWell(
               onTap: () {
-                Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => HomeScreen()));
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (context) => permissionScreen()));
               },
               child: Center(
                   child: Container(

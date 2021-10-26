@@ -4,8 +4,8 @@ import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:get/instance_manager.dart';
 import 'package:zamindar/model/MarketData.dart';
-import 'package:zamindar/view/Supporting%20Screens/MarketAdView.dart';
-import 'package:zamindar/view/Supporting%20Screens/PostAd.dart';
+import 'package:zamindar/view/MarketChild/MarketAdView.dart';
+import 'package:zamindar/view/MarketChild/PostAd.dart';
 
 class Market extends StatefulWidget {
   Market({Key? key}) : super(key: key);
@@ -180,7 +180,7 @@ class _MarketState extends State<Market> {
                             ),
                             Container(
                               height: 100,
-                              width: 250,
+                              width: 240,
                               // color: Colors.red,
                               margin: EdgeInsets.symmetric(
                                   horizontal: 10, vertical: 10),

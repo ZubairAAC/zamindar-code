@@ -10,6 +10,7 @@ import 'package:zamindar/view/message.dart';
 import 'package:zamindar/view/profile.dart';
 import 'package:zamindar/view/widgets/LoginChecker.dart';
 import 'package:zamindar/view/widgets/drawer.dart';
+import 'package:zamindar/view_model/sharedPrefForScreen.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -20,6 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    getIsLoginFlag();
   }
 
   int _selectedIndex = 0;
@@ -31,6 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
       _selectedIndex = index;
       // changeTabOnUserState();
       if (_selectedIndex == 2 || _selectedIndex == 3 || _selectedIndex == 4) {
+        gotTapped();
         return user.userlogin ? Market() : Login().loginCheckers(context);
       }
       // print(user.userlogin);

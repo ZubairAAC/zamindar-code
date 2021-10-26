@@ -1,5 +1,6 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, unused_local_variable
 
+import 'dart:ui';
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,13 +12,18 @@ import 'package:get/instance_manager.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:zamindar/model/homePageData.dart';
+import 'package:shimmer/shimmer.dart';
+import 'package:zamindar/model/info.dart';
 import 'package:zamindar/model/location_service.dart';
 import 'package:zamindar/model/user.dart';
 import 'package:zamindar/view/Supporting%20Screens/PostView.dart';
 import 'package:zamindar/view/Supporting%20Screens/askQuestion.dart';
 import 'package:zamindar/view/Supporting%20Screens/notification.dart';
 import 'package:zamindar/view/parent/myhome.dart';
+import 'package:zamindar/view_model/getInfo.dart';
 import 'package:zamindar/view_model/internetChecker.dart';
+import 'package:zamindar/view_model/sharedPrefForScreen.dart';
+import 'package:zamindar/view_model/userLocation.dart';
 
 import 'Supporting Screens/weatherView.dart';
 
@@ -42,11 +48,13 @@ class _mainHomeState extends State<mainHome>
     // TODO: implement initState
     // locationService();
     super.initState();
+
     // ignore: unnecessary_new
     _controller = new TabController(length: 2, vsync: this);
     getlocation();
     checkInternet();
-    connectivityChecker();
+    locationFinder().createState().locationService();
+
     InternetConnectionChecker().onStatusChange.listen((event) {
       final hasInternet = event == InternetConnectionStatus.connected;
       print("=====================>${this.hasInternet}<====================");
@@ -54,16 +62,14 @@ class _mainHomeState extends State<mainHome>
         this.hasInternet = hasInternet;
       });
     });
+    connectivityChecker();
+    getIsLoginFlag();
   }
 
   getlocation() async {
     try {
       print(UserLocation.lat);
       print(UserLocation.long);
-      String address = 'Lahore';
-      // var addresses =
-      //     await GeocodingPlatform.instance.locationFromAddress(address);
-      // print(addresses);
       List<Placemark> placemark =
           await placemarkFromCoordinates(UserLocation.lat, UserLocation.long);
       setState(() {
@@ -182,104 +188,160 @@ class _mainHomeState extends State<mainHome>
                   ),
                 ),
                 SizedBox(height: 20),
-                ListView.builder(
-                  itemCount: 3,
-                  shrinkWrap: true,
-                  scrollDirection: Axis.vertical,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (BuildContext context, int index) {
-                    return InkWell(
-                      onTap: () {
-                        print(index);
-                        Get.to(() => PostView());
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(left: 10, right: 10, bottom: 5),
-                        height: 300,
-                        decoration: BoxDecoration(
-                            color: theme.cardColor,
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(color: theme.backgroundColor)),
-                        child: Column(
-                          children: [
-                            SizedBox(height: 10),
-                            Container(
-                              height: 50,
-                              // color: Colors.red,
-                              padding: EdgeInsets.symmetric(horizontal: 20),
-                              child: Row(
+                FutureBuilder<List<Info>>(
+                  future: getInfoFromApi(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Shimmer.fromColors(
+                        baseColor: theme.cardColor,
+                        highlightColor: theme.backgroundColor,
+                        child: Container(
+                          height: 300,
+                          margin:
+                              EdgeInsets.only(left: 10, right: 10, bottom: 5),
+                          decoration: BoxDecoration(
+                              color: theme.cardColor,
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Column(
+                            children: [
+                              Container(
+                                height: 50,
+                                padding: EdgeInsets.all(20),
+                              )
+                            ],
+                          ),
+                        ),
+                      );
+                    }
+                    if (snapshot.hasError) {
+                      return Container(
+                        child: Text("something went wrong"),
+                      );
+                    }
+                    if (snapshot.hasData) {
+                      return ListView.builder(
+                        itemCount: snapshot.data?.length,
+                        shrinkWrap: true,
+                        scrollDirection: Axis.vertical,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemBuilder: (BuildContext context, int index) {
+                          final data = snapshot.data![index];
+                          return InkWell(
+                            onTap: () async {
+                              print(index);
+                              // print(data.title);
+                              // SharedPreferences sp =
+                              //     await SharedPreferences.getInstance();
+                              // sp
+                              //     .setBool("Already Visited", false)
+                              //     .whenComplete(() => print("removed"));
+                              Get.to(() => PostView(
+                                    title: data.title,
+                                    description: data.description,
+                                  ));
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(
+                                  left: 10, right: 5, bottom: 5),
+                              height: 300,
+                              decoration: BoxDecoration(
+                                  color: theme.cardColor,
+                                  borderRadius: BorderRadius.circular(10),
+                                  border:
+                                      Border.all(color: theme.backgroundColor)),
+                              child: Column(
                                 children: [
-                                  Column(
-                                    children: [
-                                      Container(
-                                        height: 40,
-                                        width: 40,
-                                        decoration: BoxDecoration(
-                                            color: Colors.black,
-                                            borderRadius:
-                                                BorderRadius.circular(50)),
-                                        child: Image.asset(
-                                          "asset/logo/splash.png",
-                                          fit: BoxFit.fill,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(width: 10),
+                                  SizedBox(height: 10),
                                   Container(
                                     height: 50,
-                                    width: 265,
-                                    // color: Colors.blue,
-                                    margin: EdgeInsets.only(right: 10),
-                                    child: Column(
+                                    // color: Colors.red,
+                                    padding: EdgeInsets.only(left: 20),
+                                    child: Row(
                                       children: [
-                                        Row(
+                                        Column(
                                           children: [
-                                            Text(
-                                              "Zamindar",
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 8),
+                                            Container(
+                                              height: 40,
+                                              width: 40,
+                                              decoration: BoxDecoration(
+                                                  color: Colors.black,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          50)),
+                                              child: Image.asset(
+                                                "asset/logo/splash.png",
+                                                fit: BoxFit.fill,
+                                              ),
                                             ),
                                           ],
                                         ),
-                                        Row(
-                                          children: [
-                                            Text(
-                                              "60 mints ago",
-                                              style: TextStyle(fontSize: 5),
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(height: 5),
+                                        SizedBox(width: 10),
                                         Container(
-                                            child: Text(
-                                                "This is sample text for the post of agri info in zamindar app specialy designed for farmers community in Pakistan",
-                                                maxLines: 2,
-                                                style: TextStyle(fontSize: 10),
-                                                overflow:
-                                                    TextOverflow.ellipsis)),
+                                          height: 50,
+                                          width: 265,
+                                          // color: Colors.blue,
+                                          margin: EdgeInsets.only(right: 5),
+                                          child: Column(
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    "Zamindar",
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 8),
+                                                  ),
+                                                ],
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    "60 mints ago",
+                                                    style:
+                                                        TextStyle(fontSize: 5),
+                                                  ),
+                                                ],
+                                              ),
+                                              SizedBox(height: 5),
+                                              Container(
+                                                  child: Text(data.title,
+                                                      maxLines: 1,
+                                                      style: TextStyle(
+                                                          fontSize: 10),
+                                                      overflow: TextOverflow
+                                                          .ellipsis)),
+                                            ],
+                                          ),
+                                        )
                                       ],
                                     ),
+                                  ),
+                                  Container(
+                                    height: 238,
+                                    decoration: BoxDecoration(
+                                        color: Colors.red,
+                                        border: Border.all(
+                                            color: Color(0xFF707070)
+                                                .withOpacity(0.30)),
+                                        borderRadius: BorderRadius.only(
+                                            bottomLeft: Radius.circular(10),
+                                            bottomRight: Radius.circular(10))),
+                                    // child: Image.network(data.image),
                                   )
                                 ],
                               ),
                             ),
-                            Container(
-                              height: 238,
-                              decoration: BoxDecoration(
-                                  color: Colors.red,
-                                  border: Border.all(
-                                      color:
-                                          Color(0xFF707070).withOpacity(0.30)),
-                                  borderRadius: BorderRadius.only(
-                                      bottomLeft: Radius.circular(10),
-                                      bottomRight: Radius.circular(10))),
-                            )
-                          ],
+                          );
+                        },
+                      );
+                    } else {
+                      return Center(
+                        child: CircularProgressIndicator(
+                          color: theme.accentColor,
                         ),
-                      ),
-                    );
+                      );
+                    }
                   },
                 ),
                 SizedBox(height: 20),

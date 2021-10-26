@@ -8,6 +8,7 @@ import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:zamindar/model/location_service.dart';
+import 'package:zamindar/view/CropChilds/cropdetial.dart';
 import 'package:zamindar/view/crops.dart';
 import 'package:zamindar/view/parent/myhome.dart';
 import 'package:zamindar/view_model/userLocation.dart';
@@ -60,7 +61,7 @@ class _addFarmsState extends State<addFarms> {
         actions: [
           InkWell(
             onTap: () {
-              Get.offAll(() => HomeScreen());
+              Get.to(() => CropDetails());
             },
             child: Container(
               margin: EdgeInsets.only(right: 20),

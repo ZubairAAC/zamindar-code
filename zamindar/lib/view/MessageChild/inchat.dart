@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zamindar/model/chat.dart';
 import 'package:zamindar/view/MessageChild/chatInputField.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class inChat extends StatefulWidget {
   inChat({Key? key}) : super(key: key);
@@ -10,6 +11,53 @@ class inChat extends StatefulWidget {
 }
 
 class _inChatState extends State<inChat> {
+  late IO.Socket socket;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    newConnect();
+    // connect();
+  }
+
+  void newConnect() {
+    print("in");
+    IO.Socket socket =
+        IO.io('https://zamindar-chat.herokuapp.com/', <String, dynamic>{
+      'transports': ['websocket'],
+      'autoConnect': true,
+    });
+    socket.onConnect((_) {
+      print('connect');
+      socket.emit('msg', 'test');
+    });
+    socket.on('event', (data) => print(data));
+    socket.onDisconnect((_) => print('disconnect'));
+    socket.on('fromServer', (_) => print(_));
+    print("out");
+    print(socket.connected);
+  }
+
+  void connect() {
+    socket = IO.io("https://zamindar-chat.herokuapp.com/", <String, dynamic>{
+      "transports": ["websocket"],
+      "autoConnect": false,
+    });
+    socket.connect();
+
+    // socket.emit("signin", widget.sourchat.id);
+    socket.onConnect((data) {
+      print("Connected");
+      // socket.on("message", (msg) {
+      //   print(msg);
+      //   setMessage("destination", msg["message"]);
+      //   _scrollController.animateTo(_scrollController.position.maxScrollExtent,
+      //       duration: Duration(milliseconds: 300), curve: Curves.easeOut);
+      // });
+    });
+    print(socket.connected);
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -26,7 +74,8 @@ class _inChatState extends State<inChat> {
         children: [
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+              padding:
+                  const EdgeInsets.only(left: 20, right: 20, top: 0, bottom: 5),
               child: ListView.builder(
                 itemCount: demeChatMessages.length,
                 shrinkWrap: true,

@@ -7,6 +7,7 @@ import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:get/instance_manager.dart';
 import 'package:zamindar/model/CropsData.dart';
+import 'package:zamindar/model/irrigationTime.dart';
 import 'package:zamindar/model/location_service.dart';
 import 'package:zamindar/model/user.dart';
 import 'package:zamindar/view/CropChilds/CropManuals.dart';
@@ -28,10 +29,12 @@ class crops extends StatefulWidget {
 // ignore: camel_case_types
 class _cropsState extends State<crops> {
   bool _isvisible = true;
+  bool farmSelected = false;
   @override
   void initState() {
     connectivityChecker(); // TODO: implement initState
     super.initState();
+    farmSelected = irrigationTime.farmSelected;
   }
 
   @override
@@ -125,26 +128,29 @@ class _cropsState extends State<crops> {
                     ),
                   ),
                   SizedBox(height: 20),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 150,
-                    color: Colors.blue,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 20),
-                            child: Text("Weather ${UserLocation.street}")),
-                        SizedBox(height: 10),
-                        // ListView.builder(
-                        //   shrinkWrap: true,
-                        //   itemCount: 7,
-                        //   scrollDirection: Axis.horizontal,
-                        //   itemBuilder: (BuildContext context, int index) {
-                        //     return Container();
-                        //   },
-                        // ),
-                      ],
+                  Visibility(
+                    visible: farmSelected,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 150,
+                      color: Colors.blue,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 20),
+                              child: Text("Weather ${UserLocation.street}")),
+                          SizedBox(height: 10),
+                          // ListView.builder(
+                          //   shrinkWrap: true,
+                          //   itemCount: 7,
+                          //   scrollDirection: Axis.horizontal,
+                          //   itemBuilder: (BuildContext context, int index) {
+                          //     return Container();
+                          //   },
+                          // ),
+                        ],
+                      ),
                     ),
                   ),
                   SizedBox(height: 40),

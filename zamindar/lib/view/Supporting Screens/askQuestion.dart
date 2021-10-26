@@ -1,11 +1,18 @@
 import 'dart:async';
+import 'dart:io';
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_sound/flutter_sound.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get_connect.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:get/instance_manager.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:zamindar/model/user.dart';
+import 'package:zamindar/view_model/soundRecording.dart';
+import 'package:intl/intl.dart' show DateFormat;
+import 'package:path/path.dart' as path;
 
 class AskQuestion extends StatefulWidget {
   AskQuestion({Key? key}) : super(key: key);
@@ -22,20 +29,91 @@ class _AskQuestionState extends State<AskQuestion> {
   int _counter = 0;
   bool _showtextField = false;
   bool _isPlayingAudio = false;
+  double recordingTime = 0.0;
+  String postType = '';
+  late FlutterSoundRecorder _myRecorder;
+  final audioPlayer = AssetsAudioPlayer();
+  late String filePath;
+  String _recorderTxt = '00:00:00';
+  bool _play = false;
+  TextEditingController questionController = TextEditingController();
+
   //  Timer _timer;
-  void _startTimer() {
+  void _startTimer() async {
     _counter = 0;
     Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {
+        if (_counter > 1 && _endrecording == false) {
+          // startRecording(pathToSaveAudio);
+          record();
+        }
         if (_counter <= 29 && _endrecording == false) {
           _counter++;
+
           print(_counter);
         } else {
           timer.cancel();
+          stopRecord();
+          // stopRecording();
+          recordingTime = _counter / 30 * 100;
+
+          print(
+              "counter value is =>${_counter}  & counter percentage is recording time ${recordingTime}");
           // _timer.cancel();
         }
       });
     });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    startIt();
+
+    // initRecording();
+  }
+
+  void startIt() async {
+    filePath = '/Download/temp.wav';
+    _myRecorder = FlutterSoundRecorder();
+
+    await _myRecorder.openAudioSession(
+        focus: AudioFocus.requestFocusAndStopOthers,
+        category: SessionCategory.playAndRecord,
+        mode: SessionMode.modeDefault,
+        device: AudioDevice.speaker);
+    await _myRecorder.setSubscriptionDuration(Duration(milliseconds: 10));
+  }
+
+  // @override
+  // void dispose() {
+  //   disposeRecorder();
+  //   super.dispose();
+  // }
+
+  checker() {
+    if (questionController.text.length == 0) {
+      FormData audioData = FormData({
+        'postType': 'audio',
+        "question": pathToSaveAudio,
+        "postingPersonName": user.name,
+        "postingPersonID": "",
+        "postingPersonImage": user.image,
+        "timeofposting": DateTime.now(),
+      });
+      print(audioData.fields);
+    } else {
+      FormData textData = FormData({
+        'postType': 'text',
+        "question": questionController.text,
+        "postingPersonName": user.name,
+        "postingPersonID": "",
+        "postingPersonImage": user.image,
+        "timeofposting": DateTime.now(),
+      });
+      print(textData.fields);
+    }
   }
 
   @override
@@ -65,27 +143,31 @@ class _AskQuestionState extends State<AskQuestion> {
           ),
           actions: [
             user.userlogin
-                ? Container(
-                    margin: EdgeInsets.only(right: 20),
-                    child: Row(
-                      children: [
-                        Text(
-                          "Post",
-                          style: TextStyle(
-                              fontSize: 15, color: theme.primaryColorLight),
-                        ),
-                        SizedBox(width: 5),
-                        SvgPicture.asset(
-                          "asset/icons/right-arrow.svg",
-                          height: 15,
-                          width: 15,
-                          color: _endrecording
-                              ? theme.accentColor
-                              : theme.accentColor.withOpacity(0.30),
-                        )
-                      ],
-                    ),
-                  )
+                ? InkWell(
+                    onTap: () {
+                      checker();
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(right: 20),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Post",
+                            style: TextStyle(
+                                fontSize: 15, color: theme.primaryColorLight),
+                          ),
+                          SizedBox(width: 5),
+                          SvgPicture.asset(
+                            "asset/icons/right-arrow.svg",
+                            height: 15,
+                            width: 15,
+                            color: _endrecording
+                                ? theme.accentColor
+                                : theme.accentColor.withOpacity(0.30),
+                          )
+                        ],
+                      ),
+                    ))
                 : Container()
           ],
         ),
@@ -125,7 +207,7 @@ class _AskQuestionState extends State<AskQuestion> {
                   ),
                   SizedBox(height: 20),
                   AnimatedContainer(
-                    duration: Duration(milliseconds: 500),
+                    duration: Duration(milliseconds: 100),
                     height: _height,
                     // height: 270,
                     margin: EdgeInsets.symmetric(horizontal: 20),
@@ -158,6 +240,7 @@ class _AskQuestionState extends State<AskQuestion> {
                                           _showtextField = true;
                                         } else {
                                           _endrecording = true;
+                                          stopRecording();
                                           _isRecording = false;
                                         }
 
@@ -297,6 +380,8 @@ class _AskQuestionState extends State<AskQuestion> {
                                 Container(
                                   margin: EdgeInsets.symmetric(horizontal: 20),
                                   height: 70,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.80,
                                   decoration: BoxDecoration(
                                     color: theme.backgroundColor,
                                     borderRadius: BorderRadius.circular(10),
@@ -304,10 +389,14 @@ class _AskQuestionState extends State<AskQuestion> {
                                   child: Row(
                                     children: [
                                       IconButton(
-                                          onPressed: () {
+                                          onPressed: () async {
+                                            await toggleAudio().whenComplete(
+                                                () => {setState(() {})});
                                             setState(() {
-                                              _isPlayingAudio = true;
+                                              startPlaying();
+                                              // _isPlayingAudio = true;
                                             });
+                                            setState(() {});
                                           },
                                           icon: Icon(
                                             _isPlayingAudio
@@ -315,16 +404,26 @@ class _AskQuestionState extends State<AskQuestion> {
                                                 : Icons.play_arrow,
                                             color: theme.accentColor,
                                           )),
-                                      LinearPercentIndicator(
-                                        animation: true,
-                                        width: 250,
-                                        backgroundColor: theme.cardColor,
-                                        animationDuration: 2000,
-                                        linearStrokeCap:
-                                            LinearStrokeCap.roundAll,
-                                        percent: 0.7,
-                                        progressColor: theme.accentColor,
-                                      )
+                                      Container(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.60,
+                                        child: Slider(
+                                          value: recordingTime,
+                                          min: 0,
+                                          max: 100,
+                                          divisions: 100,
+                                          label:
+                                              recordingTime.round().toString(),
+                                          onChanged: (double e) {
+                                            setState(() {
+                                              recordingTime = e;
+                                            });
+                                          },
+                                          activeColor: theme.accentColor,
+                                          inactiveColor: theme.cardColor,
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 )
@@ -350,6 +449,9 @@ class _AskQuestionState extends State<AskQuestion> {
                                             setState(() {
                                               _showtextField = false;
                                               _height = _height - 160;
+                                              questionController.text = '';
+                                              questionController.text.length ==
+                                                  0;
                                             });
                                           },
                                           icon: SvgPicture.asset(
@@ -367,6 +469,7 @@ class _AskQuestionState extends State<AskQuestion> {
                                     cursorColor: theme.accentColor,
                                     keyboardAppearance: Brightness.light,
                                     textInputAction: TextInputAction.done,
+                                    controller: questionController,
                                     // onSubmitted: (_) => node.unfocus(),
                                     keyboardType: TextInputType.text,
                                     decoration: InputDecoration(
@@ -410,6 +513,52 @@ class _AskQuestionState extends State<AskQuestion> {
                   child: Text("Please Login to see".tr),
                 ),
               ));
+  }
+
+  Future<void> record() async {
+    Directory dir = Directory(path.dirname(filePath));
+    if (!dir.existsSync()) {
+      dir.createSync();
+    }
+    _myRecorder.openAudioSession();
+    await _myRecorder.startRecorder(
+      toFile: filePath,
+      codec: Codec.pcm16WAV,
+    );
+
+    StreamSubscription _recorderSubscription =
+        _myRecorder.onProgress!.listen((e) {
+      var date = DateTime.fromMillisecondsSinceEpoch(e.duration.inMilliseconds,
+          isUtc: true);
+      var txt = DateFormat('mm:ss:SS', 'en_GB').format(date);
+
+      setState(() {
+        _recorderTxt = txt.substring(0, 8);
+      });
+    });
+    _recorderSubscription.cancel();
+  }
+
+  Future stopRecord() async {
+    _myRecorder.closeAudioSession();
+    return await _myRecorder.stopRecorder();
+  }
+
+  Future<void> startPlaying() async {
+    audioPlayer.open(
+      Audio.file(filePath),
+      autoStart: true,
+      showNotification: true,
+    );
+  }
+
+  Future<void> stopPlaying() async {
+    audioPlayer.stop();
+  }
+
+  playToggle() {
+    if (_isPlayingAudio == true) {
+    } else {}
   }
 }
 

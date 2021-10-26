@@ -128,10 +128,11 @@ class _OTPScreenState extends State<OTPScreen> {
                   hoverColor: theme.cardColor,
                   focusColor: theme.cardColor,
                   onTap: () {
-                    AuthCredential phoneAuthCredential =
-                        PhoneAuthProvider.credential(
-                            verificationId: verificationID, smsCode: user.otp);
-                    signInWithPhoneAuthCred(phoneAuthCredential);
+                    Get.to(() => SetProfile(phone: ""));
+                    // AuthCredential phoneAuthCredential =
+                    //     PhoneAuthProvider.credential(
+                    //         verificationId: verificationID, smsCode: user.otp);
+                    // signInWithPhoneAuthCred(phoneAuthCredential);
                   },
                   child: Center(
                       child: Container(
@@ -172,6 +173,8 @@ class _OTPScreenState extends State<OTPScreen> {
               builder: (context) => SetProfile(phone: phone)));
         } else {
           print("its an old user");
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (context) => SetProfile(phone: phone)));
         }
       }
     } on FirebaseAuthException catch (e) {
@@ -421,7 +424,7 @@ class _otpFormState extends State<otpForm> {
                 user.otp = otpCode.toString();
               });
               print("this is user otp =====> ${user.otp}");
-              pin4FocusNode!.unfocus();
+              pin6FocusNode!.unfocus();
             },
           ),
         ),

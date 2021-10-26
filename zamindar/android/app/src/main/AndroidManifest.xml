@@ -1,4 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.zamindar">
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -27,8 +28,12 @@
     </queries>
    <application
         android:label="zamindar"
+        android:allowBackup="false"
+        android:usesCleartextTraffic="true"
+        tools:replace="android:allowBackup"
         android:icon="@mipmap/ic_launcher">
-        android:usesCleartextTraffic="true" />
+       
+ 
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
