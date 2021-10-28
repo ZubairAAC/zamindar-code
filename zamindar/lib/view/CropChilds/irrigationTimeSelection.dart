@@ -6,6 +6,7 @@ import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:zamindar/model/days.dart';
 import 'package:zamindar/model/irrigationTime.dart';
+import 'package:zamindar/view_model/sharedPrefForScreen.dart';
 
 class irrigationTimeSelector extends StatefulWidget {
   irrigationTimeSelector({Key? key}) : super(key: key);
@@ -50,7 +51,7 @@ class _irrigationTimeSelectorState extends State<irrigationTimeSelector> {
   @override
   void dispose() {
     // TODO: implement dispose
-
+    super.dispose();
     myscrollController.dispose();
     myscrollControllerfortime.dispose();
     myscrollControllerforEndDay.dispose();
@@ -95,7 +96,8 @@ class _irrigationTimeSelectorState extends State<irrigationTimeSelector> {
               setState(() {
                 irrigationTime.finalTime = send;
                 irrigationTime.irrigationTimeSelected = true;
-                irrigationTime.farmSelected = true;
+                setIsFarmSelectedFlag();
+                setIrrigationTimeFlag();
               });
               setState(() {});
               Get.back();
@@ -200,6 +202,8 @@ class _irrigationTimeSelectorState extends State<irrigationTimeSelector> {
                                                   startDaySelected = true;
                                                   this.index = e;
                                                   startDay = days[e];
+                                                  irrigationTime.startDay =
+                                                      startDay;
                                                 });
                                                 // print(
                                                 //     "start day is $startDay");
@@ -275,6 +279,8 @@ class _irrigationTimeSelectorState extends State<irrigationTimeSelector> {
                                                     starttimeSelected = true;
                                                     this.index = e;
                                                     starttime = times[e];
+                                                    irrigationTime.startTime =
+                                                        starttime;
                                                   });
                                                 },
                                                 children: times
@@ -353,6 +359,7 @@ class _irrigationTimeSelectorState extends State<irrigationTimeSelector> {
                                             enddaySelected = true;
                                             this.index = e;
                                             endday = days[e];
+                                            irrigationTime.endDay = endday;
                                           });
                                         },
                                         children: days
@@ -429,6 +436,8 @@ class _irrigationTimeSelectorState extends State<irrigationTimeSelector> {
                                                       endtimeSelected = true;
                                                       this.index = e;
                                                       endtime = times[e];
+                                                      irrigationTime.endTime =
+                                                          endtime;
                                                     });
                                                   },
                                                   children: times

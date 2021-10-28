@@ -7,7 +7,6 @@ import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:get/instance_manager.dart';
 import 'package:zamindar/model/CropsData.dart';
-import 'package:zamindar/model/irrigationTime.dart';
 import 'package:zamindar/model/location_service.dart';
 import 'package:zamindar/model/user.dart';
 import 'package:zamindar/view/CropChilds/CropManuals.dart';
@@ -15,7 +14,11 @@ import 'package:zamindar/view/CropChilds/fertiliserCalculator.dart';
 import 'package:zamindar/view/CropChilds/addfarms.dart';
 import 'package:zamindar/view/CropChilds/cropSelection.dart';
 import 'package:zamindar/view/CropChilds/zamindarcenters.dart';
+import 'package:zamindar/view/parent/myhome.dart';
 import 'package:zamindar/view_model/internetChecker.dart';
+import 'package:zamindar/view_model/sharedPrefForScreen.dart';
+import 'package:zamindar/view_model/weatherApiCall.dart';
+import 'package:intl/intl.dart';
 
 // ignore: camel_case_types
 class crops extends StatefulWidget {
@@ -34,12 +37,37 @@ class _cropsState extends State<crops> {
   void initState() {
     connectivityChecker(); // TODO: implement initState
     super.initState();
-    farmSelected = irrigationTime.farmSelected;
+    getfarm();
+    loadWeather();
+  }
+
+  loadWeather() async {
+    if (UserLocation.lat != null && UserLocation.long != null) {
+      final today = DateFormat('EEEE').format(DateTime.now());
+
+      print(
+          "accessing weather for location ====> ${UserLocation.lat}  & ${UserLocation.long}");
+      print("today is ====>${today}");
+      // weatherApi(UserLocation.lat, UserLocation.long);
+    }
+    print("location not access able");
+    return;
+  }
+
+  getfarm() async {
+    final v = await getIsFarmSelectedFlag();
+    setState(() {
+      farmSelected = v;
+    });
+
+    print(farmSelected);
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final h = MediaQuery.of(context).size.height;
+    final w = MediaQuery.of(context).size.width;
     return Scaffold(
         backgroundColor: theme.backgroundColor,
         appBar: AppBar(
@@ -139,8 +167,42 @@ class _cropsState extends State<crops> {
                         children: [
                           Padding(
                               padding: EdgeInsets.symmetric(horizontal: 20),
-                              child: Text("Weather ${UserLocation.street}")),
-                          SizedBox(height: 10),
+                              child: Text(
+                                "Weather in your Farms",
+                                overflow: TextOverflow.ellipsis,
+                              )),
+                          SizedBox(height: 5),
+                          SizedBox(
+                            height: 125,
+                            child: UserLocation.lat != null &&
+                                    UserLocation.long != null
+                                ? ListView.builder(
+                                    itemCount: 7,
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.horizontal,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 20, right: 10),
+                                        child: Container(
+                                          width: h * 0.12,
+                                          margin: EdgeInsets.symmetric(
+                                              vertical: 10),
+                                          color: Colors.red,
+                                        ),
+                                      );
+                                    },
+                                  )
+                                : Container(
+                                    child: Center(
+                                      child: CircularProgressIndicator(
+                                        backgroundColor: theme.cardColor,
+                                        color: Colors.blue,
+                                      ),
+                                    ),
+                                  ),
+                          )
                           // ListView.builder(
                           //   shrinkWrap: true,
                           //   itemCount: 7,

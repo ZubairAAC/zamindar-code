@@ -329,7 +329,7 @@ class _SetProfileState extends State<SetProfile> {
                               ],
                             )),
                         SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.2),
+                            height: MediaQuery.of(context).size.height * 0.12),
                         InkWell(
                           splashColor: theme.cardColor,
                           hoverColor: theme.cardColor,

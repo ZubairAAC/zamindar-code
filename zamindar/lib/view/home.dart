@@ -16,6 +16,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:zamindar/model/info.dart';
 import 'package:zamindar/model/location_service.dart';
 import 'package:zamindar/model/user.dart';
+import 'package:zamindar/model/weather.dart';
 import 'package:zamindar/view/Supporting%20Screens/PostView.dart';
 import 'package:zamindar/view/Supporting%20Screens/askQuestion.dart';
 import 'package:zamindar/view/Supporting%20Screens/notification.dart';
