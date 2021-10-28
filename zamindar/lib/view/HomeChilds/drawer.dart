@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:get/route_manager.dart';
+import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:zamindar/view/widgets/ContactUs.dart';
 import 'package:zamindar/view/widgets/RateUs.dart';
 import 'package:zamindar/view/widgets/colorswitcher.dart';
 
@@ -78,13 +79,25 @@ class mydrawer extends StatelessWidget {
                 child: Column(
                   children: [
                     buildMenuItem(
+                        onClicked: () async {
+                          Get.back();
+                          final url =
+                              'https://www.youtube.com/channel/UCnK_NLzsOM4t0pnhPIJoF2A';
+                          if (await canLaunch(url)) {
+                            await launch(url,
+                                enableJavaScript: true,
+                                forceSafariVC: true,
+                                forceWebView: true);
+                          }
+                        },
                         iconcolor: theme.accentColor,
                         text: "How App Work".tr,
                         assetName: "asset/icons/play-button.svg"),
-                    buildMenuItem(
-                        iconcolor: theme.accentColor,
-                        text: "Chat With Zamindar".tr,
-                        assetName: "asset/icons/chat.svg"),
+
+                    // buildMenuItem(
+                    //     iconcolor: theme.accentColor,
+                    //     text: "Chat With Zamindar".tr,
+                    //     assetName: "asset/icons/chat.svg"),
                     buildMenuItem(
                         onClicked: () {
                           Get.back();
@@ -109,26 +122,44 @@ class mydrawer extends StatelessWidget {
 
                     buildMenuItem(
                         onClicked: () async {
-                          // final phone = "12345678";
-                          // final msg = 'hello there';
-                          // final url = 'sms:$phone';
+                          final one = 'کیا آپ نے اس ایپ کو چیک کیا ہے؟';
+                          final two =
+                              'یہ کسانوں کی ایپ ہے جس کا نام زمیندار ہے۔';
+                          final three = 'مجھے یہ بہت مفید لگتا ہے۔';
+                          final four =
+                              'آپ ہزاروں کسانوں کی کمیونٹی میں بھی شامل ہو سکتے ہیں۔';
+                          final five = 'ان کا سوشل میڈیا چیک کریں۔';
+                          final fb = 'https://facebook.com/zaamindaar';
+                          final tw = 'https://twitter.com/zaamindaar';
+                          final ig = 'https://www.instagram.com/zaamindaar/';
+                          final ld =
+                              'https://www.linkedin.com/company/zaamindaar';
+                          final six = 'ان کی ویب سائٹ چیک کریں';
+                          final sven = 'https://zaamindaar.com';
 
-                          // if (await canLaunch(url)) {
-                          //   await launch(url);
-                          // }
+                          final finals =
+                              "$one \n $two $three \n $four \n$five \n\n$fb\n$tw\n$ig\n$ld\n$six\n$sven";
+
+                          Get.back();
+                          Share.share(finals);
+
+                          // Share.shareFiles(path, text: finals);
                         },
                         iconcolor: theme.accentColor,
                         text: "Share Zamindar App".tr,
                         assetName: "asset/icons/share.svg"),
                     buildMenuItem(
-                        onClicked: () {
+                        onClicked: () async {
                           Get.back();
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return contactme();
-                            },
-                          );
+                          final toEmail = 'info@zaamindaar.com';
+                          final subject = 'Ive suggestions about this App';
+                          final message =
+                              'Hi there \nGreetings\nI have some suggestions about this app';
+                          final url =
+                              'mailto:$toEmail?subject=${subject}&body=${message}';
+                          if (await canLaunch(url)) {
+                            await launch(url);
+                          }
                         },
                         iconcolor: theme.accentColor,
                         text: "Suggestion".tr,

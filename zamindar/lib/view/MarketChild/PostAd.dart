@@ -14,7 +14,7 @@ import 'package:zamindar/model/MarketPost.dart';
 import 'package:zamindar/model/category.dart';
 import 'package:zamindar/model/city.dart';
 import 'package:zamindar/model/user.dart';
-import 'package:zamindar/view/Supporting%20Screens/SetUsername.dart';
+import 'package:zamindar/view/onboardingLogin/SetUsername.dart';
 import 'package:zamindar/view_model/filePicker.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'dart:io' as Io;

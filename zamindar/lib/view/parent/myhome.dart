@@ -11,8 +11,8 @@ import 'package:zamindar/view/home.dart';
 import 'package:zamindar/view/market.dart';
 import 'package:zamindar/view/message.dart';
 import 'package:zamindar/view/profile.dart';
-import 'package:zamindar/view/widgets/LoginChecker.dart';
-import 'package:zamindar/view/widgets/drawer.dart';
+import 'package:zamindar/view/onboardingLogin/LoginChecker.dart';
+import 'package:zamindar/view/HomeChilds/drawer.dart';
 import 'package:zamindar/view_model/IrrigationAlerts.dart';
 import 'package:zamindar/view_model/sharedPrefForScreen.dart';
 

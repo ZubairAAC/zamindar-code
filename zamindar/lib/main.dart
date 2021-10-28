@@ -1,5 +1,4 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zamindar/model/translations.dart';
@@ -11,10 +10,6 @@ import 'package:zamindar/view_model/sharedPrefForScreen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  FirebaseDatabase database;
-  database = FirebaseDatabase.instance;
-  database.setPersistenceEnabled(true);
-  database.setPersistenceCacheSizeBytes(10000000);
   bool vFlag = false;
   vFlag = await getVisitedFlag();
   print("vFlag is ===> $vFlag");

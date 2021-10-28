@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:zamindar/model/user.dart';
-import 'package:zamindar/view/widgets/LoginChecker.dart';
+import 'package:zamindar/view/onboardingLogin/LoginChecker.dart';
 
 class Message extends StatefulWidget {
   Message({

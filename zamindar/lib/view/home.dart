@@ -17,7 +17,7 @@ import 'package:zamindar/model/info.dart';
 import 'package:zamindar/model/location_service.dart';
 import 'package:zamindar/model/user.dart';
 import 'package:zamindar/view/HomeChilds/ask.dart';
-import 'package:zamindar/view/Supporting%20Screens/PostView.dart';
+import 'package:zamindar/view/HomeChilds/PostView.dart';
 import 'package:zamindar/view/Supporting%20Screens/notification.dart';
 import 'package:zamindar/view/parent/myhome.dart';
 import 'package:zamindar/view_model/getInfo.dart';

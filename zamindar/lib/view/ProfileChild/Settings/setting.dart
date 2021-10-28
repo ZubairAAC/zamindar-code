@@ -4,11 +4,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:get/instance_manager.dart';
-import 'package:zamindar/model/user.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:zamindar/view/Supporting%20Screens/AboutView.dart';
-import 'package:zamindar/view/Supporting%20Screens/Terms&PoliciesView.dart';
 import 'package:zamindar/view/parent/myhome.dart';
-import 'package:zamindar/view/widgets/ContactUs.dart';
 import 'package:zamindar/view/widgets/RateUs.dart';
 import 'package:zamindar/view_model/sharedPrefForScreen.dart';
 
@@ -100,8 +98,15 @@ class _MySettingState extends State<MySetting> {
                   ),
                 ),
                 InkWell(
-                  onTap: () {
-                    Get.to(() => TermsView());
+                  onTap: () async {
+                    final url = 'https://zaamindaar.com/terms-and-conditions';
+                    if (await canLaunch(url)) {
+                      await launch(url,
+                          forceSafariVC: true,
+                          forceWebView: true,
+                          enableJavaScript: true);
+                    }
+                    // Get.to(() => TermsView());
                   },
                   child: Container(
                     height: 50,
@@ -169,13 +174,16 @@ class _MySettingState extends State<MySetting> {
                   ),
                 ),
                 InkWell(
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return contactme();
-                      },
-                    );
+                  onTap: () async {
+                    final toEmail = 'info@zaamindaar.com';
+                    final subject = 'I find a Bug in your App';
+                    final message =
+                        'Hi there \nGreetings\nI have find a bug in your app please fix it';
+                    final url =
+                        'mailto:$toEmail?subject=${subject}&body=${message}';
+                    if (await canLaunch(url)) {
+                      await launch(url);
+                    }
                   },
                   child: Container(
                     height: 50,

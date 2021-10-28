@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:zamindar/model/user.dart';
-import 'package:zamindar/view/widgets/EditInfo.dart';
-import 'package:zamindar/view/widgets/MyProfile.dart';
-import 'package:zamindar/view/widgets/about.dart';
-import 'package:zamindar/view/widgets/setting.dart';
+import 'package:zamindar/view/ProfileChild/EditInfo.dart';
+import 'package:zamindar/view/ProfileChild/MyProfile/MyProfile.dart';
+import 'package:zamindar/view/ProfileChild/about/about.dart';
+import 'package:zamindar/view/ProfileChild/Settings/setting.dart';
 
 class profile extends StatefulWidget {
   profile({Key? key}) : super(key: key);

@@ -6,7 +6,7 @@ import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/instance_manager.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:zamindar/model/user.dart';
-import 'package:zamindar/view/Supporting%20Screens/SetUsername.dart';
+import 'package:zamindar/view/onboardingLogin/SetUsername.dart';
 
 class OTPScreen extends StatefulWidget {
   String phone;

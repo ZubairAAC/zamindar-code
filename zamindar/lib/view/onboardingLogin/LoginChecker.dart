@@ -7,7 +7,7 @@ import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:zamindar/model/user.dart';
-import 'package:zamindar/view/Supporting%20Screens/otp%20Verification.dart';
+import 'package:zamindar/view/onboardingLogin/otp%20Verification.dart';
 
 class Login extends GetxController {
   loginCheckers(BuildContext context) {
