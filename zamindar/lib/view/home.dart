@@ -16,9 +16,8 @@ import 'package:shimmer/shimmer.dart';
 import 'package:zamindar/model/info.dart';
 import 'package:zamindar/model/location_service.dart';
 import 'package:zamindar/model/user.dart';
-import 'package:zamindar/model/weather.dart';
+import 'package:zamindar/view/HomeChilds/ask.dart';
 import 'package:zamindar/view/Supporting%20Screens/PostView.dart';
-import 'package:zamindar/view/Supporting%20Screens/askQuestion.dart';
 import 'package:zamindar/view/Supporting%20Screens/notification.dart';
 import 'package:zamindar/view/parent/myhome.dart';
 import 'package:zamindar/view_model/getInfo.dart';
@@ -26,7 +25,7 @@ import 'package:zamindar/view_model/internetChecker.dart';
 import 'package:zamindar/view_model/sharedPrefForScreen.dart';
 import 'package:zamindar/view_model/userLocation.dart';
 
-import 'Supporting Screens/weatherView.dart';
+import 'HomeChilds/weatherView.dart';
 
 // ignore: camel_case_types
 class mainHome extends StatefulWidget {
@@ -145,7 +144,7 @@ class _mainHomeState extends State<mainHome>
                           // ignore: avoid_print
                           print(index);
                           if (index == 0) {
-                            Get.to(() => AskQuestion());
+                            Get.to(() => Ask());
                           } else if (index == 1) {
                             Get.to(() => WeatherView());
                           } else if (index == 2 || index == 3) {
