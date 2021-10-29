@@ -5,7 +5,7 @@ import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:get/instance_manager.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:zamindar/view/Supporting%20Screens/AboutView.dart';
+import 'package:zamindar/view/ProfileChild/about/AboutView.dart';
 import 'package:zamindar/view/parent/myhome.dart';
 import 'package:zamindar/view/widgets/RateUs.dart';
 import 'package:zamindar/view_model/sharedPrefForScreen.dart';
