@@ -9,6 +9,7 @@ import 'package:get/instance_manager.dart';
 import 'package:zamindar/model/CropsData.dart';
 import 'package:zamindar/model/location_service.dart';
 import 'package:zamindar/model/user.dart';
+import 'package:zamindar/model/weather.dart';
 import 'package:zamindar/view/CropChilds/CropManuals.dart';
 import 'package:zamindar/view/CropChilds/fertiliserCalculator.dart';
 import 'package:zamindar/view/CropChilds/addfarms.dart';
@@ -160,7 +161,7 @@ class _cropsState extends State<crops> {
                     visible: farmSelected,
                     child: Container(
                       width: MediaQuery.of(context).size.width,
-                      height: 150,
+                      height: 170,
                       color: Colors.blue,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -173,25 +174,104 @@ class _cropsState extends State<crops> {
                               )),
                           SizedBox(height: 5),
                           SizedBox(
-                            height: 125,
+                            height: 149,
                             child: UserLocation.lat != null &&
                                     UserLocation.long != null
-                                ? ListView.builder(
-                                    itemCount: 7,
-                                    shrinkWrap: true,
-                                    scrollDirection: Axis.horizontal,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      return Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 20, right: 10),
-                                        child: Container(
-                                          width: h * 0.12,
-                                          margin: EdgeInsets.symmetric(
-                                              vertical: 10),
-                                          color: Colors.red,
-                                        ),
-                                      );
+                                ? FutureBuilder<List<Weather>>(
+                                    future: weatherApi(
+                                        UserLocation.lat, UserLocation.long),
+                                    // initialData: InitialData,
+                                    builder: (BuildContext context,
+                                        AsyncSnapshot snapshot) {
+                                      if (snapshot.connectionState ==
+                                          ConnectionState.waiting) {
+                                        return Center(
+                                            child: CircularProgressIndicator(
+                                          color: theme.accentColor,
+                                        ));
+                                      }
+                                      if (snapshot.connectionState ==
+                                          ConnectionState.done) {
+                                        if (snapshot.hasData) {
+                                          return ListView.builder(
+                                            itemCount: snapshot.data.length,
+                                            shrinkWrap: true,
+                                            scrollDirection: Axis.horizontal,
+                                            itemBuilder: (BuildContext context,
+                                                int index) {
+                                              final data = snapshot.data[index];
+                                              Weather seven = data;
+                                              var tempMax = seven.max - 273.15;
+                                              var temMin = seven.min - 273.15;
+                                              var finaltemperature =
+                                                  "${temMin.round()}° " +
+                                                      "-" +
+                                                      "${tempMax.round()}°";
+                                              var img = seven.image;
+                                              var dis = seven.name;
+                                              var _currentDate = DateTime.now();
+                                              var tomorrow = DateTime(
+                                                  _currentDate.year,
+                                                  _currentDate.month,
+                                                  _currentDate.day + 1);
+                                              var _dayFormatter =
+                                                  DateFormat('dd-MM-yyyy');
+                                              List weekend = [];
+                                              var today = DateFormat('EEEE')
+                                                  .format(DateTime.now());
+                                              for (var i = 0;
+                                                  i < snapshot.data.length;
+                                                  i++) {
+                                                var date = tomorrow
+                                                    .add(Duration(days: i));
+                                                var myday =
+                                                    _dayFormatter.format(date);
+                                                weekend.add(myday);
+                                              }
+
+                                              return Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 10, right: 5),
+                                                child: Container(
+                                                  width: h * 0.14,
+                                                  margin: EdgeInsets.symmetric(
+                                                      vertical: 10),
+                                                  child: Column(
+                                                    children: [
+                                                      Image.asset(
+                                                        seven.image,
+                                                        height: 70,
+                                                        width: 70,
+                                                      ),
+                                                      SizedBox(height: 5),
+                                                      Text(
+                                                        finaltemperature,
+                                                        style: TextStyle(
+                                                            color: theme
+                                                                .cardColor),
+                                                      ),
+                                                      Text(
+                                                        dis,
+                                                        style: TextStyle(
+                                                            fontSize: 12,
+                                                            color: theme
+                                                                .cardColor),
+                                                      ),
+                                                      SizedBox(height: 3),
+                                                      Text(weekend[index],
+                                                          style: TextStyle(
+                                                              fontSize: 10,
+                                                              color: theme
+                                                                  .cardColor))
+                                                    ],
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                          );
+                                        }
+                                      }
+                                      return Container();
                                     },
                                   )
                                 : Container(
@@ -203,14 +283,6 @@ class _cropsState extends State<crops> {
                                     ),
                                   ),
                           )
-                          // ListView.builder(
-                          //   shrinkWrap: true,
-                          //   itemCount: 7,
-                          //   scrollDirection: Axis.horizontal,
-                          //   itemBuilder: (BuildContext context, int index) {
-                          //     return Container();
-                          //   },
-                          // ),
                         ],
                       ),
                     ),

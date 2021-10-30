@@ -67,7 +67,7 @@ class _addFarmsState extends State<addFarms> {
           ],
         ),
         actions: [
-          _polygons.isNotEmpty && _polyLines.isNotEmpty
+          _polygons.isEmpty && _polyLines.isEmpty
               ? InkWell(
                   onTap: () {
                     Get.to(() => CropDetails());

@@ -94,6 +94,8 @@ flutter:
     - asset/icons/
     - asset/music/
     - asset/logo/
+    - asset/weatherIcon/
+
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
