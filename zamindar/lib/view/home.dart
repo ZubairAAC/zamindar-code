@@ -323,7 +323,9 @@ class _mainHomeState extends State<mainHome>
                                         borderRadius: BorderRadius.only(
                                             bottomLeft: Radius.circular(10),
                                             bottomRight: Radius.circular(10))),
-                                    child: SizedBox(
+                                    child: Hero(
+                                      transitionOnUserGestures: true,
+                                      tag: 'img',
                                       child: Image.memory(
                                         base64Decode(data.image),
                                         height: 238,
