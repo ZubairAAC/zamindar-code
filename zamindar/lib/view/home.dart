@@ -24,6 +24,7 @@ import 'package:zamindar/view/parent/myhome.dart';
 import 'package:zamindar/view_model/getInfo.dart';
 import 'package:zamindar/view_model/internetChecker.dart';
 import 'package:zamindar/view_model/sharedPrefForScreen.dart';
+import 'package:zamindar/view_model/sqfliteDb.dart';
 import 'package:zamindar/view_model/userLocation.dart';
 
 import 'HomeChilds/weatherView.dart';
@@ -229,7 +230,6 @@ class _mainHomeState extends State<mainHome>
                           final data = snapshot.data![index];
                           return InkWell(
                             onTap: () async {
-                              print(index);
                               Get.to(() => PostView(
                                     title: data.title,
                                     description: data.description,
@@ -316,7 +316,7 @@ class _mainHomeState extends State<mainHome>
                                   Container(
                                     height: 238,
                                     decoration: BoxDecoration(
-                                        color: theme.accentColor,
+                                        // color: theme.accentColor,
                                         border: Border.all(
                                             color: Color(0xFF707070)
                                                 .withOpacity(0.30)),

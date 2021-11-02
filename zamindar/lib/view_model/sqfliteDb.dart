@@ -1,76 +1,86 @@
-import 'package:sqflite/sqflite.dart'; //sqflite package
-import 'package:path_provider/path_provider.dart'; //path_provider package
-import 'package:path/path.dart'; //used to join paths
-import 'dart:io';
-import 'dart:async';
-import 'package:zamindar/model/user.dart';
+import 'package:flutter/foundation.dart';
+import 'package:sqflite/sqflite.dart' as sql;
 
-class UserDbProvider {
-  Future<Database> init() async {
-    Directory directory =
-        await getApplicationDocumentsDirectory(); //returns a directory which stores permanent files
-    final path = join(directory.path, "user.db"); //create path to database
-
-    return await openDatabase(
-        //open the database or create a database if there isn't any
-        path,
-        version: 1, onCreate: (Database db, int version) async {
-      await db.execute("""
-          CREATE TABLE userData(
-          intialLocation TEXT)""");
-    });
+class UserDB {
+  static Future<void> createTables(sql.Database database) async {
+    await database.execute("""CREATE TABLE items(
+        id TEXT PRIMARY KEY,
+        name TEXT,
+        phone TEXT,
+        image TEXT,
+        gender TEXT,
+        createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+      )
+      """);
   }
 
-//post
-  Future<int> addItem(user item) async {
-    //returns number of items inserted as an integer
-    final db = await init(); //open database
-    return db.insert(
-      "userData", item.toMap(), //toMap() function from MemoModel
-      conflictAlgorithm:
-          ConflictAlgorithm.ignore, //ignores conflicts due to duplicate entries
+  //init db
+  static Future<sql.Database> db() async {
+    return sql.openDatabase(
+      'USER-DATABASE.db',
+      version: 1,
+      onCreate: (sql.Database database, int version) async {
+        await createTables(database);
+      },
     );
   }
 
-//get
-  // Future<List<user>> fetchUserData() async {
-  //   //returns the memos as a list (array)
+  //create new user in db
+  static Future<int> createUser(String name, String? phone, String image,
+      String gender, String myid) async {
+    final db = await UserDB.db();
 
-  //   final db = await init();
-  //   final maps = await db
-  //       .query("Memos"); //query all the rows in a table as an array of maps
+    final data = {
+      'id': myid,
+      'name': name,
+      'phone': phone,
+      'image': image,
+      'gender': gender
+    };
+    final id = await db.insert('USERs', data,
+        conflictAlgorithm: sql.ConflictAlgorithm.replace);
+    return id;
+  }
 
-  //   return List.generate(maps.length, (i) {
-  //     //create a list of memos
-  //     return user(
-  //       intialLocation: maps[i]['intialLocation'],
-  //     );
-  //   });
-  // }
+  //read all users in db
+  static Future<List<Map<String, dynamic>>> getItems() async {
+    final db = await UserDB.db();
+    return db.query('USERs', orderBy: "id");
+  }
 
-  // maps[i]['intialLocation']
+  //read user by id
+  // The app doesn't use this method but I put here in case you want to see it
+  static Future<List<Map<String, dynamic>>> getUserByPhone(int phone) async {
+    final db = await UserDB.db();
+    return db.query('USERs', where: "phone = ?", whereArgs: [phone], limit: 1);
+  }
 
-// delete
-  Future<int> deleteUserData(int id) async {
-    //returns number of items deleted
-    final db = await init();
+  //update user
+  static Future<int> updateUser(String name, String? phone, String image,
+      String gender, String myid) async {
+    final db = await UserDB.db();
 
-    int result = await db.delete("userData", //table name
-        where: "id = ?",
-        whereArgs: [id] // use whereArgs to avoid SQL injection
-        );
+    final data = {
+      'id': myid,
+      'name': name,
+      'phone': phone,
+      'image': image,
+      'gender': gender,
+      'createdAt': DateTime.now().toString()
+    };
 
+    final result =
+        await db.update('items', data, where: "id = ?", whereArgs: [myid]);
     return result;
   }
 
-  //update
-  Future<int> updateMemo(int id, user item) async {
-    // returns the number of rows updated
-
-    final db = await init();
-
-    int result = await db
-        .update("userData", item.toMap(), where: "id = ?", whereArgs: [id]);
-    return result;
+  //delete user
+  static Future<void> deleteUser(int id) async {
+    final db = await UserDB.db();
+    try {
+      await db.delete("items", where: "id = ?", whereArgs: [id]);
+    } catch (err) {
+      debugPrint("Something went wrong when deleting an item: $err");
+    }
   }
 }

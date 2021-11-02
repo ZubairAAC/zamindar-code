@@ -4,7 +4,6 @@ import 'package:zamindar/model/location_service.dart';
 import 'package:zamindar/model/user.dart';
 import 'package:zamindar/view/parent/myhome.dart';
 import 'package:zamindar/view_model/sharedPrefForScreen.dart';
-import 'package:zamindar/view_model/sqfliteDb.dart';
 import 'package:zamindar/view_model/userLocation.dart';
 
 class permissionScreen extends StatefulWidget {
@@ -17,7 +16,7 @@ class permissionScreen extends StatefulWidget {
 class _permissionScreenState extends State<permissionScreen> {
   bool canNav = false;
   int counter = 1;
-  UserDbProvider userDb = UserDbProvider();
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -114,8 +113,6 @@ class _permissionScreenState extends State<permissionScreen> {
                           canNav = true;
                           final String latlong = UserLocation.lat.toString() +
                               UserLocation.long.toString();
-                          final memo = user(intialLocation: latlong);
-                          userDb.addItem(memo);
                         });
                       }
                       if (counter > 2) {

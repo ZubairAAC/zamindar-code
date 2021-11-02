@@ -6,11 +6,13 @@ import 'package:zamindar/provider/theme.dart';
 import 'package:zamindar/view/parent/OnBoardLan.dart';
 import 'package:zamindar/view/parent/myhome.dart';
 import 'package:zamindar/view_model/sharedPrefForScreen.dart';
+import 'package:zamindar/view_model/sqfliteDb.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   bool vFlag = false;
+
   vFlag = await getVisitedFlag();
   print("vFlag is ===> $vFlag");
   runApp(MyApp(
@@ -29,11 +31,14 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   bool flag;
+
   _MyAppState(this.flag);
+
   @override
   void initState() {
     super.initState();
     print("flag is ====> $flag");
+
     currentTheme.addListener(() {
       setState(() {});
     });

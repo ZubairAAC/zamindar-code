@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:zamindar/model/location_service.dart';
 import 'package:zamindar/model/user.dart';
 import 'package:intl/intl.dart';
+import 'package:zamindar/view_model/sqfliteDb.dart';
 
 Future registerUser() async {
   final String url = 'https://zamindarapi.herokuapp.com/user/';
@@ -32,6 +33,7 @@ Future registerUser() async {
     "JoinLoc": joinLoc,
   };
   var hitrespons;
+  var realID;
   try {
     var res = await http
         .post(Uri.parse('https://zamindarapi.herokuapp.com/user/'), body: data);
@@ -40,8 +42,10 @@ Future registerUser() async {
       var body = res.body.toString();
       var newbody = jsonDecode(body);
       hitrespons = newbody['respone'];
+      realID = finalId;
     }
     if (hitrespons == 'Success') {
+      createNewUserInDB(user.name, user.phone, user.image, user.gender, realID);
       return true;
     } else {
       return false;
@@ -49,4 +53,14 @@ Future registerUser() async {
   } on HttpStatus catch (e) {
     print(e);
   }
+}
+
+Future<void> createNewUserInDB(String name, String? phone, String image,
+    String gender, String myid) async {
+  await UserDB.createUser(name, phone, image, gender, myid);
+}
+
+Future<void> getUserInfoWhoISLogin() async {
+  List info = await UserDB.getItems();
+  print(info);
 }

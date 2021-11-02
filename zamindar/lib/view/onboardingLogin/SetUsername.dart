@@ -122,7 +122,7 @@ class _SetProfileState extends State<SetProfile> {
         body: isLoading
             ? Center(
                 child: CircularProgressIndicator(
-                  backgroundColor: theme.accentColor,
+                  color: theme.accentColor,
                 ),
               )
             : GestureDetector(
