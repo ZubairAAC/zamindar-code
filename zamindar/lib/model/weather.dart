@@ -1,7 +1,3 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
-
 class WeatherForApi {
   static int sunrise = 0;
   static int sunset = 0;
@@ -12,6 +8,7 @@ class WeatherForApi {
   static String name = '';
   static String img = '';
   static List<Weather> sevenDay = [];
+  static String cinditions = '';
 }
 
 class Weather {
@@ -25,6 +22,7 @@ class Weather {
   final int chanceRain;
   final String image;
   final String time;
+  final String cinditions;
 
   Weather({
     required this.max,
@@ -37,6 +35,7 @@ class Weather {
     required this.image,
     required this.current,
     required this.time,
+    required this.cinditions,
   });
 }
 
@@ -108,6 +107,182 @@ String findIcon(String name, bool type) {
         break;
       default:
         return "assets/sunny_2d.png";
+    }
+  }
+}
+
+findWeatherConditions(String name, bool type) {
+  if (type) {
+    switch (name) {
+      case "200":
+        return 'thunderstorm with light rain';
+        break;
+      case "201":
+        return "thunderstorm with rain";
+        break;
+      case "202":
+        return "thunderstorm with heavy rain";
+        break;
+      case "210":
+        return "light thunderstorm";
+        break;
+      case "211":
+        return "thunderstorm";
+        break;
+      case "212":
+        return "heavy thunderstorm";
+        break;
+      case "221":
+        return "ragged thunderstorm";
+        break;
+      case "230":
+        return "thunderstorm with light drizzle";
+        break;
+      case "231":
+        return "thunderstorm with drizzle	";
+        break;
+      case "232":
+        return "thunderstorm with heavy drizzle";
+        break;
+      case "300":
+        return "light intensity drizzle";
+        break;
+      case "301":
+        return "drizzle";
+        break;
+      case "302":
+        return "heavy intensity drizzle";
+        break;
+      case "310":
+        return "light intensity drizzle rain";
+        break;
+
+      case "311":
+        return "drizzle rain";
+        break;
+      case "312":
+        return "heavy intensity drizzle rain";
+        break;
+      case "313":
+        return "shower rain and drizzle";
+        break;
+      case "314":
+        return "heavy shower rain and drizzle";
+        break;
+      case "321":
+        return "shower drizzle";
+        break;
+      case "500":
+        return "light rain";
+        break;
+      case "501":
+        return "moderate rain";
+        break;
+      case "502":
+        return "heavy intensity rain";
+        break;
+      case "503":
+        return "very heavy rain";
+        break;
+      case "504":
+        return "extreme rain";
+        break;
+      case "511":
+        return "freezing rain";
+        break;
+      case "520":
+        return "light intensity shower rain";
+        break;
+      case "521":
+        return "shower rain";
+        break;
+      case "522":
+        return "heavy intensity shower rain";
+        break;
+      case "531":
+        return "ragged shower rain";
+        break;
+      case "600":
+        return "light snow";
+        break;
+      case "601":
+        return "Snow";
+        break;
+      case "602":
+        return "Heavy snow";
+        break;
+      case "611":
+        return "Sleet";
+        break;
+      case "612":
+        return "Light shower sleet";
+        break;
+      case "613":
+        return "Shower sleet";
+        break;
+      case "615":
+        return "Light rain and snow	";
+        break;
+      case "616":
+        return "Rain and snow";
+        break;
+      case "620":
+        return "Light shower snow";
+        break;
+      case "621":
+        return "Shower snow";
+        break;
+      case "622":
+        return "Heavy shower snow";
+        break;
+      case "701":
+        return "mist";
+        break;
+      case "711":
+        return "Smoke";
+        break;
+      case "721":
+        return "Haze";
+        break;
+      case "731":
+        return "sand/ dust whirls";
+        break;
+      case "741":
+        return "fog";
+        break;
+      case "751":
+        return "sand";
+        break;
+      case "761":
+        return "dust";
+        break;
+      case "762":
+        return "volcanic ash";
+        break;
+      case "771":
+        return "squalls";
+        break;
+      case "781":
+        return "tornado";
+        break;
+      case "800":
+        return "clear sky";
+        break;
+      case "801":
+        return "few clouds";
+        break;
+      case "802":
+        return "scattered clouds";
+        break;
+      case "803":
+        return "broken clouds";
+        break;
+      case "804":
+        return "overcast clouds";
+        break;
+
+      default:
+        return "Clear Sky";
     }
   }
 }

@@ -5,7 +5,7 @@ import 'package:zamindar/model/weather.dart';
 Future<List<Weather>> weatherApi(double lat, double long) async {
   List<Weather> sevendayWeather = [];
   String url =
-      'https://api.openweathermap.org/data/2.5/onecall?lat=$lat&lon=$long&exclude=minutely,hourly&appid=eadd56d8694731a421551321bd89e5f5';
+      'https://api.openweathermap.org/data/2.5/onecall?lat=$lat&lon=$long&exclude=minutely,hourly&units=metric&appid=eadd56d8694731a421551321bd89e5f5';
   Uri myurl = Uri.parse(url);
   var res = await http.get(myurl);
   if (res.statusCode == 200) {
@@ -18,9 +18,14 @@ Future<List<Weather>> weatherApi(double lat, double long) async {
     WeatherForApi.humidity = body['current']['humidity'];
     WeatherForApi.visibility = body['current']['visibility'];
     var current = body["current"];
-    WeatherForApi.name = current["weather"][0]["description"].toString();
+    // WeatherForApi.name = current["weather"][0]["description"].toString();
+    WeatherForApi.name =
+        findWeatherConditions(current["weather"][0]["main"].toString(), true);
     WeatherForApi.img =
         findIcon(current["weather"][0]["main"].toString(), true);
+    var id = current["weather"][0]["id"].toString();
+    WeatherForApi.cinditions =
+        findWeatherConditions(current["weather"][0]["id"].toString(), true);
 
     for (var i = 1; i < 8; i++) {
       var temp = body["daily"][i];
@@ -29,14 +34,18 @@ Future<List<Weather>> weatherApi(double lat, double long) async {
           min: temp["temp"]["min"]?.round() ?? 0,
           image: findIcon(temp["weather"][0]["main"].toString(), true),
           name: temp["weather"][0]["description"].toString(),
+          cinditions:
+              findWeatherConditions(temp["weather"][0]["id"].toString(), true),
           day: '',
           chanceRain: 0,
           current: 0,
           humidity: 0,
           time: '',
           wind: 0);
+
       // WeatherForApi.sevenDay.add(hourly);
       sevendayWeather.add(hourly);
+
       // print(WeatherForApi.sevenDay);
     }
   }

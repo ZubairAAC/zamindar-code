@@ -128,11 +128,11 @@ class _OTPScreenState extends State<OTPScreen> {
                   hoverColor: theme.cardColor,
                   focusColor: theme.cardColor,
                   onTap: () {
-                    Get.to(() => SetProfile(phone: ""));
-                    // AuthCredential phoneAuthCredential =
-                    //     PhoneAuthProvider.credential(
-                    //         verificationId: verificationID, smsCode: user.otp);
-                    // signInWithPhoneAuthCred(phoneAuthCredential);
+                    // Get.to(() => SetProfile(phone: phone));
+                    AuthCredential phoneAuthCredential =
+                        PhoneAuthProvider.credential(
+                            verificationId: verificationID, smsCode: user.otp);
+                    signInWithPhoneAuthCred(phoneAuthCredential);
                   },
                   child: Center(
                       child: Container(

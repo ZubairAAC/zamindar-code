@@ -40,8 +40,10 @@ const storage = new GridFsStorage({
                     bucketName: 'uploads'
                 };
                 resolve(fileInfo);
-            });
-        });
+            })
+        }).catch(err => {
+            reject(err);
+        });;
     }
 });
 const upload = multer({ storage });
@@ -70,12 +72,18 @@ router.get('/:id', (req, res) => {
 })
 //post new user
 router.post('/', upload.single('image'), (req, res) => {
+
+
+
     const newUser = {
         id: req.body.id,
         name: req.body.name,
         phone: req.body.phone,
-        image: req.file.filename,
+        image: req.body.image,
         gender: req.body.gender,
+        JoinDate: req.body.JoinDate,
+        latLong: req.body.latLong,
+        JoinLoc: req.body.JoinLoc,
     }
 
     if (!newUser.name || !newUser.phone || !newUser.image) {

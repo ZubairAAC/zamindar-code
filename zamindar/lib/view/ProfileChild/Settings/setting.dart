@@ -8,6 +8,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:zamindar/view/ProfileChild/about/AboutView.dart';
 import 'package:zamindar/view/parent/myhome.dart';
 import 'package:zamindar/view/widgets/RateUs.dart';
+import 'package:zamindar/view_model/firebase.dart';
 import 'package:zamindar/view_model/sharedPrefForScreen.dart';
 
 class MySetting extends StatefulWidget {
@@ -219,6 +220,7 @@ class _MySettingState extends State<MySetting> {
           SizedBox(height: 40),
           InkWell(
             onTap: () {
+              fireBaseSignOut();
               removeIsLoginFlag();
               Get.offAll(() => HomeScreen());
             },

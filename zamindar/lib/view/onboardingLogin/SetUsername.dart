@@ -1,5 +1,6 @@
 import 'dart:io' as Io;
 import 'dart:convert';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
@@ -36,8 +37,10 @@ class _SetProfileState extends State<SetProfile> {
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
   String userName = '';
   String gender = '';
+  var _image;
   int _selectedIndex = -1;
   bool isLoading = false;
+
   _onSelected(int index) {
     setState(() => _selectedIndex = index);
   }
@@ -57,14 +60,18 @@ class _SetProfileState extends State<SetProfile> {
       return;
     }
     setState(() {
-      user.image = Io.File(photo.path);
-      print("this is user image ==>${user.image}");
+      // user.image = Io.File(photo.path);
+      // print("this is user image ==>${user.image}");
     });
-    // String _path = photo.path;
-    // final bytes = Io.File(_path).readAsBytesSync();
-    // setState(() {
-    //   byteArray = base64Encode(bytes);
-    // });
+    String _path = photo.path;
+    final bytes = Io.File(_path).readAsBytesSync();
+
+    setState(() {
+      byteArray = base64Encode(bytes);
+      user.image = byteArray;
+      _image = base64Decode(user.image);
+    });
+    print(byteArray);
   }
 
   Future pickSingleImageFromCamera() async {
@@ -75,17 +82,20 @@ class _SetProfileState extends State<SetProfile> {
       return;
     }
     setState(() {
-      user.image = Io.File(photo.path);
-      print("this is user image ==>${user.image}");
+      // user.image = Io.File(photo.path);
+      // print("this is user image ==>${user.image}");
     });
 
-    // print(photo.path);
-    // String _path = photo.path;
-    // final bytes = Io.File(_path).readAsBytesSync();
-    // setState(() {
-    //   byteArray = base64Encode(bytes);
-    // });
-    // print(byteArray);
+    print(photo.path);
+    String _path = photo.path;
+    final bytes = Io.File(_path).readAsBytesSync();
+
+    setState(() {
+      byteArray = base64Encode(bytes);
+      user.image = byteArray;
+      _image = base64Decode(user.image);
+    });
+    print(byteArray);
   }
 
   @override
@@ -111,7 +121,9 @@ class _SetProfileState extends State<SetProfile> {
         ),
         body: isLoading
             ? Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(
+                  backgroundColor: theme.accentColor,
+                ),
               )
             : GestureDetector(
                 onTap: () {
@@ -140,9 +152,9 @@ class _SetProfileState extends State<SetProfile> {
                                       CircleAvatar(
                                         backgroundColor: theme.accentColor,
                                         radius: 175,
-                                        foregroundImage: user.image.path.isEmpty
+                                        foregroundImage: user.image.isEmpty
                                             ? null
-                                            : FileImage(user.image),
+                                            : MemoryImage(_image),
                                         // foregroundImage: FileImage(image!),
                                         child: Icon(
                                           Icons.person,
@@ -275,7 +287,7 @@ class _SetProfileState extends State<SetProfile> {
                                                 return InkWell(
                                                     onTap: () {
                                                       setState(() {
-                                                        print(user.image.path);
+                                                        print(user.image);
                                                         _onSelected(index);
                                                         String selected =
                                                             usergender[index];
@@ -334,34 +346,52 @@ class _SetProfileState extends State<SetProfile> {
                           splashColor: theme.cardColor,
                           hoverColor: theme.cardColor,
                           focusColor: theme.cardColor,
-                          onTap: () {
+                          onTap: () async {
                             try {
                               if (formkey.currentState!.validate()) {
                                 if (userName.isNotEmpty) {
-                                  if (user.image.path.isNotEmpty) {
+                                  if (user.image.isNotEmpty) {
                                     if (gender.isNotEmpty) {
                                       print("proceed");
                                       setState(() {
                                         user.name = userName;
                                         user.gender = gender;
                                         user.phone = phone;
-                                        print(user.name);
-                                        print(user.gender);
-                                        print(user.image);
-                                        print(user.phone);
+                                        print("All Okay Ready to hit API");
                                       });
-
-                                      try {
+                                      setState(() {
+                                        isLoading = true;
+                                      });
+                                      bool res = false;
+                                      res = await registerUser();
+                                      print(res);
+                                      if (res == true) {
                                         setState(() {
-                                          isLoading = true;
-                                          registerUser();
-                                          Get.offAll(() => HomeScreen());
+                                          isLoading = false;
                                           setIsLoginFlag();
+                                          Get.offAll(() => HomeScreen());
                                         });
-                                      } catch (e) {
-                                        print(
-                                            "some error in api post request =>$e");
+                                      } else if (res == false) {
+                                        isLoading = false;
+                                        print("Something went wrong");
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
+                                                content: Text(
+                                                    'Some Error Occured. Try Again Later')));
                                       }
+
+                                      // try {
+                                      //   setState(() async {
+                                      //     isLoading = true;
+
+                                      //     // Get.offAll(() => HomeScreen());
+                                      //     // setIsLoginFlag();
+                                      //   });
+
+                                      // } catch (e) {
+                                      //   print(
+                                      //       "some error in api post request =>$e");
+                                      // }
                                     } else {
                                       showAlertDialog(context);
                                     }

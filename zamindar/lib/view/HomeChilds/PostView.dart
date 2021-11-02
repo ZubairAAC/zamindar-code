@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/instance_manager.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
@@ -5,17 +7,23 @@ import 'package:get/get_navigation/src/extension_navigation.dart';
 class PostView extends StatefulWidget {
   String title;
   String description;
-  PostView({Key? key, required this.title, required this.description})
+  String img;
+  PostView(
+      {Key? key,
+      required this.title,
+      required this.description,
+      required this.img})
       : super(key: key);
 
   @override
-  _PostViewState createState() => _PostViewState(title, description);
+  _PostViewState createState() => _PostViewState(title, description, img);
 }
 
 class _PostViewState extends State<PostView> {
   String title;
   String description;
-  _PostViewState(this.title, this.description);
+  String img;
+  _PostViewState(this.title, this.description, this.img);
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -41,7 +49,9 @@ class _PostViewState extends State<PostView> {
                 height: 330,
                 margin: EdgeInsets.symmetric(horizontal: 20),
                 decoration: BoxDecoration(
-                    color: Colors.red, borderRadius: BorderRadius.circular(10)),
+                    color: theme.accentColor,
+                    borderRadius: BorderRadius.circular(10)),
+                child: Image.memory(base64Decode(img)),
               ),
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),

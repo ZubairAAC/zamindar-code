@@ -180,46 +180,46 @@ class Login extends GetxController {
                                       phone.substring(3, phone.length);
 
                                   print(x);
-                                  Get.to(() =>
-                                      OTPScreen(phone: '', verificationID: ''));
+                                  // Get.to(() =>
+                                  //     OTPScreen(phone: x, verificationID: ''));
 
-                                  // await FirebaseAuth.instance.verifyPhoneNumber(
-                                  //     timeout: Duration(seconds: 120),
-                                  //     phoneNumber: x,
-                                  //     verificationCompleted:
-                                  //         (verificationCompleted) async {
-                                  //       // Get.to(() => OTPScreen());
-                                  //     },
-                                  //     verificationFailed:
-                                  //         (verificationFaileding) async {
-                                  //       isloading = false;
-                                  //       ScaffoldMessenger.of(context)
-                                  //           .showSnackBar(SnackBar(
-                                  //               content: Text(
-                                  //                   "$verificationFaileding")));
-                                  //       print(
-                                  //           "failed becuase of this ============> $verificationFaileding");
-                                  //     },
-                                  //     codeSent: (verificationid,
-                                  //         resendingtoken) async {
-                                  //       vid = verificationid;
-                                  //       Navigator.of(context)
-                                  //           .pushAndRemoveUntil(
-                                  //               MaterialPageRoute(
-                                  //                   builder: (context) =>
-                                  //                       OTPScreen(
-                                  //                         verificationID: vid,
-                                  //                         phone: phone,
-                                  //                       )),
-                                  //               (Route<dynamic> route) =>
-                                  //                   false);
-                                  //       print(
-                                  //           "verification id is========>$verificationid");
-                                  //       print(
-                                  //           "resend token is========>$resendingtoken");
-                                  //     },
-                                  //     codeAutoRetrievalTimeout:
-                                  //         (codeAutoRetrievalTimeout) async {});
+                                  await FirebaseAuth.instance.verifyPhoneNumber(
+                                      timeout: Duration(seconds: 120),
+                                      phoneNumber: x,
+                                      verificationCompleted:
+                                          (verificationCompleted) async {
+                                        // Get.to(() => OTPScreen());
+                                      },
+                                      verificationFailed:
+                                          (verificationFaileding) async {
+                                        isloading = false;
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
+                                                content: Text(
+                                                    "$verificationFaileding")));
+                                        print(
+                                            "failed becuase of this ============> $verificationFaileding");
+                                      },
+                                      codeSent: (verificationid,
+                                          resendingtoken) async {
+                                        vid = verificationid;
+                                        Navigator.of(context)
+                                            .pushAndRemoveUntil(
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        OTPScreen(
+                                                          verificationID: vid,
+                                                          phone: phone,
+                                                        )),
+                                                (Route<dynamic> route) =>
+                                                    false);
+                                        print(
+                                            "verification id is========>$verificationid");
+                                        print(
+                                            "resend token is========>$resendingtoken");
+                                      },
+                                      codeAutoRetrievalTimeout:
+                                          (codeAutoRetrievalTimeout) async {});
                                 }
                               } catch (e) {
                                 print("Here is an error in validating ==> $e");

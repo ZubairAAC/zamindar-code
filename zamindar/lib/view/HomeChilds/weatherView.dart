@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:flutter_glow/flutter_glow.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:zamindar/model/location_service.dart';
 import 'package:intl/intl.dart';
 import 'package:zamindar/model/weather.dart';
@@ -49,6 +50,7 @@ class _WeatherViewState extends State<WeatherView> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final screenHieght = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
     return Scaffold(
       backgroundColor: theme.backgroundColor,
@@ -61,7 +63,7 @@ class _WeatherViewState extends State<WeatherView> {
                   Padding(
                     padding: EdgeInsets.only(left: 20, right: 20, top: 20),
                     child: Text(
-                      "Next 7 days",
+                      "Next 7 days".tr,
                       style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -118,13 +120,16 @@ class today extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String date = DateFormat('EEEE').format(DateTime.now());
+
+    ;
     var now = new DateTime.now();
     var formatter = new DateFormat('dd-MM-yyyy');
     String formattedDate = formatter.format(now);
     String day = '$formattedDate';
     final theme = Theme.of(context);
     final screenHieght = MediaQuery.of(context).size.height;
-    double finaltemp = WeatherForApi.temp - 273.15;
+    final screenWidth = MediaQuery.of(context).size.width;
+    double finaltemp = WeatherForApi.temp;
 
     String temp = '${finaltemp.round()}';
     double finalvis = WeatherForApi.visibility / 1000;
@@ -173,10 +178,10 @@ class today extends StatelessWidget {
             ],
           ),
           Text(
-            date,
+            date.tr,
             style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 35,
+                fontSize: screenWidth * 0.055,
                 color: theme.cardColor),
           ),
           SizedBox(height: 5),
@@ -200,11 +205,11 @@ class today extends StatelessWidget {
           ),
           Spacer(),
           Text(
-            WeatherForApi.name,
+            WeatherForApi.cinditions.tr,
             style: TextStyle(
                 color: theme.cardColor,
                 fontWeight: FontWeight.bold,
-                fontSize: 25),
+                fontSize: screenWidth * 0.045),
           ),
           SizedBox(height: 5),
           Container(
@@ -224,10 +229,13 @@ class today extends StatelessWidget {
                         color: theme.cardColor,
                       ),
                       SizedBox(height: 10),
-                      Text("Temperature"),
+                      Text(
+                        "Temperature".tr,
+                        style: TextStyle(fontSize: screenWidth * 0.027),
+                      ),
                       SizedBox(height: 5),
                       Text(
-                        temp + " c",
+                        temp + "°",
                         style: TextStyle(color: theme.cardColor),
                       ),
                     ],
@@ -244,7 +252,8 @@ class today extends StatelessWidget {
                         color: theme.cardColor,
                       ),
                       SizedBox(height: 10),
-                      Text("Humidity"),
+                      Text("Humidity".tr,
+                          style: TextStyle(fontSize: screenWidth * 0.027)),
                       SizedBox(height: 5),
                       Text(
                         hum + " %",
@@ -264,7 +273,8 @@ class today extends StatelessWidget {
                         color: theme.cardColor,
                       ),
                       SizedBox(height: 10),
-                      Text("Visibility"),
+                      Text("Visibility".tr,
+                          style: TextStyle(fontSize: screenWidth * 0.027)),
                       SizedBox(height: 5),
                       Text(
                         vis + " km",
@@ -345,8 +355,8 @@ class _NextSevenDaysState extends State<NextSevenDays> {
                 itemBuilder: (BuildContext context, int index) {
                   final data = snapshot.data[index];
                   Weather seven = data;
-                  var tempMax = seven.max - 273.15;
-                  var temMin = seven.min - 273.15;
+                  var tempMax = seven.max;
+                  var temMin = seven.min;
                   var finaltemperature =
                       "${temMin.round()}° " + "-" + "${tempMax.round()}°";
                   var img = seven.image;
@@ -362,6 +372,7 @@ class _NextSevenDaysState extends State<NextSevenDays> {
                     var myday = _dayFormatter.format(date);
                     weekend.add(myday);
                   }
+                  print(seven.cinditions);
 
                   // print(dis);
 
@@ -385,9 +396,10 @@ class _NextSevenDaysState extends State<NextSevenDays> {
                           finaltemperature,
                         ),
                         Text(
-                          dis,
+                          seven.cinditions.tr,
                           style: TextStyle(fontSize: 12),
                         ),
+                        Spacer(),
                         SizedBox(height: 3),
                         Text(weekend[index], style: TextStyle(fontSize: 10))
                       ],

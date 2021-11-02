@@ -16,46 +16,24 @@ class _inChatState extends State<inChat> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    newConnect();
-    // connect();
+
+    connectAndListen();
   }
 
-  void newConnect() {
-    print("in");
-    IO.Socket socket =
-        IO.io('https://zamindar-chat.herokuapp.com/', <String, dynamic>{
-      'transports': ['websocket'],
-      'autoConnect': true,
-    });
+  void connectAndListen() {
+    print('Call func connectAndListen');
+    socket = IO.io('https://zamindar-chat.herokuapp.com/',
+        IO.OptionBuilder().setTransports(['websocket']).build());
+
+    socket.onConnectError((data) => print("error here $data"));
+
     socket.onConnect((_) {
       print('connect');
-      socket.emit('msg', 'test');
+      socket.emit('fromClient', 'test from client');
     });
-    socket.on('event', (data) => print(data));
+
+    //When an event recieved from server, data is added to the stream
     socket.onDisconnect((_) => print('disconnect'));
-    socket.on('fromServer', (_) => print(_));
-    print("out");
-    print(socket.connected);
-  }
-
-  void connect() {
-    socket = IO.io("https://zamindar-chat.herokuapp.com/", <String, dynamic>{
-      "transports": ["websocket"],
-      "autoConnect": false,
-    });
-    socket.connect();
-
-    // socket.emit("signin", widget.sourchat.id);
-    socket.onConnect((data) {
-      print("Connected");
-      // socket.on("message", (msg) {
-      //   print(msg);
-      //   setMessage("destination", msg["message"]);
-      //   _scrollController.animateTo(_scrollController.position.maxScrollExtent,
-      //       duration: Duration(milliseconds: 300), curve: Curves.easeOut);
-      // });
-    });
-    print(socket.connected);
   }
 
   @override

@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, unused_local_variable
 
+import 'dart:convert';
 import 'dart:ui';
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
@@ -229,15 +230,10 @@ class _mainHomeState extends State<mainHome>
                           return InkWell(
                             onTap: () async {
                               print(index);
-                              // print(data.title);
-                              // SharedPreferences sp =
-                              //     await SharedPreferences.getInstance();
-                              // sp
-                              //     .setBool("Already Visited", false)
-                              //     .whenComplete(() => print("removed"));
                               Get.to(() => PostView(
                                     title: data.title,
                                     description: data.description,
+                                    img: data.image,
                                   ));
                             },
                             child: Container(
@@ -320,14 +316,22 @@ class _mainHomeState extends State<mainHome>
                                   Container(
                                     height: 238,
                                     decoration: BoxDecoration(
-                                        color: Colors.red,
+                                        color: theme.accentColor,
                                         border: Border.all(
                                             color: Color(0xFF707070)
                                                 .withOpacity(0.30)),
                                         borderRadius: BorderRadius.only(
                                             bottomLeft: Radius.circular(10),
                                             bottomRight: Radius.circular(10))),
-                                    // child: Image.network(data.image),
+                                    child: SizedBox(
+                                      child: Image.memory(
+                                        base64Decode(data.image),
+                                        height: 238,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
                                   )
                                 ],
                               ),
