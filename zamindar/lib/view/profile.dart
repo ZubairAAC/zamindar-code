@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -22,6 +24,7 @@ class _profileState extends State<profile> with SingleTickerProviderStateMixin {
     // TODO: implement initState
     super.initState();
     _controller = new TabController(length: 3, vsync: this);
+    setState(() {});
   }
 
   @override
@@ -69,8 +72,12 @@ class _profileState extends State<profile> with SingleTickerProviderStateMixin {
                               height: 100,
                               width: 100,
                               decoration: BoxDecoration(
-                                color: Colors.blue,
+                                color: theme.cardColor,
                                 borderRadius: BorderRadius.circular(50),
+                              ),
+                              child: CircleAvatar(
+                                foregroundImage:
+                                    MemoryImage(base64Decode(user.image)),
                               ),
                               // child: CircleAvatar(
                               //   foregroundImage: MemoryImage(user.image.),
@@ -80,7 +87,6 @@ class _profileState extends State<profile> with SingleTickerProviderStateMixin {
                             Container(
                               width: 220,
                               height: 100,
-                              // color: Colors.blue,
                               child: Column(
                                 // mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,13 +105,6 @@ class _profileState extends State<profile> with SingleTickerProviderStateMixin {
                                     user.phone.isNotEmpty
                                         ? user.phone
                                         : '0300123****',
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.normal),
-                                  ),
-                                  SizedBox(height: 15),
-                                  Text(
-                                    "Village Name",
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
                                         fontWeight: FontWeight.normal),

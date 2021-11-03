@@ -6,7 +6,6 @@ import 'package:zamindar/provider/theme.dart';
 import 'package:zamindar/view/parent/OnBoardLan.dart';
 import 'package:zamindar/view/parent/myhome.dart';
 import 'package:zamindar/view_model/sharedPrefForScreen.dart';
-import 'package:zamindar/view_model/sqfliteDb.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

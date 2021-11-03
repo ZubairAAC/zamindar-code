@@ -66,6 +66,24 @@ class _mainHomeState extends State<mainHome>
     });
     connectivityChecker();
     getIsLoginFlag();
+    getUserInfoFromDB();
+  }
+
+  getUserInfoFromDB() async {
+    // List<Map<String, dynamic>> myinfo = [];
+    List myinfo = await UserDB.getItems();
+    setState(() {
+      user.name = myinfo[0]['name'];
+      user.id = myinfo[0]['id'];
+      user.gender = myinfo[0]['gender'];
+      user.image = myinfo[0]['image'];
+      user.phone = myinfo[0]['phone'];
+    });
+    // print(user.id);
+    // print(user.name);
+    // print(user.gender);
+    // print(user.phone);
+    // print(user.image);
   }
 
   getlocation() async {

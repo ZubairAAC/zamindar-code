@@ -1,8 +1,14 @@
+import 'dart:convert';
+import 'dart:io' as Io;
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:zamindar/model/user.dart';
+import 'package:zamindar/view/onboardingLogin/SetUsername.dart';
+import 'package:zamindar/view_model/sqfliteDb.dart';
 
 class EditInfo extends StatefulWidget {
   EditInfo({Key? key}) : super(key: key);
@@ -12,6 +18,41 @@ class EditInfo extends StatefulWidget {
 }
 
 class _EditInfoState extends State<EditInfo> {
+  String byteArray = '';
+  TextEditingController nameController = new TextEditingController();
+  Future pickSingleImageFromGallery() async {
+    XFile? photo =
+        await ImagePicker().pickImage(source: ImageSource.gallery).whenComplete(
+              () => print("done"),
+            );
+    if (photo == null) {
+      return;
+    }
+    String _path = photo.path;
+    final bytes = Io.File(_path).readAsBytesSync();
+
+    setState(() {
+      byteArray = base64Encode(bytes);
+      user.image = byteArray;
+    });
+  }
+
+  Future pickSingleImageFromCamera() async {
+    XFile? photo = await ImagePicker()
+        .pickImage(source: ImageSource.camera)
+        .whenComplete(() => print("done"));
+    if (photo == null) {
+      return;
+    }
+    String _path = photo.path;
+    final bytes = Io.File(_path).readAsBytesSync();
+
+    setState(() {
+      byteArray = base64Encode(bytes);
+      user.image = byteArray;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -19,6 +60,7 @@ class _EditInfoState extends State<EditInfo> {
     Widget closeButton = IconButton(
         onPressed: () {
           Get.back();
+          setState(() {});
         },
         icon: Container(
             height: 15,
@@ -58,24 +100,60 @@ class _EditInfoState extends State<EditInfo> {
                 ],
               ),
             ),
-            Container(
-              height: 75,
-              child: Center(
-                  child: Container(
-                height: 75,
-                width: 75,
-                decoration: BoxDecoration(
-                    color: Colors.red, borderRadius: BorderRadius.circular(50)),
-              )),
+            Center(
+              child: Container(
+                  height: 90,
+                  width: 90,
+                  decoration: BoxDecoration(
+                    color: theme.accentColor,
+                    borderRadius: BorderRadius.circular(100),
+                  ),
+                  child: Stack(
+                    children: [
+                      CircleAvatar(
+                        backgroundColor: theme.accentColor,
+                        radius: 90,
+                        foregroundImage: user.image.isEmpty
+                            ? null
+                            : MemoryImage(base64Decode(user.image)),
+                      ),
+                      Positioned(
+                          right: 0,
+                          bottom: 0,
+                          child: InkWell(
+                            onTap: () async {
+                              setState(() {
+                                showImagePicker(context, byteArray);
+                              });
+                            },
+                            child: Container(
+                              height: 30,
+                              width: 30,
+                              decoration: BoxDecoration(
+                                  color: theme.accentColor,
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                      color: theme.cardColor, width: 3)),
+                              child: Icon(
+                                Icons.create,
+                                size: 15,
+                                color: theme.cardColor,
+                              ),
+                            ),
+                          ))
+                    ],
+                  )),
             ),
             SizedBox(height: 10),
             Container(
-              height: 150,
+              height: 140,
               // color: Colors.blue,
               margin: EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 children: [
-                  TextField(
+                  TextFormField(
+                    controller: nameController..text = user.name,
+                    // initialValue: user.name.isNotEmpty ? user.name : null,
                     cursorColor: theme.accentColor,
                     decoration: InputDecoration(
                         prefixIcon: Icon(
@@ -104,9 +182,15 @@ class _EditInfoState extends State<EditInfo> {
                   SizedBox(height: 10),
                   ConstrainedBox(
                     constraints: BoxConstraints(maxHeight: 200),
-                    child: TextField(
+                    child: TextFormField(
+                      initialValue: user.intialLocation.isNotEmpty
+                          ? user.intialLocation
+                          : null,
                       cursorColor: theme.accentColor,
                       maxLines: null,
+                      onChanged: (e) {
+                        e = user.intialLocation;
+                      },
                       decoration: InputDecoration(
                           prefixIcon: Icon(
                             Icons.location_on,
@@ -137,21 +221,28 @@ class _EditInfoState extends State<EditInfo> {
               ),
             ),
             Center(
-                child: Container(
-              height: 43,
-              width: 166,
-              decoration: BoxDecoration(
-                color: theme.accentColor,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Center(
-                child: Text(
-                  "update".tr,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      color: theme.primaryColor,
-                      fontSize: 15,
-                      fontWeight: FontWeight.normal),
+                child: InkWell(
+              onTap: () async {
+                await UserDB.updateUser(
+                        nameController.text, user.image, user.id)
+                    .whenComplete(() => {Get.back()});
+              },
+              child: Container(
+                height: 43,
+                width: 166,
+                decoration: BoxDecoration(
+                  color: theme.accentColor,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Center(
+                  child: Text(
+                    "Update".tr,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        color: theme.primaryColor,
+                        fontSize: 15,
+                        fontWeight: FontWeight.normal),
+                  ),
                 ),
               ),
             ))
@@ -159,5 +250,102 @@ class _EditInfoState extends State<EditInfo> {
         ),
       ),
     );
+  }
+
+  showImagePicker(BuildContext context, String _path) {
+    final theme = Theme.of(context);
+    return showModalBottomSheet(
+        backgroundColor: Colors.transparent,
+        context: context,
+        elevation: 0.0,
+        builder: (Builder) => Container(
+              height: 150,
+              width: 400,
+              child: Card(
+                color: theme.backgroundColor,
+                margin: EdgeInsets.all(20),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        // ignore: deprecated_member_use
+                        FlatButton(
+                          onPressed: () {
+                            pickSingleImageFromGallery().whenComplete(() => {
+                                  print(byteArray),
+                                });
+                            Get.back();
+                          },
+                          child: Container(
+                            height: 110,
+                            width: 125,
+                            // color: Colors.red,
+                            child: Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  CircleAvatar(
+                                    radius: 30,
+                                    child: Icon(
+                                      Icons.photo,
+                                      color: theme.cardColor,
+                                      size: 30,
+                                    ),
+                                    backgroundColor: theme.accentColor,
+                                  ),
+                                  SizedBox(height: 5),
+                                  Text(
+                                    'Photo Library'.tr,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        // ignore: deprecated_member_use
+                        FlatButton(
+                          onPressed: () {
+                            pickSingleImageFromCamera().whenComplete(() => {
+                                  print(byteArray),
+                                });
+                            Get.back();
+                          },
+                          child: Container(
+                            height: 110,
+                            width: 125,
+                            // color: Colors.red,
+                            child: Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  CircleAvatar(
+                                    radius: 30,
+                                    child: Icon(
+                                      Icons.camera_alt,
+                                      color: theme.cardColor,
+                                      size: 30,
+                                    ),
+                                    backgroundColor: theme.accentColor,
+                                  ),
+                                  SizedBox(height: 5),
+                                  Text(
+                                    'Camera'.tr,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ));
   }
 }

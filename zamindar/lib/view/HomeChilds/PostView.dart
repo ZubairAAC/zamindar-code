@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/instance_manager.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:zamindar/view_model/RegisterUserApi.dart';
 
 class PostView extends StatefulWidget {
   String title;

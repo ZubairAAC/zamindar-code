@@ -14,7 +14,9 @@ import 'package:zamindar/view/profile.dart';
 import 'package:zamindar/view/onboardingLogin/LoginChecker.dart';
 import 'package:zamindar/view/HomeChilds/drawer.dart';
 import 'package:zamindar/view_model/IrrigationAlerts.dart';
+import 'package:zamindar/view_model/getInfo.dart';
 import 'package:zamindar/view_model/sharedPrefForScreen.dart';
+import 'package:zamindar/view_model/sqfliteDb.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -32,6 +34,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     getIsLoginFlag();
     getNotification();
     getFlag();
+    getInfoFromApi();
   }
 
   getFlag() async {

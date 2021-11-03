@@ -8,7 +8,9 @@ import 'package:flutter_glow/flutter_glow.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:zamindar/model/location_service.dart';
 import 'package:intl/intl.dart';
+import 'package:zamindar/model/user.dart';
 import 'package:zamindar/model/weather.dart';
+import 'package:zamindar/view_model/sharedPrefForScreen.dart';
 import 'package:zamindar/view_model/weatherApiCall.dart';
 
 class WeatherView extends StatefulWidget {
@@ -22,12 +24,23 @@ class _WeatherViewState extends State<WeatherView> {
   late Weather currentTemp;
   late List<Weather> sevenDay;
   bool viewAble = false;
+  bool farmSelected = false;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getweather();
+    getfarm();
+  }
+
+  getfarm() async {
+    final v = await getIsFarmSelectedFlag();
+    setState(() {
+      farmSelected = v;
+    });
+
+    print(farmSelected);
   }
 
   Future getweather() async {
@@ -54,62 +67,71 @@ class _WeatherViewState extends State<WeatherView> {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
     return Scaffold(
       backgroundColor: theme.backgroundColor,
-      body: viewAble
-          ? SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  today(),
-                  Padding(
-                    padding: EdgeInsets.only(left: 20, right: 20, top: 20),
-                    child: Text(
-                      "Next 7 days".tr,
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: theme.accentColor),
-                    ),
-                  ),
-                  Padding(
-                      padding: EdgeInsets.only(top: 20, left: 10, right: 0),
-                      child: NextSevenDays()),
-                ],
-              ),
-            )
-          : Container(
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Spacer(),
-                    Text("Error Getting your Farm Location.... "),
-                    SizedBox(height: 25),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 100),
-                      child: Center(
-                        child: InkWell(
-                          onTap: () {
-                            Get.back();
-                          },
-                          child: Container(
-                            height: 50,
-                            width: screenHieght / 3,
-                            decoration: BoxDecoration(
-                              color: theme.accentColor,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Center(
-                              child: Text(
-                                "Back",
-                                style: TextStyle(color: theme.cardColor),
-                              ),
+      body: user.userlogin == true
+          ? farmSelected == true
+              ? viewAble
+                  ? SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          today(),
+                          Padding(
+                            padding:
+                                EdgeInsets.only(left: 20, right: 20, top: 20),
+                            child: Text(
+                              "Next 7 days".tr,
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: theme.accentColor),
                             ),
                           ),
-                        ),
+                          Padding(
+                              padding:
+                                  EdgeInsets.only(top: 20, left: 10, right: 0),
+                              child: NextSevenDays()),
+                        ],
                       ),
                     )
-                  ]),
-            ),
+                  : Container(
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Spacer(),
+                            Text("Error Getting your Farm Location.... "),
+                            SizedBox(height: 25),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 100),
+                              child: Center(
+                                child: InkWell(
+                                  onTap: () {
+                                    Get.back();
+                                  },
+                                  child: Container(
+                                    height: 50,
+                                    width: screenHieght / 3,
+                                    decoration: BoxDecoration(
+                                      color: theme.accentColor,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        "Back",
+                                        style:
+                                            TextStyle(color: theme.cardColor),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )
+                          ]),
+                    )
+              : Center(
+                  child: Text("Please Select Farm First".tr),
+                )
+          : Center(child: Text("Please Login to see".tr)),
     );
   }
 }
@@ -120,8 +142,6 @@ class today extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String date = DateFormat('EEEE').format(DateTime.now());
-
-    ;
     var now = new DateTime.now();
     var formatter = new DateFormat('dd-MM-yyyy');
     String formattedDate = formatter.format(now);
@@ -135,6 +155,7 @@ class today extends StatelessWidget {
     double finalvis = WeatherForApi.visibility / 1000;
     String vis = '${finalvis.round()}';
     String hum = '${WeatherForApi.humidity}';
+
     return SafeArea(
         child: Container(
       height: screenHieght * 0.65,

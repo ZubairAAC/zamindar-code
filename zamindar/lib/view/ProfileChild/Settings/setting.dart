@@ -222,6 +222,7 @@ class _MySettingState extends State<MySetting> {
             onTap: () {
               fireBaseSignOut();
               removeIsLoginFlag();
+              removeUserData();
               Get.offAll(() => HomeScreen());
             },
             child: Container(
