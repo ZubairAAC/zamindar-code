@@ -22,18 +22,19 @@ class _inChatState extends State<inChat> {
 
   void connectAndListen() {
     print('Call func connectAndListen');
-    socket = IO.io('https://zamindar-chat.herokuapp.com/',
-        IO.OptionBuilder().setTransports(['websocket']).build());
-
-    socket.onConnectError((data) => print("error here $data"));
-
-    socket.onConnect((_) {
-      print('connect');
-      socket.emit('fromClient', 'test from client');
+    socket = IO.io("https://110.93.212.34:8000", <String, dynamic>{
+      "transports": ["websocket"],
+      "autoConnect": false,
     });
-
-    //When an event recieved from server, data is added to the stream
-    socket.onDisconnect((_) => print('disconnect'));
+    socket.connect();
+    socket.onConnect((data) {
+      print("Connected");
+      socket.on("message", (msg) {
+        print(msg);
+      });
+    });
+    print(socket.connected);
+    print("out");
   }
 
   @override

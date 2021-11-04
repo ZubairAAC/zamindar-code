@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
@@ -73,7 +74,7 @@ class Login extends GetxController {
               child: Padding(
                   padding: MediaQuery.of(context).viewInsets,
                   child: Container(
-                    height: _sSize * 0.35,
+                    height: _sSize * 0.36,
                     decoration: BoxDecoration(
                         color: theme.backgroundColor,
                         borderRadius: BorderRadius.only(
@@ -167,9 +168,9 @@ class Login extends GetxController {
                             ),
                           ),
                         ),
-                        SizedBox(height: 20),
-                        InkWell(
-                            onTap: () async {
+                        SizedBox(height: 0),
+                        CupertinoButton(
+                            onPressed: () async {
                               update();
                               isloading = true;
                               try {

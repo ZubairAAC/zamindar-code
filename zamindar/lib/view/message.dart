@@ -27,9 +27,7 @@ class _MessageState extends State<Message> {
         actions: [
           user.userlogin
               ? IconButton(
-                  onPressed: () {
-                    Login().loginCheckers(context);
-                  },
+                  onPressed: () {},
                   icon: SvgPicture.asset(
                     assetName,
                     height: 15,

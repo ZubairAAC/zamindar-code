@@ -1,6 +1,7 @@
 import 'dart:io' as Io;
 import 'dart:convert';
 import 'dart:typed_data';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
@@ -152,9 +153,9 @@ class _SetProfileState extends State<SetProfile> {
                                       CircleAvatar(
                                         backgroundColor: theme.accentColor,
                                         radius: 175,
-                                        foregroundImage: user.image.isEmpty
-                                            ? null
-                                            : MemoryImage(_image),
+                                        foregroundImage: user.image != null
+                                            ? MemoryImage(_image)
+                                            : null,
                                         // foregroundImage: FileImage(image!),
                                         child: Icon(
                                           Icons.person,
@@ -341,12 +342,9 @@ class _SetProfileState extends State<SetProfile> {
                               ],
                             )),
                         SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.12),
-                        InkWell(
-                          splashColor: theme.cardColor,
-                          hoverColor: theme.cardColor,
-                          focusColor: theme.cardColor,
-                          onTap: () async {
+                            height: MediaQuery.of(context).size.height * 0.09),
+                        CupertinoButton(
+                          onPressed: () async {
                             try {
                               if (formkey.currentState!.validate()) {
                                 if (userName.isNotEmpty) {

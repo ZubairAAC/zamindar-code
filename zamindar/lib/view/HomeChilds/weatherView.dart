@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -129,9 +130,58 @@ class _WeatherViewState extends State<WeatherView> {
                           ]),
                     )
               : Center(
-                  child: Text("Please Select Farm First".tr),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("Please Select Farms to see their weather".tr),
+                      SizedBox(height: 20),
+                      CupertinoButton(
+                        onPressed: () {
+                          Get.back();
+                        },
+                        child: Container(
+                          height: screenHieght * 0.07,
+                          width: screenWidth * 0.50,
+                          decoration: BoxDecoration(
+                              color: theme.accentColor,
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Center(
+                            child: Text(
+                              "Back",
+                              style: TextStyle(color: theme.cardColor),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 )
-          : Center(child: Text("Please Login to see".tr)),
+          : Center(
+              child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("Please Login to see".tr),
+                SizedBox(height: 20),
+                CupertinoButton(
+                  onPressed: () {
+                    Get.back();
+                  },
+                  child: Container(
+                    height: screenHieght * 0.07,
+                    width: screenWidth * 0.50,
+                    decoration: BoxDecoration(
+                        color: theme.accentColor,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Center(
+                      child: Text(
+                        "Back",
+                        style: TextStyle(color: theme.cardColor),
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            )),
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:socket_io/socket_io.dart';
 import 'package:zamindar/model/translations.dart';
 import 'package:zamindar/provider/theme.dart';
 import 'package:zamindar/view/parent/OnBoardLan.dart';
@@ -11,6 +12,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   bool vFlag = false;
+  //
 
   vFlag = await getVisitedFlag();
   print("vFlag is ===> $vFlag");

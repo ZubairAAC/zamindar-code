@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -122,12 +123,9 @@ class _OTPScreenState extends State<OTPScreen> {
                 Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
                     child: otpForm()),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.2),
-                InkWell(
-                  splashColor: theme.cardColor,
-                  hoverColor: theme.cardColor,
-                  focusColor: theme.cardColor,
-                  onTap: () {
+                SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+                CupertinoButton(
+                  onPressed: () {
                     // Get.to(() => SetProfile(phone: phone));
                     AuthCredential phoneAuthCredential =
                         PhoneAuthProvider.credential(
