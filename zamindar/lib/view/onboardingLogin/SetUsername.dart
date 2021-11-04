@@ -1,5 +1,6 @@
 import 'dart:io' as Io;
 import 'dart:convert';
+import 'dart:math';
 import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -41,6 +42,7 @@ class _SetProfileState extends State<SetProfile> {
   var _image;
   int _selectedIndex = -1;
   bool isLoading = false;
+  bool isloadingforDb = false;
 
   _onSelected(int index) {
     setState(() => _selectedIndex = index);
@@ -121,11 +123,31 @@ class _SetProfileState extends State<SetProfile> {
           ),
         ),
         body: isLoading
-            ? Center(
-                child: CircularProgressIndicator(
-                  color: theme.accentColor,
-                ),
-              )
+            ? isloadingforDb
+                ? Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CircularProgressIndicator(
+                          color: theme.accentColor,
+                        ),
+                        SizedBox(height: 20),
+                        Text("Creating your Profile...")
+                      ],
+                    ),
+                  )
+                : Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CircularProgressIndicator(
+                          color: theme.accentColor,
+                        ),
+                        SizedBox(height: 20),
+                        Text("Signing in...")
+                      ],
+                    ),
+                  )
             : GestureDetector(
                 onTap: () {
                   FocusScope.of(context).requestFocus(new FocusNode());
@@ -362,14 +384,41 @@ class _SetProfileState extends State<SetProfile> {
                                       });
                                       bool res = false;
                                       res = await registerUser();
-                                      print(res);
+                                      print("API RESPONSE IS ==>$res");
+
+                                      final int number1 = Random().nextInt(99);
+                                      final int number2 = Random().nextInt(99);
+                                      String appname = 'Zamindar';
+                                      final String finalId =
+                                          number1.toString() +
+                                              appname +
+                                              number2.toString();
+
+                                      bool resDb = false;
+                                      resDb = await createNewUserInDB(
+                                          user.name,
+                                          user.phone,
+                                          user.image,
+                                          user.gender,
+                                          finalId);
+
+                                      print(
+                                          "USER DB SETTING RESPONSE IS ===> $resDb");
+
                                       if (res == true) {
                                         setState(() {
                                           isLoading = false;
-                                          setIsLoginFlag();
-                                          Get.offAll(() => HomeScreen());
+                                          isloadingforDb = true;
                                         });
-                                      } else if (res == false) {
+                                        if (resDb == true) {
+                                          setState(() {
+                                            isloadingforDb = false;
+                                            setIsLoginFlag();
+                                            Get.offAll(() => HomeScreen());
+                                          });
+                                        }
+                                      } else if (res == false ||
+                                          resDb == false) {
                                         isLoading = false;
                                         print("Something went wrong");
                                         ScaffoldMessenger.of(context)
@@ -377,18 +426,6 @@ class _SetProfileState extends State<SetProfile> {
                                                 content: Text(
                                                     'Some Error Occured. Try Again Later')));
                                       }
-
-                                      // try {
-                                      //   setState(() async {
-                                      //     isLoading = true;
-
-                                      //     // Get.offAll(() => HomeScreen());
-                                      //     // setIsLoginFlag();
-                                      //   });
-
-                                      // } catch (e) {
-                                      //   print(
-                                      //       "some error in api post request =>$e");
                                       // }
                                     } else {
                                       showAlertDialog(context);

@@ -45,7 +45,6 @@ Future registerUser() async {
       realID = finalId;
     }
     if (hitrespons == 'Success') {
-      createNewUserInDB(user.name, user.phone, user.image, user.gender, realID);
       return true;
     } else {
       return false;
@@ -55,12 +54,19 @@ Future registerUser() async {
   }
 }
 
-Future<void> createNewUserInDB(String name, String? phone, String image,
+Future createNewUserInDB(String name, String? phone, String image,
     String gender, String myid) async {
-  await UserDB.createUser(name, phone, image, gender, myid);
+  try {
+    await UserDB.createUser(name, phone, image, gender, myid);
+    return true;
+  } catch (e) {
+    print(e);
+    return false;
+  }
 }
 
 Future<void> getUserInfoWhoISLogin() async {
   List info = await UserDB.getItems();
+
   print(info);
 }
