@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:typed_data';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -32,6 +33,7 @@ class _PostAdState extends State<PostAd> {
   TextEditingController descritionController = new TextEditingController();
   TextEditingController priceController = new TextEditingController();
   String byteArray = '';
+  bool isVisible = true;
   bool imgSelected = true;
   List imageArray = [];
 
@@ -44,6 +46,7 @@ class _PostAdState extends State<PostAd> {
       imageArray.add(Io.File(photo.path));
       setState(() {
         imageArray;
+        MarketPost.images = imageArray;
         print(imageArray);
       });
       return;
@@ -69,6 +72,7 @@ class _PostAdState extends State<PostAd> {
       imageArray.add(Io.File(photo.path));
       setState(() {
         imageArray;
+        MarketPost.images = imageArray;
         print(imageArray);
       });
       return;
@@ -141,53 +145,90 @@ class _PostAdState extends State<PostAd> {
                               ),
                             ],
                           ),
-                          GridView.builder(
-                            physics: NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 3,
+                          Stack(children: [
+                            Visibility(
+                              visible: isVisible,
+                              child: Container(
+                                width: MediaQuery.of(context).size.width,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.183,
+                                margin: EdgeInsets.symmetric(horizontal: 10),
+                                decoration: BoxDecoration(
+                                    color: Colors.grey[400],
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    SizedBox(height: 10),
+                                    Text(
+                                      "Select Photo by clicking + button",
+                                      style: TextStyle(color: theme.cardColor),
+                                    )
+                                  ],
+                                ),
+                              ),
                             ),
-                            itemCount: 3,
-                            itemBuilder: (BuildContext context, int index) {
-                              return InkWell(
-                                  onTap: () {
-                                    print(index);
+                            GridView.builder(
+                              physics: NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 3,
+                              ),
+                              itemCount: imageArray.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return imageArray.isNotEmpty
+                                    ? Image.file(imageArray[index] ?? 1 ?? 2)
+                                    : Container(
+                                        margin: EdgeInsets.all(5),
+                                        height: 100,
+                                        width: 100,
+                                        decoration: BoxDecoration(
+                                            color: Colors.grey[400],
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                      );
+                              },
+                            ),
+                            Positioned(
+                              right: 0,
+                              bottom: 0,
+                              child: CupertinoButton(
+                                onPressed: () {
+                                  if (imageArray.length <= 2) {
                                     showImagePicker(context, byteArray);
-                                  },
-                                  child: imageArray.isNotEmpty
-                                      ? Image.file(imageArray[index])
-                                      : Container(
-                                          margin: EdgeInsets.all(5),
-                                          height: 100,
-                                          width: 100,
-                                          decoration: BoxDecoration(
-                                              color: Colors.grey[400],
-                                              borderRadius:
-                                                  BorderRadius.circular(10)),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              SvgPicture.asset(
-                                                "asset/icons/add.svg",
-                                                color: theme.cardColor,
-                                                height: 20,
-                                                width: 20,
-                                              ),
-                                              SizedBox(height: 10),
-                                              Text(
-                                                "Add photo",
-                                                style: TextStyle(
-                                                    color: theme.cardColor),
-                                              )
-                                            ],
-                                          ),
-                                        ));
-                            },
-                          ),
+                                    if (imageArray.length == 2) {
+                                      setState(() {
+                                        isVisible = false;
+                                      });
+                                    }
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                            content: Text(
+                                                'Maximum 3 pictures are allowed')));
+                                    return null;
+                                  }
+                                },
+                                child: Container(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.06,
+                                  width:
+                                      MediaQuery.of(context).size.height * 0.06,
+                                  decoration: BoxDecoration(
+                                      color: theme.accentColor,
+                                      borderRadius: BorderRadius.circular(50)),
+                                  child: Center(
+                                    child: Icon(
+                                      Icons.add,
+                                      color: theme.cardColor,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ]),
                           SizedBox(height: 10),
                           Row(
                             children: [
@@ -496,8 +537,12 @@ class _PostAdState extends State<PostAd> {
                                       print(MarketPost.category);
                                       print(MarketPost.description);
                                       print(MarketPost.city);
-                                      imageArray = MarketPost.images;
-                                      print(MarketPost.images);
+                                      MarketPost.imgLength = imageArray.length;
+                                      print(MarketPost.imgLength);
+
+                                      // imageArray = MarketPost.images;
+                                      // print(MarketPost.images);
+                                      print(imageArray);
                                     },
                                     child: Container(
                                       height: 56,

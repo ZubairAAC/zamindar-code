@@ -5,6 +5,7 @@ class MarketPost {
   static String price = '';
   static String? city = '';
   static List images = [];
+  static int imgLength = 0;
   static String posting_person_phone = '';
   static String posting_person_name = '';
   static String posting_person_image = '';

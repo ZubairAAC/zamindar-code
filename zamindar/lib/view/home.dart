@@ -43,12 +43,14 @@ class _mainHomeState extends State<mainHome>
     with SingleTickerProviderStateMixin {
   late TabController _controller;
   bool hasInternet = true;
+  late Future<List<Info>> getMydata;
 
   @override
   void initState() {
     // ignore: todo
     // TODO: implement initState
     // locationService();
+    getMydata = getInfoFromApi();
     super.initState();
 
     // ignore: unnecessary_new
@@ -209,7 +211,7 @@ class _mainHomeState extends State<mainHome>
                 ),
                 SizedBox(height: 20),
                 FutureBuilder<List<Info>>(
-                  future: getInfoFromApi(),
+                  future: getMydata,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Shimmer.fromColors(
@@ -344,12 +346,17 @@ class _mainHomeState extends State<mainHome>
                                     child: Hero(
                                       transitionOnUserGestures: true,
                                       tag: 'img',
-                                      child: Image.memory(
-                                        base64Decode(data.image),
-                                        height: 238,
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        fit: BoxFit.cover,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.only(
+                                            bottomLeft: Radius.circular(10),
+                                            bottomRight: Radius.circular(10)),
+                                        child: Image.memory(
+                                          base64Decode(data.image),
+                                          height: 238,
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
                                     ),
                                   )
