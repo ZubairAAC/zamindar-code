@@ -343,23 +343,19 @@ class _mainHomeState extends State<mainHome>
                                         borderRadius: BorderRadius.only(
                                             bottomLeft: Radius.circular(10),
                                             bottomRight: Radius.circular(10))),
-                                    child: Hero(
-                                      transitionOnUserGestures: true,
-                                      tag: 'img',
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.only(
-                                            bottomLeft: Radius.circular(10),
-                                            bottomRight: Radius.circular(10)),
-                                        child: Image.memory(
-                                          base64Decode(data.image),
-                                          height: 238,
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          fit: BoxFit.cover,
-                                        ),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.only(
+                                          bottomLeft: Radius.circular(10),
+                                          bottomRight: Radius.circular(10)),
+                                      child: Image.memory(
+                                        base64Decode(data.image),
+                                        height: 238,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        fit: BoxFit.cover,
                                       ),
                                     ),
-                                  )
+                                  ),
                                 ],
                               ),
                             ),

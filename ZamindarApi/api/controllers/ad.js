@@ -38,8 +38,10 @@ const storage = new GridFsStorage({
                     bucketName: 'uploads'
                 };
                 resolve(fileInfo);
-            });
-        });
+            })
+        }).catch(err => {
+            reject(err);
+        });;
     }
 });
 const upload = multer({ storage });
@@ -49,7 +51,7 @@ router.get('/', (req, res) => {
     MongoClient.connect(dbConfig.url, { useNewUrlParser: true, useUnifiedTopology: true }, (err, client) => {
         if (err) return console.log(err)
         let db = client.db('ZamindarMobileApp')
-        db.collection('Questions').find().toArray().then(function (docs) {
+        db.collection('Ads').find().toArray().then(function (docs) {
             client.close()
             res.send(docs)
         })
@@ -57,48 +59,79 @@ router.get('/', (req, res) => {
 });
 
 //get user by id 
-router.get('/:id', (req, res) => {
-    const found = users.some(users => users.id === parseInt(req.params.id))
+router.get('/:phone', (req, res) => {
+    // const search = client.db('ZamindarMobileApp').collection("users");
+    // search.findOne({ phone: phone }).toArray().then(function (err, doc) {
+    //     if (err) {
+    //         res.sendStatus(400);
+    //         throw err
+    //     } else if (doc) {
+    //         res.send(doc);
+    //     }
+    // })
+    MongoClient.connect(dbConfig.url, { useNewUrlParser: true, useUnifiedTopology: true }, (err, client) => {
+        if (err) return console.log(err)
+        let db = client.db('ZamindarMobileApp');
+        let col = db.collection('users');
+        col.findOne({ phone: parseInt(req.params.phone) }, function (err, docs) {
+            client.close()
+            if (err) {
+                res.send(err);
+            }
+            res.send({
+                message: 'Success',
+                respone: 'OK',
+                user_info: docs,
+            })
+        })
+    })
 
-    if (found) {
-        res.json(users.filter(users => users.id === parseInt(req.params.id)))
-    } else {
-        res.sendStatus(400)
-    }
+
+
+    // const found = users.some(users => users.id === parseInt(req.params.id))
+
+    // if (found) {
+    //     res.json(users.filter(users => users.id === parseInt(req.params.id)))
+    // } else {
+    //     res.sendStatus(400)
+    // }
 })
 //post new user
 router.post('/', upload.single('image'), (req, res) => {
-    const mysender = {
-        name: req.body.name,
-        profile: req.body.profile,
-        id: req.body.id,
-    };
-    const newinfo = {
+
+
+
+    const newUser = {
         title: req.body.title,
+        price: req.body.price,
+        category: req.body.category,
         description: req.body.description,
-        image: req.body.image,
-        time: Date(),
-        type: req.body.type,
-        sender: mysender,
+        city: req.body.city,
+        imgLength: req.body.imgLength,
+        images: req.body.images,
+        person: req.body.person,
+        photo: req.body.photo,
+        phone: req.body.phone,
+
     }
 
-    // if (!newUser.name || !newUser.phone || !newUser.image) {
-    //     return res.send("can't add");
-    // }
+    if (!newUser.title || !newUser.price || !newUser.category) {
+        return res.send("can't add");
+    }
 
     MongoClient.connect(dbConfig.url, { useNewUrlParser: true, useUnifiedTopology: true }, (err, client) => {
         if (err) return console.log(err)
         let db = client.db('ZamindarMobileApp')
-        db.collection('Questions').insertOne(newinfo, function (err, r) {
+        db.collection('Ads').insertOne(newUser, function (err, r) {
             if (err) return console.log(err)
             client.close()
             res.send(r.ops)
         })
     });
     res.send({
-        message: 'info added successfully',
+        message: 'AD added successfully',
         respone: 'Success',
-        user_added: newinfo,
+        user_added: newUser,
     })
     // users.push(newUser);
 

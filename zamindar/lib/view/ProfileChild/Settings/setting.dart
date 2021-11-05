@@ -220,10 +220,19 @@ class _MySettingState extends State<MySetting> {
           SizedBox(height: 40),
           InkWell(
             onTap: () {
-              fireBaseSignOut();
-              removeIsLoginFlag();
-              removeUserData();
-              Get.offAll(() => HomeScreen());
+              try {
+                fireBaseSignOut();
+                removeIsLoginFlag();
+                var res = removeUserData();
+                print("USER DATA IS REMOVED ===>${res}");
+                if (res = true) {
+                  Get.offAll(() => HomeScreen());
+                } else {
+                  return;
+                }
+              } catch (e) {
+                print(e);
+              }
             },
             child: Container(
               height: 56,

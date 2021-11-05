@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
@@ -6,13 +8,52 @@ import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:zamindar/view/MessageChild/inchat.dart';
 
 class MarketAdView extends StatefulWidget {
-  MarketAdView({Key? key}) : super(key: key);
+  String adtitle;
+  String adcategory;
+  String adcity;
+  String addescription;
+  String adperson;
+  String adphoto;
+  String adphone;
+  MarketAdView(
+      {Key? key,
+      required this.adtitle,
+      required this.adcategory,
+      required this.adcity,
+      required this.addescription,
+      required this.adperson,
+      required this.adphone,
+      required this.adphoto})
+      : super(key: key);
 
   @override
-  _MarketAdViewState createState() => _MarketAdViewState();
+  _MarketAdViewState createState() => _MarketAdViewState(
+      adcategory, adcity, addescription, adperson, adphone, adphoto, adtitle);
 }
 
 class _MarketAdViewState extends State<MarketAdView> {
+  String adtitle;
+  String adcategory;
+  String adcity;
+  String addescription;
+  String adperson;
+  String adphoto;
+  String adphone;
+  _MarketAdViewState(this.adtitle, this.adcategory, this.adcity,
+      this.addescription, this.adperson, this.adphone, this.adphoto);
+
+  @override
+  void initState() {
+    super.initState();
+    print("title: $adtitle");
+    print("description: $addescription");
+    print("category: $adcategory");
+    print("city: $adcity");
+    print("person: $adperson");
+    print("photo: $adphoto");
+    print("phone: $adphone");
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -73,12 +114,17 @@ class _MarketAdViewState extends State<MarketAdView> {
                           borderRadius: BorderRadius.only(
                               bottomLeft: Radius.circular(30),
                               bottomRight: Radius.circular(30))),
-                      child: Text(
-                        "This is title for the Zamindar app market place post ad specily design for farmers of pakistan",
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.white),
-                        maxLines: 2,
+                      child: Row(
+                        children: [
+                          Text(
+                            adphoto,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                            maxLines: 2,
+                          ),
+                        ],
                       ),
                     ),
                   ],
@@ -99,25 +145,73 @@ class _MarketAdViewState extends State<MarketAdView> {
                     ),
                     SizedBox(height: 10),
                     Container(
-                        height: 114,
-                        // color: Colors.red,
-                        child: Center(
-                          child: ListView.builder(
-                            physics: NeverScrollableScrollPhysics(),
-                            itemCount: 3,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (BuildContext context, int index) {
-                              return Container(
-                                margin: EdgeInsets.symmetric(horizontal: 3),
-                                height: 100,
-                                width: MediaQuery.of(context).size.width * 0.28,
-                                decoration: BoxDecoration(
-                                    color: theme.cardColor,
-                                    borderRadius: BorderRadius.circular(10)),
-                              );
-                            },
+                      height: 114,
+                      // color: Colors.red,
+                      child: Row(
+                        children: [
+                          Container(
+                            margin: EdgeInsets.symmetric(horizontal: 3),
+                            height: 120,
+                            width: MediaQuery.of(context).size.width * 0.28,
+                            decoration: BoxDecoration(
+                                color: theme.cardColor,
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Column(
+                              children: [
+                                Spacer(),
+                                Text(
+                                  adtitle,
+                                  style: TextStyle(fontWeight: FontWeight.w900),
+                                ),
+                                SizedBox(height: 5),
+                                Text(
+                                  "Category",
+                                  style: TextStyle(fontSize: 15),
+                                ),
+                              ],
+                            ),
                           ),
-                        )),
+                          Container(
+                            margin: EdgeInsets.symmetric(horizontal: 3),
+                            height: 120,
+                            width: MediaQuery.of(context).size.width * 0.28,
+                            decoration: BoxDecoration(
+                                color: theme.cardColor,
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Column(
+                              children: [
+                                Spacer(),
+                                Text(
+                                  adcategory,
+                                  style: TextStyle(fontWeight: FontWeight.w900),
+                                ),
+                                SizedBox(height: 5),
+                                Text("City", style: TextStyle(fontSize: 15)),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.symmetric(horizontal: 3),
+                            height: 120,
+                            width: MediaQuery.of(context).size.width * 0.28,
+                            decoration: BoxDecoration(
+                                color: theme.cardColor,
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Column(
+                              children: [
+                                Spacer(),
+                                Text(
+                                  "31-12-2021",
+                                  style: TextStyle(fontWeight: FontWeight.w900),
+                                ),
+                                SizedBox(height: 5),
+                                Text("Date"),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
                     SizedBox(height: 30),
                     Row(
                       children: [
@@ -130,9 +224,17 @@ class _MarketAdViewState extends State<MarketAdView> {
                     SizedBox(height: 10),
                     Container(
                       height: 150,
+                      padding: EdgeInsets.all(10),
                       decoration: BoxDecoration(
                           color: theme.cardColor,
                           borderRadius: BorderRadius.circular(10)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(adcity),
+                        ],
+                      ),
                     ),
                     SizedBox(height: 30),
                     Row(
@@ -159,6 +261,13 @@ class _MarketAdViewState extends State<MarketAdView> {
                                 borderRadius: BorderRadius.circular(10),
                                 border:
                                     Border.all(color: theme.backgroundColor)),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Image.memory(
+                                base64Decode(adphone),
+                                fit: BoxFit.fill,
+                              ),
+                            ),
                           ),
                           Container(
                             width: 205,
@@ -170,7 +279,7 @@ class _MarketAdViewState extends State<MarketAdView> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Zubair Ayaz Asim Chaudhry",
+                                  addescription,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                 ),

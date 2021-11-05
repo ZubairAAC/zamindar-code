@@ -121,7 +121,7 @@ class _OTPScreenState extends State<OTPScreen> {
                   ],
                 ),
                 Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 25),
                     child: otpForm()),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.1),
                 CupertinoButton(

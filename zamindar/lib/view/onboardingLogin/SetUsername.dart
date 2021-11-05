@@ -175,7 +175,7 @@ class _SetProfileState extends State<SetProfile> {
                                       CircleAvatar(
                                         backgroundColor: theme.accentColor,
                                         radius: 175,
-                                        foregroundImage: user.image != null
+                                        foregroundImage: byteArray.isNotEmpty
                                             ? MemoryImage(_image)
                                             : null,
                                         // foregroundImage: FileImage(image!),

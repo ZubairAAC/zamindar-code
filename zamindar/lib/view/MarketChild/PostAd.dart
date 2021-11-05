@@ -16,9 +16,12 @@ import 'package:zamindar/model/category.dart';
 import 'package:zamindar/model/city.dart';
 import 'package:zamindar/model/user.dart';
 import 'package:zamindar/view/onboardingLogin/SetUsername.dart';
+import 'package:zamindar/view_model/PostAd.dart';
 import 'package:zamindar/view_model/filePicker.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'dart:io' as Io;
+
+import 'package:zamindar/view_model/firebase.dart';
 
 class PostAd extends StatefulWidget {
   PostAd({Key? key}) : super(key: key);
@@ -36,6 +39,7 @@ class _PostAdState extends State<PostAd> {
   bool isVisible = true;
   bool imgSelected = true;
   List imageArray = [];
+  bool isPosting = true;
 
   Future pickSingleImageFromGallery() async {
     XFile? photo =
@@ -120,467 +124,638 @@ class _PostAdState extends State<PostAd> {
         ),
       ),
       body: user.userlogin
-          ? GestureDetector(
-              onTap: () {
-                node.unfocus();
-              },
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Divider(
-                      color: theme.accentColor,
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(
-                          top: 10, bottom: 30, left: 20, right: 20),
-                      child: Column(
-                        // crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
+          ? isPosting
+              ? GestureDetector(
+                  onTap: () {
+                    node.unfocus();
+                  },
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Divider(
+                          color: theme.accentColor,
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(
+                              top: 10, bottom: 30, left: 20, right: 20),
+                          child: Column(
+                            // crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                "Add Photos",
-                                style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
-                          Stack(children: [
-                            Visibility(
-                              visible: isVisible,
-                              child: Container(
-                                width: MediaQuery.of(context).size.width,
-                                height:
-                                    MediaQuery.of(context).size.height * 0.183,
-                                margin: EdgeInsets.symmetric(horizontal: 10),
-                                decoration: BoxDecoration(
-                                    color: Colors.grey[400],
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    SizedBox(height: 10),
-                                    Text(
-                                      "Select Photo by clicking + button",
-                                      style: TextStyle(color: theme.cardColor),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                            GridView.builder(
-                              physics: NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 3,
-                              ),
-                              itemCount: imageArray.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return imageArray.isNotEmpty
-                                    ? Image.file(imageArray[index] ?? 1 ?? 2)
-                                    : Container(
-                                        margin: EdgeInsets.all(5),
-                                        height: 100,
-                                        width: 100,
-                                        decoration: BoxDecoration(
-                                            color: Colors.grey[400],
-                                            borderRadius:
-                                                BorderRadius.circular(10)),
-                                      );
-                              },
-                            ),
-                            Positioned(
-                              right: 0,
-                              bottom: 0,
-                              child: CupertinoButton(
-                                onPressed: () {
-                                  if (imageArray.length <= 2) {
-                                    showImagePicker(context, byteArray);
-                                    if (imageArray.length == 2) {
-                                      setState(() {
-                                        isVisible = false;
-                                      });
-                                    }
-                                  } else {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                        SnackBar(
-                                            content: Text(
-                                                'Maximum 3 pictures are allowed')));
-                                    return null;
-                                  }
-                                },
-                                child: Container(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.06,
-                                  width:
-                                      MediaQuery.of(context).size.height * 0.06,
-                                  decoration: BoxDecoration(
-                                      color: theme.accentColor,
-                                      borderRadius: BorderRadius.circular(50)),
-                                  child: Center(
-                                    child: Icon(
-                                      Icons.add,
-                                      color: theme.cardColor,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ]),
-                          SizedBox(height: 10),
-                          Row(
-                            children: [
-                              Text(
-                                "Add Title",
-                                style: TextStyle(
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              )
-                            ],
-                          ),
-                          SizedBox(height: 10),
-                          Form(
-                            key: formkey,
-                            // autovalidate: true,
-                            child: Container(
-                              child: Column(
+                              Row(
                                 children: [
-                                  TextFormField(
-                                    validator: MultiValidator([
-                                      RequiredValidator(errorText: "Required*")
-                                    ]),
-                                    controller: titleController,
-                                    keyboardAppearance: Brightness.light,
-                                    textInputAction: TextInputAction.next,
-                                    onEditingComplete: () => node.nextFocus(),
-                                    onChanged: (e) {
-                                      setState(() {
-                                        MarketPost.title = e;
-                                        print(MarketPost.title);
-                                      });
-                                    },
-                                    keyboardType: TextInputType.name,
-                                    decoration: InputDecoration(
-                                        errorBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Colors.red, width: 2.0)),
-                                        focusedErrorBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Colors.green, width: 2.0),
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: theme.accentColor,
-                                              width: 2.0),
-                                        ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: theme.accentColor,
-                                              width: 2.0),
-                                        ),
-                                        hintText: 'Enter Title here',
-                                        labelText: 'Title',
-                                        fillColor: theme.cardColor,
-                                        filled: true,
-                                        isDense: true,
-                                        labelStyle:
-                                            TextStyle(color: theme.accentColor),
-                                        hintStyle: TextStyle(
-                                            color: Colors.grey, fontSize: 15)),
+                                  Text(
+                                    "Add Photos",
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
                                   ),
-                                  SizedBox(height: 20),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        "Add Price",
-                                        style: TextStyle(
-                                          fontSize: 22,
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  SizedBox(height: 10),
-                                  TextFormField(
-                                    validator: MultiValidator([
-                                      RequiredValidator(errorText: "Required*")
-                                    ]),
-                                    controller: priceController,
-                                    keyboardAppearance: Brightness.light,
-                                    textInputAction: TextInputAction.next,
-                                    onEditingComplete: () => node.nextFocus(),
-                                    onChanged: (e) {
-                                      setState(() {
-                                        MarketPost.price = e;
-                                        print(MarketPost.price);
-                                      });
-                                    },
-                                    keyboardType: TextInputType.number,
-                                    decoration: InputDecoration(
-                                        errorBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Colors.red, width: 2.0)),
-                                        focusedErrorBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Colors.green, width: 2.0),
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: theme.accentColor,
-                                              width: 2.0),
-                                        ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: theme.accentColor,
-                                              width: 2.0),
-                                        ),
-                                        hintText: 'Enter Price here',
-                                        labelText: 'Price',
-                                        fillColor: theme.cardColor,
-                                        filled: true,
-                                        isDense: true,
-                                        labelStyle:
-                                            TextStyle(color: theme.accentColor),
-                                        hintStyle: TextStyle(
-                                            color: Colors.grey, fontSize: 15)),
-                                  ),
-                                  SizedBox(height: 20),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        "Add Category",
-                                        style: TextStyle(
-                                          fontSize: 22,
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  SizedBox(height: 20),
-                                  Container(
-                                    child: DropdownSearch<String>(
-                                      mode: Mode.BOTTOM_SHEET,
-                                      showSearchBox: true,
-                                      showClearButton: true,
-                                      items: categoryData,
-                                      label: "Category",
-                                      hint: "Please Select Category",
-                                      // popupItemDisabled: (String s) =>
-                                      //     s.startsWith('I'),
-                                      onChanged: (e) {
-                                        setState(() {
-                                          MarketPost.category = e;
-                                          print(MarketPost.category);
-                                        });
-                                      },
-                                      popupBackgroundColor:
-                                          theme.backgroundColor,
-                                      popupBarrierDismissible: true,
-
-                                      dropdownSearchDecoration: InputDecoration(
-                                          errorBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: Colors.red,
-                                                  width: 2.0)),
-                                          focusedErrorBorder:
-                                              OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Colors.green,
-                                                width: 2.0),
-                                          ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: theme.accentColor,
-                                                width: 2.0),
-                                          ),
-                                          enabledBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: theme.accentColor,
-                                                width: 2.0),
-                                          ),
-                                          hintText: 'Please Select Category',
-                                          labelText: 'Category',
-                                          fillColor: theme.cardColor,
-                                          filled: true,
-                                          isDense: true,
-                                          labelStyle: TextStyle(
-                                              color: theme.accentColor)),
-                                      // selectedItem: "Brazil",
+                                ],
+                              ),
+                              Stack(children: [
+                                Visibility(
+                                  visible: isVisible,
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.183,
+                                    margin:
+                                        EdgeInsets.symmetric(horizontal: 10),
+                                    decoration: BoxDecoration(
+                                        color: Colors.grey[400],
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        SizedBox(height: 10),
+                                        Text(
+                                          "Select Photo by clicking + button",
+                                          style:
+                                              TextStyle(color: theme.cardColor),
+                                        )
+                                      ],
                                     ),
                                   ),
-                                  SizedBox(height: 30),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        "Add Descriptions",
-                                        style: TextStyle(
-                                          fontSize: 22,
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                      )
-                                    ],
+                                ),
+                                GridView.builder(
+                                  physics: NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  gridDelegate:
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 3,
                                   ),
-                                  SizedBox(height: 20),
-                                  TextFormField(
-                                    maxLines: 5,
-                                    validator: MultiValidator([
-                                      RequiredValidator(errorText: "Required*")
-                                    ]),
-                                    controller: descritionController,
-                                    onChanged: (vlu) {
-                                      setState(() {
-                                        MarketPost.description = vlu;
-                                        print(MarketPost.description);
-                                      });
-                                    },
-                                    keyboardAppearance: Brightness.light,
-                                    textInputAction: TextInputAction.done,
-                                    keyboardType: TextInputType.text,
-                                    decoration: InputDecoration(
-                                        focusedErrorBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: theme.accentColor,
-                                              width: 2.0),
-                                        ),
-                                        errorBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Colors.red, width: 2.0)),
-                                        focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: theme.accentColor,
-                                                width: 2.0)),
-                                        enabledBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: theme.accentColor,
-                                                width: 2)),
-                                        hintText: 'Add Descritions',
-                                        labelText: 'Description',
-                                        fillColor: theme.cardColor,
-                                        filled: true,
-                                        isDense: true,
-                                        labelStyle:
-                                            TextStyle(color: theme.accentColor),
-                                        hintStyle: TextStyle(
-                                            color: Colors.grey, fontSize: 15)),
-                                  ),
-                                  SizedBox(height: 30),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        "Add Address",
-                                        style: TextStyle(
-                                          fontSize: 22,
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  SizedBox(height: 20),
-                                  Container(
-                                    child: DropdownSearch<String>(
-                                      mode: Mode.BOTTOM_SHEET,
-                                      showSearchBox: true,
-                                      showClearButton: true,
-                                      items: city,
-                                      label: "City",
-                                      hint: "Please Select City",
-                                      // popupItemDisabled: (String s) =>
-                                      //     s.startsWith('I'),
-                                      onChanged: (i) {
-                                        setState(() {
-                                          MarketPost.city = i;
-                                          print(MarketPost.city);
-                                        });
+                                  itemCount: imageArray.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return imageArray.isNotEmpty
+                                        ? Stack(
+                                            children: [
+                                              ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                child: Image.file(
+                                                    imageArray[index] ??
+                                                        1 ??
+                                                        2),
+                                              ),
+                                              Positioned(
+                                                  top: 0,
+                                                  right: 25,
+                                                  child: CupertinoButton(
+                                                    padding: EdgeInsets.zero,
+                                                    minSize: 0.1,
+                                                    onPressed: () {
+                                                      setState(() {
+                                                        imageArray
+                                                            .removeAt(index);
+                                                        if (imageArray.length <=
+                                                            2) {
+                                                          isVisible = true;
+                                                        }
+                                                      });
+                                                      setState(() {});
+                                                    },
+                                                    child: Container(
+                                                      height: 20,
+                                                      width: 20,
+                                                      decoration: BoxDecoration(
+                                                          color: Colors.red,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      50)),
+                                                      child: Center(
+                                                        child: Icon(
+                                                          Icons.close,
+                                                          color:
+                                                              theme.cardColor,
+                                                          size: 15,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ))
+                                            ],
+                                          )
+                                        : Container(
+                                            margin: EdgeInsets.all(5),
+                                            height: 100,
+                                            width: 100,
+                                            decoration: BoxDecoration(
+                                                color: Colors.grey[400],
+                                                borderRadius:
+                                                    BorderRadius.circular(10)),
+                                          );
+                                  },
+                                ),
+                                Positioned(
+                                  right: -3,
+                                  bottom: -12,
+                                  child: Visibility(
+                                    visible: isVisible,
+                                    child: CupertinoButton(
+                                      onPressed: () {
+                                        if (imageArray.length <= 2) {
+                                          showImagePicker(context, byteArray);
+                                          if (imageArray.length == 2) {
+                                            setState(() {
+                                              isVisible = false;
+                                            });
+                                          }
+                                        } else {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(SnackBar(
+                                                  content: Text(
+                                                      'Maximum 3 pictures are allowed')));
+                                          return null;
+                                        }
                                       },
-                                      popupBackgroundColor:
-                                          theme.backgroundColor,
-                                      popupBarrierDismissible: true,
-                                      dropdownSearchDecoration: InputDecoration(
-                                          errorBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: Colors.red,
-                                                  width: 2.0)),
-                                          focusedErrorBorder:
-                                              OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Colors.green,
-                                                width: 2.0),
+                                      child: Container(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.05,
+                                        width:
+                                            MediaQuery.of(context).size.height *
+                                                0.05,
+                                        decoration: BoxDecoration(
+                                            color: theme.accentColor,
+                                            borderRadius:
+                                                BorderRadius.circular(50)),
+                                        child: Center(
+                                          child: Icon(
+                                            Icons.add,
+                                            color: theme.cardColor,
                                           ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: theme.accentColor,
-                                                width: 2.0),
-                                          ),
-                                          enabledBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: theme.accentColor,
-                                                width: 2.0),
-                                          ),
-                                          hintText: 'Please Select City',
-                                          labelText: 'City',
-                                          fillColor: theme.cardColor,
-                                          filled: true,
-                                          isDense: true,
-                                          labelStyle: TextStyle(
-                                              color: theme.accentColor)),
-                                      // selectedItem: "Brazil",
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                  SizedBox(height: 40),
-                                  InkWell(
-                                    onTap: () {
-                                      print(MarketPost.title);
-                                      print(MarketPost.price);
-                                      print(MarketPost.category);
-                                      print(MarketPost.description);
-                                      print(MarketPost.city);
-                                      MarketPost.imgLength = imageArray.length;
-                                      print(MarketPost.imgLength);
-
-                                      // imageArray = MarketPost.images;
-                                      // print(MarketPost.images);
-                                      print(imageArray);
-                                    },
-                                    child: Container(
-                                      height: 56,
-                                      width: MediaQuery.of(context).size.width *
-                                          0.70,
-                                      decoration: BoxDecoration(
-                                        color: theme.accentColor,
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          "Post Sell".tr,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                              color: theme.primaryColor,
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ),
+                                ),
+                              ]),
+                              SizedBox(height: 10),
+                              Row(
+                                children: [
+                                  Text(
+                                    "Add Title",
+                                    style: TextStyle(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.w700,
                                     ),
                                   )
                                 ],
                               ),
-                            ),
+                              SizedBox(height: 10),
+                              Form(
+                                key: formkey,
+                                // autovalidate: true,
+                                child: Container(
+                                  child: Column(
+                                    children: [
+                                      TextFormField(
+                                        cursorColor: theme.accentColor,
+                                        validator: MultiValidator([
+                                          RequiredValidator(
+                                              errorText: "Required*")
+                                        ]),
+                                        controller: titleController,
+                                        keyboardAppearance: Brightness.light,
+                                        textInputAction: TextInputAction.next,
+                                        onEditingComplete: () =>
+                                            node.nextFocus(),
+                                        onChanged: (e) {
+                                          setState(() {
+                                            MarketPost.title = e;
+                                            print(MarketPost.title);
+                                          });
+                                        },
+                                        keyboardType: TextInputType.name,
+                                        decoration: InputDecoration(
+                                            errorBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Colors.red,
+                                                    width: 2.0)),
+                                            focusedErrorBorder:
+                                                OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Colors.green,
+                                                  width: 2.0),
+                                            ),
+                                            focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: theme.accentColor,
+                                                  width: 2.0),
+                                            ),
+                                            enabledBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: theme.accentColor,
+                                                  width: 2.0),
+                                            ),
+                                            hintText: 'Enter Title here',
+                                            labelText: 'Title',
+                                            fillColor: theme.cardColor,
+                                            filled: true,
+                                            isDense: true,
+                                            labelStyle: TextStyle(
+                                                color: theme.accentColor),
+                                            hintStyle: TextStyle(
+                                                color: Colors.grey,
+                                                fontSize: 15)),
+                                      ),
+                                      SizedBox(height: 20),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            "Add Price",
+                                            style: TextStyle(
+                                              fontSize: 22,
+                                              fontWeight: FontWeight.w700,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      SizedBox(height: 10),
+                                      TextFormField(
+                                        cursorColor: theme.accentColor,
+                                        validator: MultiValidator([
+                                          RequiredValidator(
+                                              errorText: "Required*")
+                                        ]),
+                                        controller: priceController,
+                                        keyboardAppearance: Brightness.light,
+                                        textInputAction: TextInputAction.next,
+                                        onEditingComplete: () =>
+                                            node.nextFocus(),
+                                        onChanged: (e) {
+                                          setState(() {
+                                            MarketPost.price = e;
+                                            print(MarketPost.price);
+                                          });
+                                        },
+                                        keyboardType: TextInputType.number,
+                                        decoration: InputDecoration(
+                                            errorBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Colors.red,
+                                                    width: 2.0)),
+                                            focusedErrorBorder:
+                                                OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Colors.green,
+                                                  width: 2.0),
+                                            ),
+                                            focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: theme.accentColor,
+                                                  width: 2.0),
+                                            ),
+                                            enabledBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: theme.accentColor,
+                                                  width: 2.0),
+                                            ),
+                                            hintText: 'Enter Price here',
+                                            labelText: 'Price',
+                                            fillColor: theme.cardColor,
+                                            filled: true,
+                                            isDense: true,
+                                            labelStyle: TextStyle(
+                                                color: theme.accentColor),
+                                            hintStyle: TextStyle(
+                                                color: Colors.grey,
+                                                fontSize: 15)),
+                                      ),
+                                      SizedBox(height: 20),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            "Add Category",
+                                            style: TextStyle(
+                                              fontSize: 22,
+                                              fontWeight: FontWeight.w700,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      SizedBox(height: 20),
+                                      Container(
+                                        child: DropdownSearch<String>(
+                                          mode: Mode.BOTTOM_SHEET,
+                                          showSearchBox: true,
+                                          showClearButton: true,
+                                          items: categoryData,
+                                          label: "Category",
+                                          hint: "Please Select Category",
+                                          // popupItemDisabled: (String s) =>
+                                          //     s.startsWith('I'),
+                                          onChanged: (e) {
+                                            setState(() {
+                                              MarketPost.category = e;
+                                              print(MarketPost.category);
+                                            });
+                                          },
+                                          popupBackgroundColor:
+                                              theme.backgroundColor,
+                                          popupBarrierDismissible: true,
+
+                                          dropdownSearchDecoration:
+                                              InputDecoration(
+                                                  errorBorder:
+                                                      OutlineInputBorder(
+                                                          borderSide:
+                                                              BorderSide(
+                                                                  color: Colors
+                                                                      .red,
+                                                                  width: 2.0)),
+                                                  focusedErrorBorder:
+                                                      OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                        color: Colors.green,
+                                                        width: 2.0),
+                                                  ),
+                                                  focusedBorder:
+                                                      OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                        color:
+                                                            theme.accentColor,
+                                                        width: 2.0),
+                                                  ),
+                                                  enabledBorder:
+                                                      OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                        color:
+                                                            theme.accentColor,
+                                                        width: 2.0),
+                                                  ),
+                                                  hintText:
+                                                      'Please Select Category',
+                                                  labelText: 'Category',
+                                                  fillColor: theme.cardColor,
+                                                  filled: true,
+                                                  isDense: true,
+                                                  labelStyle: TextStyle(
+                                                      color:
+                                                          theme.accentColor)),
+                                          // selectedItem: "Brazil",
+                                        ),
+                                      ),
+                                      SizedBox(height: 30),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            "Add Descriptions",
+                                            style: TextStyle(
+                                              fontSize: 22,
+                                              fontWeight: FontWeight.w700,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      SizedBox(height: 20),
+                                      TextFormField(
+                                        cursorColor: theme.accentColor,
+                                        maxLines: 5,
+                                        validator: MultiValidator([
+                                          RequiredValidator(
+                                              errorText: "Required*")
+                                        ]),
+                                        controller: descritionController,
+                                        onChanged: (vlu) {
+                                          setState(() {
+                                            MarketPost.description = vlu;
+                                            print(MarketPost.description);
+                                          });
+                                        },
+                                        keyboardAppearance: Brightness.light,
+                                        textInputAction: TextInputAction.done,
+                                        keyboardType: TextInputType.text,
+                                        decoration: InputDecoration(
+                                            focusedErrorBorder:
+                                                OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: theme.accentColor,
+                                                  width: 2.0),
+                                            ),
+                                            errorBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Colors.red,
+                                                    width: 2.0)),
+                                            focusedBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: theme.accentColor,
+                                                    width: 2.0)),
+                                            enabledBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: theme.accentColor,
+                                                    width: 2)),
+                                            hintText: 'Add Descritions',
+                                            labelText: 'Description',
+                                            fillColor: theme.cardColor,
+                                            filled: true,
+                                            isDense: true,
+                                            labelStyle: TextStyle(
+                                                color: theme.accentColor),
+                                            hintStyle: TextStyle(
+                                                color: Colors.grey,
+                                                fontSize: 15)),
+                                      ),
+                                      SizedBox(height: 30),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            "Add Address",
+                                            style: TextStyle(
+                                              fontSize: 22,
+                                              fontWeight: FontWeight.w700,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      SizedBox(height: 20),
+                                      Container(
+                                        child: DropdownSearch<String>(
+                                          mode: Mode.BOTTOM_SHEET,
+                                          showSearchBox: true,
+                                          showClearButton: true,
+                                          items: city,
+                                          label: "City",
+                                          hint: "Please Select City",
+                                          // popupItemDisabled: (String s) =>
+                                          //     s.startsWith('I'),
+                                          onChanged: (i) {
+                                            setState(() {
+                                              MarketPost.city = i;
+                                              print(MarketPost.city);
+                                            });
+                                          },
+                                          popupBackgroundColor:
+                                              theme.backgroundColor,
+                                          popupBarrierDismissible: true,
+                                          dropdownSearchDecoration:
+                                              InputDecoration(
+                                                  errorBorder:
+                                                      OutlineInputBorder(
+                                                          borderSide:
+                                                              BorderSide(
+                                                                  color: Colors
+                                                                      .red,
+                                                                  width: 2.0)),
+                                                  focusedErrorBorder:
+                                                      OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                        color: Colors.green,
+                                                        width: 2.0),
+                                                  ),
+                                                  focusedBorder:
+                                                      OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                        color:
+                                                            theme.accentColor,
+                                                        width: 2.0),
+                                                  ),
+                                                  enabledBorder:
+                                                      OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                        color:
+                                                            theme.accentColor,
+                                                        width: 2.0),
+                                                  ),
+                                                  hintText:
+                                                      'Please Select City',
+                                                  labelText: 'City',
+                                                  fillColor: theme.cardColor,
+                                                  filled: true,
+                                                  isDense: true,
+                                                  labelStyle: TextStyle(
+                                                      color:
+                                                          theme.accentColor)),
+                                          // selectedItem: "Brazil",
+                                        ),
+                                      ),
+                                      SizedBox(height: 40),
+                                      CupertinoButton(
+                                        onPressed: () async {
+                                          MarketPost.imgLength =
+                                              imageArray.length.toString();
+                                          setState(() {
+                                            isPosting = false;
+                                          });
+
+                                          if (MarketPost.title.isNotEmpty) {
+                                            if (MarketPost.price.isNotEmpty) {
+                                              if (MarketPost
+                                                  .category!.isNotEmpty) {
+                                                if (MarketPost
+                                                    .description.isNotEmpty) {
+                                                  if (MarketPost
+                                                      .city!.isNotEmpty) {
+                                                    if (MarketPost.imgLength !=
+                                                        null) {
+                                                      if (imageArray
+                                                          .isNotEmpty) {
+                                                        var res = postAd(
+                                                            MarketPost.title,
+                                                            MarketPost.price,
+                                                            MarketPost.category,
+                                                            MarketPost
+                                                                .description,
+                                                            MarketPost.city,
+                                                            MarketPost
+                                                                .imgLength,
+                                                            imageArray,
+                                                            user.name,
+                                                            user.image,
+                                                            user.phone);
+
+                                                        print(res);
+                                                        setState(() {
+                                                          isPosting = true;
+                                                          playUpdateMusic();
+                                                          Get.back();
+                                                        });
+                                                      } else {
+                                                        show();
+                                                      }
+                                                    } else {
+                                                      show();
+                                                    }
+                                                  } else {
+                                                    show();
+                                                  }
+                                                } else {
+                                                  show();
+                                                }
+                                              } else {
+                                                show();
+                                              }
+                                            } else {
+                                              show();
+                                            }
+                                          } else {
+                                            show();
+                                          }
+                                        },
+                                        child: Container(
+                                          height: 56,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.70,
+                                          decoration: BoxDecoration(
+                                            color: theme.accentColor,
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          child: Center(
+                                            child: Text(
+                                              "Post Sell".tr,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                  color: theme.primaryColor,
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            )
+                        )
+                      ],
+                    ),
+                  ),
+                )
+              : Center(
+                  child: Container(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CircularProgressIndicator(
+                          color: theme.accentColor,
+                        ),
+                        SizedBox(height: 20),
+                        Text("Posting...")
+                      ],
+                    ),
+                  ),
+                )
           : Container(
               child: Center(
                 child: Text("Please Login to see".tr),
               ),
             ),
     );
+  }
+
+  show() {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        duration: Duration(milliseconds: 900),
+        content: Text('Something is missing. Please check again')));
   }
 
   showImagePicker(BuildContext context, String _path) {

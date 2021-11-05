@@ -1,9 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get_connect/http/src/status/http_status.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:zamindar/model/user.dart';
+import 'package:http/http.dart' as http;
 
 class Ask extends StatefulWidget {
   Ask({Key? key}) : super(key: key);
@@ -47,7 +51,10 @@ class _AskState extends State<Ask> {
           user.userlogin
               ? questionController.text.isNotEmpty
                   ? InkWell(
-                      onTap: () {},
+                      onTap: () async {
+                        var res = await postQuestion(questionController.text);
+                        print(res);
+                      },
                       child: Container(
                         margin: EdgeInsets.only(right: 20),
                         child: Row(
@@ -113,7 +120,7 @@ class _AskState extends State<Ask> {
                                   "asset/icons/close.svg",
                                   height: 10,
                                   width: 10,
-                                  color: Colors.white,
+                                  color: theme.cardColor,
                                 )),
                           )
                         ],
@@ -161,5 +168,41 @@ class _AskState extends State<Ask> {
               ),
             ),
     );
+  }
+
+  Future postQuestion(String question) async {
+    var sender = [{}];
+
+    var infoToSend = {
+      "description": question,
+      "type": "user",
+      "sender": [
+        {
+          'name': user.name,
+          'profile': user.image,
+          'id': user.id,
+        }
+      ],
+    };
+
+    var hitrespons;
+    try {
+      var res = await http.post(
+          Uri.parse('https://zamindarapi.herokuapp.com/info/'),
+          body: jsonEncode(infoToSend));
+
+      if (res.statusCode == 200) {
+        var body = res.body.toString();
+        var newbody = jsonDecode(body);
+        hitrespons = newbody['respone'];
+      }
+      if (hitrespons == 'Success') {
+        return true;
+      } else {
+        return false;
+      }
+    } on HttpStatus catch (e) {
+      print(e);
+    }
   }
 }

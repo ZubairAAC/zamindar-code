@@ -46,18 +46,13 @@ class _PostViewState extends State<PostView> {
           margin: EdgeInsets.only(bottom: 150),
           child: Column(
             children: [
-              Hero(
-                transitionOnUserGestures: true,
-                tag: 'img',
-                child: Container(
+              Container(
                   height: 330,
                   margin: EdgeInsets.symmetric(horizontal: 20),
                   decoration: BoxDecoration(
                       color: theme.accentColor,
                       borderRadius: BorderRadius.circular(10)),
-                  child: Image.memory(base64Decode(img)),
-                ),
-              ),
+                  child: Image.memory(base64Decode(img))),
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 child: Text(
