@@ -176,11 +176,16 @@ class _MarketState extends State<Market> {
                     itemCount: snapshot.data?.length,
                     itemBuilder: (BuildContext context, int index) {
                       final data = snapshot.data![index];
+                      var first = RegExp('[a-zA-Z]');
+                      var second = data.city.replaceAll(first, "");
+                      final cityName = second.replaceAll(": ", "");
                       return InkWell(
                         onTap: () {
-                          print(index);
+                          var myicon = findIcon(data.category);
+
                           Get.to(() => MarketAdView(
                                 adtitle: data.title,
+                                myicon: myicon,
                                 addescription: data.description,
                                 adcategory: data.category,
                                 adcity: data.city,
@@ -253,7 +258,7 @@ class _MarketState extends State<Market> {
                                         Row(
                                           children: [
                                             Text(
-                                              data.city,
+                                              cityName,
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(fontSize: 9),
                                             ),

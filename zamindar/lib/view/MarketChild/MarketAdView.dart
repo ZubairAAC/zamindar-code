@@ -2,9 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:get/instance_manager.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:zamindar/model/city.dart';
+import 'package:zamindar/view/MarketChild/callDailogue.dart';
 import 'package:zamindar/view/MessageChild/inchat.dart';
 
 class MarketAdView extends StatefulWidget {
@@ -15,6 +18,7 @@ class MarketAdView extends StatefulWidget {
   String adperson;
   String adphoto;
   String adphone;
+  String myicon;
   MarketAdView(
       {Key? key,
       required this.adtitle,
@@ -23,12 +27,13 @@ class MarketAdView extends StatefulWidget {
       required this.addescription,
       required this.adperson,
       required this.adphone,
+      required this.myicon,
       required this.adphoto})
       : super(key: key);
 
   @override
-  _MarketAdViewState createState() => _MarketAdViewState(
-      adcategory, adcity, addescription, adperson, adphone, adphoto, adtitle);
+  _MarketAdViewState createState() => _MarketAdViewState(adcategory, adcity,
+      addescription, adperson, adphone, adphoto, adtitle, myicon);
 }
 
 class _MarketAdViewState extends State<MarketAdView> {
@@ -39,8 +44,18 @@ class _MarketAdViewState extends State<MarketAdView> {
   String adperson;
   String adphoto;
   String adphone;
-  _MarketAdViewState(this.adtitle, this.adcategory, this.adcity,
-      this.addescription, this.adperson, this.adphone, this.adphoto);
+  String myicon;
+
+  _MarketAdViewState(
+      this.adtitle,
+      this.adcategory,
+      this.adcity,
+      this.addescription,
+      this.adperson,
+      this.adphone,
+      this.adphoto,
+      this.myicon);
+  var cityName;
 
   @override
   void initState() {
@@ -52,6 +67,16 @@ class _MarketAdViewState extends State<MarketAdView> {
     print("person: $adperson");
     print("photo: $adphoto");
     print("phone: $adphone");
+    print("icon: $myicon");
+    print(adcategory.substring(
+      0,
+    ));
+    var first = RegExp('[a-zA-Z]');
+    var second = adcategory.replaceAll(first, "");
+    cityName = second.replaceAll(": ", "");
+    // print(cityName);
+
+    // print(adcategory.split(":"));
   }
 
   @override
@@ -158,10 +183,20 @@ class _MarketAdViewState extends State<MarketAdView> {
                                 borderRadius: BorderRadius.circular(10)),
                             child: Column(
                               children: [
-                                Spacer(),
+                                SizedBox(height: 20),
+                                SvgPicture.asset(
+                                  myicon,
+                                  height: 30,
+                                  width: 30,
+                                  color: theme.accentColor,
+                                ),
+                                SizedBox(height: 10),
                                 Text(
                                   adtitle,
-                                  style: TextStyle(fontWeight: FontWeight.w900),
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w900,
+                                      color: theme.accentColor),
                                 ),
                                 SizedBox(height: 5),
                                 Text(
@@ -180,13 +215,27 @@ class _MarketAdViewState extends State<MarketAdView> {
                                 borderRadius: BorderRadius.circular(10)),
                             child: Column(
                               children: [
-                                Spacer(),
-                                Text(
-                                  adcategory,
-                                  style: TextStyle(fontWeight: FontWeight.w900),
+                                SizedBox(height: 20),
+                                Icon(
+                                  Icons.location_city_outlined,
+                                  size: 30,
+                                  color: theme.accentColor,
                                 ),
-                                SizedBox(height: 5),
+                                SizedBox(height: 8),
+                                Text(
+                                  cityName,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w900,
+                                    color: theme.accentColor,
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.035,
+                                  ),
+                                ),
+                                // SizedBox(height: 5),
                                 Text("City", style: TextStyle(fontSize: 15)),
+                                SizedBox(height: 13)
                               ],
                             ),
                           ),
@@ -199,10 +248,21 @@ class _MarketAdViewState extends State<MarketAdView> {
                                 borderRadius: BorderRadius.circular(10)),
                             child: Column(
                               children: [
-                                Spacer(),
+                                SizedBox(height: 20),
+                                SvgPicture.asset(
+                                  'asset/icons/calendar_today_black_24dp.svg',
+                                  height: 30,
+                                  width: 30,
+                                  color: theme.accentColor,
+                                ),
+                                SizedBox(height: 10),
                                 Text(
                                   "31-12-2021",
-                                  style: TextStyle(fontWeight: FontWeight.w900),
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w900,
+                                    color: theme.accentColor,
+                                  ),
                                 ),
                                 SizedBox(height: 5),
                                 Text("Date"),
@@ -224,16 +284,15 @@ class _MarketAdViewState extends State<MarketAdView> {
                     SizedBox(height: 10),
                     Container(
                       height: 150,
+                      width: MediaQuery.of(context).size.width,
                       padding: EdgeInsets.all(10),
                       decoration: BoxDecoration(
                           color: theme.cardColor,
                           borderRadius: BorderRadius.circular(10)),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(adcity),
-                        ],
+                      child: Text(
+                        adcity,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 8,
                       ),
                     ),
                     SizedBox(height: 30),
@@ -289,31 +348,43 @@ class _MarketAdViewState extends State<MarketAdView> {
                                   // color: Colors.blue,
                                   child: Row(
                                     children: [
-                                      Container(
-                                        height: 50,
-                                        width: 50,
-                                        decoration: BoxDecoration(
-                                            color: theme.backgroundColor,
-                                            borderRadius:
-                                                BorderRadius.circular(10)),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Icon(
-                                              Icons.phone,
-                                              size: 15,
-                                              color: theme.accentColor,
-                                            ),
-                                            SizedBox(height: 5),
-                                            Text(
-                                              "Call".tr,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(fontSize: 10),
-                                            )
-                                          ],
+                                      InkWell(
+                                        onTap: () {
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return call(
+                                                adphone: adperson,
+                                              );
+                                            },
+                                          );
+                                        },
+                                        child: Container(
+                                          height: 50,
+                                          width: 50,
+                                          decoration: BoxDecoration(
+                                              color: theme.backgroundColor,
+                                              borderRadius:
+                                                  BorderRadius.circular(10)),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Icon(
+                                                Icons.phone,
+                                                size: 15,
+                                                color: theme.accentColor,
+                                              ),
+                                              SizedBox(height: 5),
+                                              Text(
+                                                "Call".tr,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(fontSize: 10),
+                                              )
+                                            ],
+                                          ),
                                         ),
                                       ),
                                       SizedBox(width: 20),
@@ -364,5 +435,25 @@ class _MarketAdViewState extends State<MarketAdView> {
             ],
           ),
         )));
+  }
+}
+
+findIcon(String category) {
+  switch (category) {
+    case 'Plants':
+      return "asset/icons/plant.svg";
+      break;
+    case 'Cattles':
+      return "asset/icons/cow.svg";
+      break;
+    case 'Machinery':
+      return "asset/icons/tractor.svg";
+      break;
+    case 'Services':
+      return "asset/icons/shovel.svg";
+      break;
+
+    default:
+      "asset/icons/plant.svg";
   }
 }
