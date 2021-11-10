@@ -147,20 +147,93 @@ class _MarketState extends State<Market> {
                   return Shimmer.fromColors(
                     baseColor: theme.cardColor,
                     highlightColor: theme.backgroundColor,
-                    child: Container(
-                      height: 300,
-                      margin: EdgeInsets.only(left: 10, right: 10, bottom: 5),
-                      decoration: BoxDecoration(
-                          color: theme.cardColor,
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Column(
-                        children: [
-                          Container(
-                            height: 50,
-                            padding: EdgeInsets.all(20),
-                          )
-                        ],
-                      ),
+                    child: Column(
+                      children: [
+                        Container(
+                          height: 100,
+                          margin:
+                              EdgeInsets.only(left: 10, right: 10, bottom: 5),
+                          decoration: BoxDecoration(
+                              color: theme.cardColor,
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Column(
+                            children: [
+                              Container(
+                                height: 50,
+                                padding: EdgeInsets.all(20),
+                              )
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 3),
+                        Container(
+                          height: 100,
+                          margin:
+                              EdgeInsets.only(left: 10, right: 10, bottom: 5),
+                          decoration: BoxDecoration(
+                              color: theme.cardColor,
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Column(
+                            children: [
+                              Container(
+                                height: 50,
+                                padding: EdgeInsets.all(20),
+                              )
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 3),
+                        Container(
+                          height: 100,
+                          margin:
+                              EdgeInsets.only(left: 10, right: 10, bottom: 5),
+                          decoration: BoxDecoration(
+                              color: theme.cardColor,
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Column(
+                            children: [
+                              Container(
+                                height: 50,
+                                padding: EdgeInsets.all(20),
+                              )
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 3),
+                        Container(
+                          height: 100,
+                          margin:
+                              EdgeInsets.only(left: 10, right: 10, bottom: 5),
+                          decoration: BoxDecoration(
+                              color: theme.cardColor,
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Column(
+                            children: [
+                              Container(
+                                height: 50,
+                                padding: EdgeInsets.all(20),
+                              )
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 3),
+                        Container(
+                          height: 100,
+                          margin:
+                              EdgeInsets.only(left: 10, right: 10, bottom: 5),
+                          decoration: BoxDecoration(
+                              color: theme.cardColor,
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Column(
+                            children: [
+                              Container(
+                                height: 50,
+                                padding: EdgeInsets.all(20),
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   );
                 }

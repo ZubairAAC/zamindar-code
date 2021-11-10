@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class call extends StatefulWidget {
   String adphone;
@@ -41,12 +43,15 @@ class _callState extends State<call> {
     return AlertDialog(
       actions: [
         TextButton(
-            onPressed: () {},
+            onPressed: () {
+              launch("tel://$adphone");
+              Get.back();
+            },
             style: ButtonStyle(
                 overlayColor: MaterialStateColor.resolveWith(
                     (states) => theme.cardColor)),
             child: Text(
-              "Call",
+              "Call".tr,
               style: TextStyle(color: theme.accentColor),
             ))
       ],
@@ -82,7 +87,12 @@ class _callState extends State<call> {
                   color: theme.accentColor.withOpacity(0.60),
                   borderRadius: BorderRadiusDirectional.circular(10)),
               child: Row(
-                children: [Text(adphone)],
+                children: [
+                  Text(
+                    adphone,
+                    style: TextStyle(color: theme.cardColor),
+                  )
+                ],
               ),
             ),
           ])),

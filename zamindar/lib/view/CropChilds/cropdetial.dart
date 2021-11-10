@@ -4,8 +4,10 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:zamindar/model/irrigationTime.dart';
+import 'package:zamindar/model/location_service.dart';
 import 'package:zamindar/view/CropChilds/irrigationTimeSelection.dart';
 import 'package:zamindar/view/parent/myhome.dart';
+import 'package:zamindar/view_model/sharedPrefForScreen.dart';
 
 class CropDetails extends StatefulWidget {
   CropDetails({Key? key}) : super(key: key);
@@ -17,10 +19,15 @@ class CropDetails extends StatefulWidget {
 class _CropDetailsState extends State<CropDetails> {
   int _groupValue = -1;
   bool timeSelected = false;
+
   @override
   void initState() {
     super.initState();
     timeSelected = irrigationTime.irrigationTimeSelected;
+    String lat = "${UserLocation.lat}";
+    String long = "${UserLocation.long}";
+
+    setFarmLocationFlag(UserLocation.lat, UserLocation.long);
     setState(() {});
   }
 

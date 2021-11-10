@@ -1,4 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:zamindar/model/farmData.dart';
 import 'package:zamindar/model/irrigationTime.dart';
 import 'package:zamindar/model/user.dart';
 
@@ -66,4 +67,18 @@ getIrrigationTimeFlag() async {
   irrigationTime.endDay = sp.getString("endDay");
   irrigationTime.startTime = sp.getString("startTime");
   irrigationTime.endTime = sp.getString("endTime");
+}
+
+setFarmLocationFlag(double lat, double long) async {
+  SharedPreferences sp = await SharedPreferences.getInstance();
+  sp.setDouble("farm lat", lat);
+  sp.setDouble("farm long", long);
+}
+
+getFarmLocationFlag() async {
+  SharedPreferences sp = await SharedPreferences.getInstance();
+  farm.farmlat = sp.getDouble("farm lat") as double;
+  farm.farmloc = sp.getDouble("farm long") as double;
+  print("farm lat is ${farm.farmlat}");
+  print("farm long is ${farm.farmloc}");
 }

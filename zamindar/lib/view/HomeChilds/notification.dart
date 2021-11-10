@@ -13,6 +13,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final sheight = MediaQuery.of(context).size.height;
+    final swidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
         backgroundColor: theme.backgroundColor,
         appBar: AppBar(
@@ -44,78 +47,60 @@ class _NotificationScreenState extends State<NotificationScreen> {
             Divider(
               color: theme.accentColor,
             ),
-            Container(
-              height: MediaQuery.of(context).size.height,
-              color: theme.cardColor,
-              child: ListView.builder(
-                itemCount: 10,
-                itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                      margin:
-                          EdgeInsets.only(top: 0, left: 2, right: 2, bottom: 1),
-                      padding: EdgeInsets.only(left: 20, right: 5),
-                      height: 70,
-                      color: theme.backgroundColor,
-                      child: Row(
+            ListView.builder(
+              itemCount: 10,
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemBuilder: (BuildContext context, int index) {
+                return Container(
+                  height: sheight * 0.10,
+                  margin: EdgeInsets.only(top: 2, left: 10, right: 10),
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  decoration: BoxDecoration(
+                      color: theme.cardColor,
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Row(
+                    children: [
+                      Container(
+                        height: sheight * 0.07,
+                        width: swidth * 0.12,
+                        decoration: BoxDecoration(
+                            color: theme.accentColor,
+                            borderRadius: BorderRadius.circular(50)),
+                        child: Center(
+                          child: Icon(
+                            Icons.notifications,
+                            color: theme.cardColor,
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: swidth * 0.025),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
-                            height: 40,
-                            width: 40,
-                            decoration: BoxDecoration(
-                                color: Colors.red,
-                                borderRadius: BorderRadius.circular(50)),
+                          SizedBox(height: sheight * 0.025),
+                          Text(
+                            "New photo Added by team Zamindar",
+                            style: TextStyle(fontWeight: FontWeight.w700),
                           ),
-                          SizedBox(width: 10),
-                          Container(
-                            height: 70,
-                            width: 230,
-                            // color: Colors.blue,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(height: 15),
-                                Text(
-                                  "Zubair Ayaz Asim Chaudhry",
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15),
-                                ),
-                                SizedBox(height: 3),
-                                Text(
-                                  "This is the last message from me see u good bye have a nice day",
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 2,
-                                  style: TextStyle(
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 10),
-                                ),
-                              ],
-                            ),
+                          SizedBox(height: sheight * 0.005),
+                          Text(
+                            "New photo has been Added by team Zamindar",
+                            maxLines: 5,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(fontSize: 10),
                           ),
-                          SizedBox(width: 10),
-                          Container(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "31-12-2021",
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 8),
-                                ),
-                              ],
-                            ),
-                          )
                         ],
-                      ));
-                },
-              ),
+                      )
+                    ],
+                  ),
+                );
+              },
             ),
+            SizedBox(
+              height: 20,
+            )
           ]),
         ));
   }

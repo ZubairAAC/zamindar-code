@@ -7,6 +7,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:flutter_glow/flutter_glow.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
+import 'package:zamindar/model/farmData.dart';
 import 'package:zamindar/model/location_service.dart';
 import 'package:intl/intl.dart';
 import 'package:zamindar/model/user.dart';
@@ -45,17 +46,15 @@ class _WeatherViewState extends State<WeatherView> {
   }
 
   Future getweather() async {
-    if (UserLocation.lat != null && UserLocation.long != null) {
-      if (UserLocation.street != null) {
-        setState(() {
-          viewAble = true;
-          print(UserLocation.street);
-        });
-        weatherApi(UserLocation.lat, UserLocation.long).then((value) {
-          setState(() {});
-        });
+    if (farm.farmlat != null && farm.farmloc != null) {
+      setState(() {
+        viewAble = true;
+      });
+
+      weatherApi(farm.farmlat, farm.farmloc).then((value) {
         setState(() {});
-      }
+      });
+      setState(() {});
     } else
       return false;
   }
@@ -359,9 +358,7 @@ class today extends StatelessWidget {
           ),
           SizedBox(height: 5),
           Text(
-            UserLocation.street == null
-                ? "Weather in your farm"
-                : UserLocation.street,
+            "Weather in your farm",
             overflow: TextOverflow.ellipsis,
             maxLines: 1,
             style:

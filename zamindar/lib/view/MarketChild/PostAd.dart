@@ -197,9 +197,9 @@ class _PostAdState extends State<PostAd> {
                                                 borderRadius:
                                                     BorderRadius.circular(10),
                                                 child: Image.file(
-                                                    imageArray[index] ??
-                                                        1 ??
-                                                        2),
+                                                  imageArray[index],
+                                                  fit: BoxFit.cover,
+                                                ),
                                               ),
                                               Positioned(
                                                   top: 0,
@@ -515,7 +515,7 @@ class _PostAdState extends State<PostAd> {
                                       SizedBox(height: 20),
                                       TextFormField(
                                         cursorColor: theme.accentColor,
-                                        maxLines: 5,
+                                        maxLines: 8,
                                         validator: MultiValidator([
                                           RequiredValidator(
                                               errorText: "Required*")
@@ -528,8 +528,9 @@ class _PostAdState extends State<PostAd> {
                                           });
                                         },
                                         keyboardAppearance: Brightness.light,
-                                        textInputAction: TextInputAction.done,
-                                        keyboardType: TextInputType.text,
+                                        textInputAction:
+                                            TextInputAction.newline,
+                                        keyboardType: TextInputType.multiline,
                                         decoration: InputDecoration(
                                             focusedErrorBorder:
                                                 OutlineInputBorder(

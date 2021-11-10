@@ -204,6 +204,9 @@ class myTranslations extends Translations {
           "Friday": "Friday",
           "Saturday": "Saturday",
           "Sunday": "Sunday",
+          "Category": "Category",
+          "City": "City",
+          "Date": "Date",
         },
         'ur_PK': {
           'Home': 'ہوم',
@@ -406,6 +409,9 @@ class myTranslations extends Translations {
           "Friday": "جمعہ",
           "Saturday": "ہفتہ",
           "Sunday": "اتوار",
+          "Category": "قسم",
+          "City": "شہر",
+          "Date": "تاریخ",
         }
       };
 }

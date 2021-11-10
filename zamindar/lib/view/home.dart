@@ -24,7 +24,6 @@ import 'package:zamindar/view/parent/myhome.dart';
 import 'package:zamindar/view_model/getInfo.dart';
 import 'package:zamindar/view_model/internetChecker.dart';
 import 'package:zamindar/view_model/sharedPrefForScreen.dart';
-import 'package:zamindar/view_model/sqfliteDb.dart';
 import 'package:zamindar/view_model/userLocation.dart';
 
 import 'HomeChilds/weatherView.dart';
@@ -41,23 +40,16 @@ class mainHome extends StatefulWidget {
 // ignore: camel_case_types
 class _mainHomeState extends State<mainHome>
     with SingleTickerProviderStateMixin {
-  late TabController _controller;
   bool hasInternet = true;
   late Future<List<Info>> getMydata;
 
   @override
   void initState() {
-    // ignore: todo
-    // TODO: implement initState
-    // locationService();
     getMydata = getInfoFromApi();
     super.initState();
 
-    // ignore: unnecessary_new
-    _controller = new TabController(length: 2, vsync: this);
-    getlocation();
-    checkInternet();
     locationFinder().createState().locationService();
+    getFarmLocationFlag();
 
     InternetConnectionChecker().onStatusChange.listen((event) {
       final hasInternet = event == InternetConnectionStatus.connected;
@@ -66,26 +58,9 @@ class _mainHomeState extends State<mainHome>
         this.hasInternet = hasInternet;
       });
     });
-    connectivityChecker();
-    getIsLoginFlag();
-    getUserInfoFromDB();
-  }
 
-  getUserInfoFromDB() async {
-    // List<Map<String, dynamic>> myinfo = [];
-    List myinfo = await UserDB.getItems();
-    setState(() {
-      user.name = myinfo[0]['name'];
-      user.id = myinfo[0]['id'];
-      user.gender = myinfo[0]['gender'];
-      user.image = myinfo[0]['image'];
-      user.phone = myinfo[0]['phone'];
-    });
-    // print(user.id);
-    // print(user.name);
-    // print(user.gender);
-    // print(user.phone);
-    // print(user.image);
+    getIsLoginFlag();
+    getlocation();
   }
 
   getlocation() async {

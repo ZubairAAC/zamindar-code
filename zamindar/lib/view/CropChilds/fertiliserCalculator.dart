@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
@@ -65,7 +66,8 @@ class _CalculatorState extends State<Calculator> {
                     ),
                     Container(
                       height: _height / 2.3,
-                      margin: EdgeInsets.all(30),
+                      margin: EdgeInsets.only(
+                          left: 30, right: 30, top: 10, bottom: 20),
                       padding: EdgeInsets.all(30),
                       decoration: BoxDecoration(
                           color: theme.cardColor,
@@ -76,6 +78,7 @@ class _CalculatorState extends State<Calculator> {
                         child: Column(
                           children: [
                             TextFormField(
+                              textInputAction: TextInputAction.next,
                               keyboardAppearance: Brightness.light,
                               keyboardType: TextInputType.number,
                               controller: nController,
@@ -110,6 +113,7 @@ class _CalculatorState extends State<Calculator> {
                             ),
                             SizedBox(height: _height * 0.05),
                             TextFormField(
+                              textInputAction: TextInputAction.next,
                               keyboardAppearance: Brightness.light,
                               keyboardType: TextInputType.number,
                               controller: pController,
@@ -144,6 +148,7 @@ class _CalculatorState extends State<Calculator> {
                             ),
                             SizedBox(height: _height * 0.04),
                             TextFormField(
+                              textInputAction: TextInputAction.done,
                               keyboardAppearance: Brightness.light,
                               keyboardType: TextInputType.number,
                               controller: kController,
@@ -200,8 +205,9 @@ class _CalculatorState extends State<Calculator> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                InkWell(
-                                  onTap: () {
+                                CupertinoButton(
+                                  padding: EdgeInsets.all(0),
+                                  onPressed: () {
                                     setState(() {
                                       if (startSize > 0.5) {
                                         startSize = startSize - 0.5;
@@ -230,8 +236,9 @@ class _CalculatorState extends State<Calculator> {
                                       fontWeight: FontWeight.bold,
                                       fontSize: _width * 0.10),
                                 ),
-                                InkWell(
-                                  onTap: () {
+                                CupertinoButton(
+                                  padding: EdgeInsets.all(0),
+                                  onPressed: () {
                                     setState(() {
                                       startSize = startSize + 0.5;
                                       size = startSize.toString();
@@ -258,24 +265,28 @@ class _CalculatorState extends State<Calculator> {
                         ],
                       ),
                     ),
-                    Container(
-                      height: 50,
-                      width: _width / 2,
-                      decoration: BoxDecoration(
-                          color: theme.accentColor,
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Center(
-                        child: Text(
-                          "Calculate".tr,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: theme.cardColor),
+                    CupertinoButton(
+                      padding: EdgeInsets.all(0),
+                      onPressed: () {},
+                      child: Container(
+                        height: 50,
+                        width: _width / 2,
+                        decoration: BoxDecoration(
+                            color: theme.accentColor,
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Center(
+                          child: Text(
+                            "Calculate".tr,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: theme.cardColor),
+                          ),
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: _height * 0.10,
-                    )
+                    // SizedBox(
+                    //   height: _height * 0.10,
+                    // )
                   ],
                 ),
               )),

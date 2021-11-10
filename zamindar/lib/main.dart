@@ -6,13 +6,13 @@ import 'package:zamindar/provider/theme.dart';
 import 'package:zamindar/view/parent/OnBoardLan.dart';
 import 'package:zamindar/view/parent/myhome.dart';
 import 'package:zamindar/view_model/sharedPrefForScreen.dart';
+import 'package:zamindar/view_model/sqfliteDb.dart';
+import 'package:zamindar/model/user.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   bool vFlag = false;
-  //
-
   vFlag = await getVisitedFlag();
   print("vFlag is ===> $vFlag");
   runApp(MyApp(
@@ -37,10 +37,22 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+    getUserInfoFromDB();
     print("flag is ====> $flag");
 
     currentTheme.addListener(() {
       setState(() {});
+    });
+  }
+
+  getUserInfoFromDB() async {
+    List myinfo = await UserDB.getItems();
+    setState(() {
+      user.name = myinfo[0]['name'];
+      user.id = myinfo[0]['id'];
+      user.gender = myinfo[0]['gender'];
+      user.image = myinfo[0]['image'];
+      user.phone = myinfo[0]['phone'];
     });
   }
 

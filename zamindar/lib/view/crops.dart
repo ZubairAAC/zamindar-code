@@ -201,8 +201,8 @@ class _cropsState extends State<crops> {
                                                 int index) {
                                               final data = snapshot.data[index];
                                               Weather seven = data;
-                                              var tempMax = seven.max - 273.15;
-                                              var temMin = seven.min - 273.15;
+                                              var tempMax = seven.max;
+                                              var temMin = seven.min;
                                               var finaltemperature =
                                                   "${temMin.round()}° " +
                                                       "-" +
@@ -251,7 +251,7 @@ class _cropsState extends State<crops> {
                                                                 .cardColor),
                                                       ),
                                                       Text(
-                                                        dis,
+                                                        dis.tr,
                                                         style: TextStyle(
                                                             fontSize: 12,
                                                             color: theme

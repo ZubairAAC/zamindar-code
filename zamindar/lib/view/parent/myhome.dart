@@ -15,6 +15,7 @@ import 'package:zamindar/view/onboardingLogin/LoginChecker.dart';
 import 'package:zamindar/view/HomeChilds/drawer.dart';
 import 'package:zamindar/view_model/IrrigationAlerts.dart';
 import 'package:zamindar/view_model/getInfo.dart';
+import 'package:zamindar/view_model/internetChecker.dart';
 import 'package:zamindar/view_model/sharedPrefForScreen.dart';
 import 'package:zamindar/view_model/sqfliteDb.dart';
 
@@ -34,7 +35,22 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     getIsLoginFlag();
     getNotification();
     getFlag();
-    getInfoFromApi();
+    checkConnection();
+
+    // getInfoFromApi();
+  }
+
+  checkConnection() async {
+    bool my = false;
+    checkInternet(context);
+    // print("my is ${my}");
+    bool my2;
+    my2 = await connectivityChecker();
+    if (my2 == false) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("No Active Internet")));
+    }
+    print(my2);
   }
 
   getFlag() async {

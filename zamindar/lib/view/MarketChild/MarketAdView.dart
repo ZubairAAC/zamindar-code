@@ -60,21 +60,21 @@ class _MarketAdViewState extends State<MarketAdView> {
   @override
   void initState() {
     super.initState();
-    print("title: $adtitle");
-    print("description: $addescription");
-    print("category: $adcategory");
-    print("city: $adcity");
-    print("person: $adperson");
-    print("photo: $adphoto");
-    print("phone: $adphone");
-    print("icon: $myicon");
-    print(adcategory.substring(
-      0,
-    ));
+    // print("title: $adtitle");
+    // print("description: $addescription");
+    // print("category: $adcategory");
+    // print("city: $adcity");
+    // print("person: $adperson");
+    // print("photo: $adphoto");
+    // print("phone: $adphone");
+    // print("icon: $myicon");
+    // print(adcategory.substring(
+    //   0,
+    // ));
     var first = RegExp('[a-zA-Z]');
     var second = adcategory.replaceAll(first, "");
     cityName = second.replaceAll(": ", "");
-    // print(cityName);
+    print(cityName);
 
     // print(adcategory.split(":"));
   }
@@ -192,7 +192,7 @@ class _MarketAdViewState extends State<MarketAdView> {
                                 ),
                                 SizedBox(height: 10),
                                 Text(
-                                  adtitle,
+                                  adtitle.tr,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                       fontWeight: FontWeight.w900,
@@ -200,8 +200,8 @@ class _MarketAdViewState extends State<MarketAdView> {
                                 ),
                                 SizedBox(height: 5),
                                 Text(
-                                  "Category",
-                                  style: TextStyle(fontSize: 15),
+                                  "Category".tr,
+                                  style: TextStyle(fontSize: 13),
                                 ),
                               ],
                             ),
@@ -234,8 +234,8 @@ class _MarketAdViewState extends State<MarketAdView> {
                                   ),
                                 ),
                                 // SizedBox(height: 5),
-                                Text("City", style: TextStyle(fontSize: 15)),
-                                SizedBox(height: 13)
+                                Text("City".tr, style: TextStyle(fontSize: 15)),
+                                SizedBox(height: 3)
                               ],
                             ),
                           ),
@@ -265,7 +265,7 @@ class _MarketAdViewState extends State<MarketAdView> {
                                   ),
                                 ),
                                 SizedBox(height: 5),
-                                Text("Date"),
+                                Text("Date".tr),
                               ],
                             ),
                           )
