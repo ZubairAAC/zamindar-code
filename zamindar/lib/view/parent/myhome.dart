@@ -5,6 +5,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart'
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:zamindar/model/irrigationTime.dart';
+import 'package:zamindar/model/notification.dart';
 import 'package:zamindar/model/user.dart';
 import 'package:zamindar/view/crops.dart';
 import 'package:zamindar/view/home.dart';
@@ -105,6 +106,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         state == AppLifecycleState.paused) {
       showBeforeIrrigationAlert();
       showAfterIrrigationAlert();
+      getTommorrowWeather();
     }
   }
 
@@ -202,6 +204,36 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         "کیا آپ نے اپنے کھیتوں کو سیراب کیا؟", generalNotificationDetails,
         payload: "Task");
     print("out");
+  }
+
+  Future showBeforeDayWeatherNotification(
+      String name, int min, int max, String date) async {
+    var androidDetails = const fn.AndroidNotificationDetails(
+        "Channel ID", "Zamindar",
+        importance: fn.Importance.max);
+    var generalNotificationDetails =
+        fn.NotificationDetails(android: androidDetails);
+    await notification.show(
+        0,
+        "کل کے لئے موسم کی صورتحال",
+        "کل ${date} کو موسم ${name} ہوگا۔ کم سے کم درجہ حرارت ${min} ہو گا اور زیادہ سے زیادہ درجہ حرارت ${max} ہوگا۔",
+        generalNotificationDetails,
+        payload: "Task");
+  }
+
+  Future showOnDayWeatherNotification(
+      String name, int min, int max, String date) async {
+    var androidDetails = const fn.AndroidNotificationDetails(
+        "Channel ID", "Zamindar",
+        importance: fn.Importance.max);
+    var generalNotificationDetails =
+        fn.NotificationDetails(android: androidDetails);
+    await notification.show(
+        0,
+        "آج کے لئے موسم کی صورتحال",
+        "آج ${date} کو موسم ${name} ہوگا۔ کم سے کم درجہ حرارت ${min} ہو گا اور زیادہ سے زیادہ درجہ حرارت ${max} ہوگا۔",
+        generalNotificationDetails,
+        payload: "Task");
   }
 
   void notificationSelected(String? payload) {}

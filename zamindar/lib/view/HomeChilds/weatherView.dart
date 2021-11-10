@@ -10,6 +10,7 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:zamindar/model/farmData.dart';
 import 'package:zamindar/model/location_service.dart';
 import 'package:intl/intl.dart';
+import 'package:zamindar/model/notification.dart';
 import 'package:zamindar/model/user.dart';
 import 'package:zamindar/model/weather.dart';
 import 'package:zamindar/view_model/sharedPrefForScreen.dart';
@@ -34,6 +35,7 @@ class _WeatherViewState extends State<WeatherView> {
     super.initState();
     getweather();
     getfarm();
+    getTommorrowWeather();
   }
 
   getfarm() async {
@@ -434,13 +436,28 @@ class _NextSevenDaysState extends State<NextSevenDays> {
                       _currentDate.day + 1);
                   var _dayFormatter = DateFormat('dd-MM-yyyy');
                   List weekend = [];
+                  List maxi = [];
+                  List mini = [];
+                  List names = [];
                   var today = DateFormat('EEEE').format(DateTime.now());
                   for (var i = 0; i < snapshot.data.length; i++) {
                     var date = tomorrow.add(Duration(days: i));
                     var myday = _dayFormatter.format(date);
                     weekend.add(myday);
+                    maxi.add(seven.max);
+                    mini.add(seven.min);
+                    names.add(seven.name);
                   }
-                  print(seven.cinditions);
+
+                  notification.dates = weekend;
+                  notification.max = maxi.first;
+                  notification.min = mini.first;
+                  notification.name = seven.name;
+                  // print(maxi.single);
+
+                  // print("\n\n ${maxi.first}");
+
+                  // DateFormat('EEEE').format();
 
                   // print(dis);
 
