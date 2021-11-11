@@ -66,7 +66,7 @@ class _MessageState extends State<Message> {
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
                         margin: EdgeInsets.only(top: 1, left: 2, right: 2),
-                        padding: EdgeInsets.only(left: 20, right: 5),
+                        padding: EdgeInsets.only(left: 20, right: 20),
                         height: 70,
                         color: theme.backgroundColor,
                         child: Row(
@@ -108,6 +108,7 @@ class _MessageState extends State<Message> {
                               ),
                             ),
                             // SizedBox(width: 10),
+                            Spacer(),
                             Container(
                               margin: EdgeInsets.only(left: 10, right: 10),
                               child: Column(

@@ -62,8 +62,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   child: Row(
                     children: [
                       Container(
-                        height: sheight * 0.07,
-                        width: swidth * 0.12,
+                        height: 50,
+                        width: 50,
                         decoration: BoxDecoration(
                             color: theme.accentColor,
                             borderRadius: BorderRadius.circular(50)),

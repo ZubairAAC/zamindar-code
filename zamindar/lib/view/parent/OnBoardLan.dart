@@ -40,7 +40,7 @@ class _StartLanguageScreenState extends State<StartLanguageScreen> {
                       Padding(padding: EdgeInsets.only(top: 10)),
                       Spacer(),
                       Container(
-                        height: 170,
+                        height: 180,
                         padding:
                             EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                         margin: EdgeInsets.all(10),
@@ -53,7 +53,7 @@ class _StartLanguageScreenState extends State<StartLanguageScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Select Your Language'.tr,
+                              'Please Select your preferred language'.tr,
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 15,

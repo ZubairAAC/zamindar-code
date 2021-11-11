@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_switch/flutter_switch.dart';
@@ -112,8 +113,8 @@ class _ColorSelectionState extends State<ColorSelection> {
               },
             ),
             SizedBox(height: totalHeight * 0.20),
-            InkWell(
-              onTap: () {
+            CupertinoButton(
+              onPressed: () {
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
                     builder: (context) => permissionScreen()));
               },

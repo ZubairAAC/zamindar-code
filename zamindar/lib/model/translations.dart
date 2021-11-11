@@ -243,6 +243,13 @@ class myTranslations extends Translations {
           "Day": "Day",
           "Time": "Time",
           "Weather in your Farms": "Weather in your Farms",
+          "we": "we",
+          "warmly welcome": "warmly welcome",
+          "You to": "You to",
+          "Zamindar": "Zamindar",
+          "Please Allow permissions to access the app":
+              "Please Allow permissions to access the app",
+          "Allow Permission": "Allow Permission",
         },
         'ur_PK': {
           'Home': 'ہوم',
@@ -485,6 +492,13 @@ class myTranslations extends Translations {
           "Day": "دن",
           "Time": "وقت",
           "Weather in your Farms": "آپ کے کھیتوں میں موسم",
+          "we": "ہم",
+          "warmly welcome": "گرمجوشی سے خوش آمدید",
+          "You to": "آپ کا",
+          "Zamindar": "زمیندار",
+          "Please Allow permissions to access the app":
+              "براہ کرم ایپ تک رسائی کی اجازت دیں",
+          "Allow Permission": "اجازت دیں",
         }
       };
 }

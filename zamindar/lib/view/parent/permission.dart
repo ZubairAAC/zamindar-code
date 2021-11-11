@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:zamindar/model/location_service.dart';
 import 'package:zamindar/model/user.dart';
 import 'package:zamindar/view/parent/myhome.dart';
@@ -46,7 +47,7 @@ class _permissionScreenState extends State<permissionScreen> {
                 Row(
                   children: [
                     Text(
-                      "we",
+                      "we".tr,
                       style: TextStyle(
                           color: theme.accentColor,
                           fontWeight: FontWeight.bold,
@@ -57,7 +58,7 @@ class _permissionScreenState extends State<permissionScreen> {
                 Row(
                   children: [
                     Text(
-                      "warmly welcome",
+                      "warmly welcome".tr,
                       style: TextStyle(
                           color: theme.accentColor,
                           fontWeight: FontWeight.bold,
@@ -68,7 +69,7 @@ class _permissionScreenState extends State<permissionScreen> {
                 Row(
                   children: [
                     Text(
-                      "You to",
+                      "You to".tr,
                       style: TextStyle(
                           color: theme.accentColor,
                           fontWeight: FontWeight.bold,
@@ -79,7 +80,7 @@ class _permissionScreenState extends State<permissionScreen> {
                 Row(
                   children: [
                     Text(
-                      "Zamindar",
+                      "Zamindar".tr,
                       style: TextStyle(
                           color: theme.accentColor,
                           fontWeight: FontWeight.bold,
@@ -87,9 +88,9 @@ class _permissionScreenState extends State<permissionScreen> {
                     ),
                   ],
                 ),
-                SizedBox(height: _h * 0.10),
-                Text("Please Allow permissions to access the app"),
                 SizedBox(height: _h * 0.07),
+                Text("Please Allow permissions to access the app".tr),
+                SizedBox(height: _h * 0.03),
                 InkWell(
                   onTap: () async {
                     setVisitedFlag();
@@ -115,7 +116,7 @@ class _permissionScreenState extends State<permissionScreen> {
                               UserLocation.long.toString();
                         });
                       }
-                      if (counter > 2) {
+                      if (counter >= 2) {
                         Navigator.of(context).pushReplacement(MaterialPageRoute(
                             builder: (context) => HomeScreen()));
                       }
@@ -131,7 +132,8 @@ class _permissionScreenState extends State<permissionScreen> {
                         color: theme.accentColor,
                         borderRadius: BorderRadius.circular(10)),
                     child: Center(
-                      child: Text(canNav ? "Continue" : "Allow Permission",
+                      child: Text(
+                          canNav ? "Continue".tr : "Allow Permission".tr,
                           style: TextStyle(color: theme.cardColor)),
                     ),
                   ),

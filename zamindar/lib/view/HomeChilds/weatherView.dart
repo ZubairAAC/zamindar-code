@@ -35,7 +35,7 @@ class _WeatherViewState extends State<WeatherView> {
     super.initState();
     getweather();
     getfarm();
-    getTommorrowWeather();
+    // getTommorrowWeather();
   }
 
   getfarm() async {

@@ -290,7 +290,7 @@ class _cropsState extends State<crops> {
                   SizedBox(height: 40),
                   Container(
                     width: MediaQuery.of(context).size.width,
-                    height: 240,
+                    height: MediaQuery.of(context).size.height * 0.38,
                     margin: EdgeInsets.symmetric(horizontal: 20),
                     padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                     decoration: BoxDecoration(

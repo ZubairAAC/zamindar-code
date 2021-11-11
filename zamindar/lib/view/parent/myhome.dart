@@ -101,9 +101,17 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
 
-    if (state == AppLifecycleState.inactive ||
-        state == AppLifecycleState.detached ||
-        state == AppLifecycleState.paused) {
+    if (state == AppLifecycleState.inactive) {
+      showBeforeIrrigationAlert();
+      showAfterIrrigationAlert();
+      getTommorrowWeather();
+    }
+    if (state == AppLifecycleState.detached) {
+      showBeforeIrrigationAlert();
+      showAfterIrrigationAlert();
+      getTommorrowWeather();
+    }
+    if (state == AppLifecycleState.paused) {
       showBeforeIrrigationAlert();
       showAfterIrrigationAlert();
       getTommorrowWeather();

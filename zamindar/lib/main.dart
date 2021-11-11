@@ -43,6 +43,7 @@ class _MyAppState extends State<MyApp> {
     currentTheme.addListener(() {
       setState(() {});
     });
+    Get.updateLocale(Locale("ur_PK"));
   }
 
   getUserInfoFromDB() async {
