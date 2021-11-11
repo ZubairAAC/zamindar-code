@@ -138,7 +138,7 @@ class _irrigationTimeSelectorState extends State<irrigationTimeSelector> {
                 children: [
                   Row(
                     children: [
-                      Text("Select Irrigation Time",
+                      Text("Select Irrigation Time".tr,
                           style: TextStyle(
                             fontSize: w * 0.05,
                             fontWeight: FontWeight.bold,
@@ -149,7 +149,7 @@ class _irrigationTimeSelectorState extends State<irrigationTimeSelector> {
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: 20),
                     child: Row(
-                      children: [Text("Start Time")],
+                      children: [Text("Start Time".tr)],
                     ),
                   ),
                   SizedBox(height: h * 0.02),
@@ -169,7 +169,7 @@ class _irrigationTimeSelectorState extends State<irrigationTimeSelector> {
                                 builder: (BuildContext bc) =>
                                     CupertinoActionSheet(
                                       message: Text(
-                                        "Select day",
+                                        "Select day".tr,
                                         style: TextStyle(
                                             color: theme.primaryColorLight),
                                       ),
@@ -178,7 +178,7 @@ class _irrigationTimeSelectorState extends State<irrigationTimeSelector> {
                                             Get.back();
                                           },
                                           child: Text(
-                                            "Cancel",
+                                            "Cancel".tr,
                                             style: TextStyle(
                                                 color: theme.accentColor),
                                           )),
@@ -229,7 +229,8 @@ class _irrigationTimeSelectorState extends State<irrigationTimeSelector> {
                                 borderRadius: BorderRadius.circular(10),
                                 color: theme.backgroundColor),
                             child: Center(
-                              child: Text(startDaySelected ? startDay : "Day"),
+                              child:
+                                  Text(startDaySelected ? startDay : "Day".tr),
                             ),
                           ),
                         ),
@@ -245,7 +246,7 @@ class _irrigationTimeSelectorState extends State<irrigationTimeSelector> {
                                   builder: (BuildContext bc) =>
                                       CupertinoActionSheet(
                                         message: Text(
-                                          "Select Time",
+                                          "Select Time".tr,
                                           style: TextStyle(
                                               color: theme.primaryColorLight),
                                         ),
@@ -255,7 +256,7 @@ class _irrigationTimeSelectorState extends State<irrigationTimeSelector> {
                                                   Get.back();
                                                 },
                                                 child: Text(
-                                                  "Cancel",
+                                                  "Cancel".tr,
                                                   style: TextStyle(
                                                       color: theme.accentColor),
                                                 )),
@@ -305,7 +306,7 @@ class _irrigationTimeSelectorState extends State<irrigationTimeSelector> {
                                   color: theme.backgroundColor),
                               child: Center(
                                 child: Text(
-                                  starttimeSelected ? starttime : "Time",
+                                  starttimeSelected ? starttime : "Time".tr,
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
@@ -317,7 +318,7 @@ class _irrigationTimeSelectorState extends State<irrigationTimeSelector> {
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: 20),
                     child: Row(
-                      children: [Text("End Time")],
+                      children: [Text("End Time".tr)],
                     ),
                   ),
                   SizedBox(height: h * 0.02),
@@ -327,7 +328,7 @@ class _irrigationTimeSelectorState extends State<irrigationTimeSelector> {
                           context: context,
                           builder: (BuildContext bc) => CupertinoActionSheet(
                                 message: Text(
-                                  "Select day",
+                                  "Select day".tr,
                                   style:
                                       TextStyle(color: theme.primaryColorLight),
                                 ),
@@ -336,7 +337,7 @@ class _irrigationTimeSelectorState extends State<irrigationTimeSelector> {
                                       Get.back();
                                     },
                                     child: Text(
-                                      "Cancel",
+                                      "Cancel".tr,
                                       style:
                                           TextStyle(color: theme.accentColor),
                                     )),
@@ -389,7 +390,7 @@ class _irrigationTimeSelectorState extends State<irrigationTimeSelector> {
                                 borderRadius: BorderRadius.circular(10),
                                 color: theme.backgroundColor),
                             child: Center(
-                              child: Text(enddaySelected ? endday : "Day"),
+                              child: Text(enddaySelected ? endday : "Day".tr),
                             ),
                           ),
                           SizedBox(width: w * 0.05),
@@ -400,7 +401,7 @@ class _irrigationTimeSelectorState extends State<irrigationTimeSelector> {
                                     builder: (BuildContext bc) =>
                                         CupertinoActionSheet(
                                           message: Text(
-                                            "Select Time",
+                                            "Select Time".tr,
                                             style: TextStyle(
                                                 color: theme.primaryColorLight),
                                           ),
@@ -410,7 +411,7 @@ class _irrigationTimeSelectorState extends State<irrigationTimeSelector> {
                                                     Get.back();
                                                   },
                                                   child: Text(
-                                                    "Cancel",
+                                                    "Cancel".tr,
                                                     style: TextStyle(
                                                         color:
                                                             theme.accentColor),
@@ -461,8 +462,8 @@ class _irrigationTimeSelectorState extends State<irrigationTimeSelector> {
                                     borderRadius: BorderRadius.circular(10),
                                     color: theme.backgroundColor),
                                 child: Center(
-                                  child:
-                                      Text(endtimeSelected ? endtime : "Time"),
+                                  child: Text(
+                                      endtimeSelected ? endtime : "Time".tr),
                                 ),
                               )),
                         ],

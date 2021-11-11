@@ -161,7 +161,7 @@ class _cropsState extends State<crops> {
                     visible: farmSelected,
                     child: Container(
                       width: MediaQuery.of(context).size.width,
-                      height: 170,
+                      height: 175,
                       color: Colors.blue,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -169,7 +169,7 @@ class _cropsState extends State<crops> {
                           Padding(
                               padding: EdgeInsets.symmetric(horizontal: 20),
                               child: Text(
-                                "Weather in your Farms",
+                                "Weather in your Farms".tr,
                                 overflow: TextOverflow.ellipsis,
                               )),
                           SizedBox(height: 5),

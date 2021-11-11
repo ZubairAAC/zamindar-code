@@ -144,7 +144,7 @@ class _PostAdState extends State<PostAd> {
                               Row(
                                 children: [
                                   Text(
-                                    "Add Photos",
+                                    "Add Photos".tr,
                                     style: TextStyle(
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold),
@@ -172,7 +172,8 @@ class _PostAdState extends State<PostAd> {
                                       children: [
                                         SizedBox(height: 10),
                                         Text(
-                                          "Select Photo by clicking + button",
+                                          "Select Photo by clicking + button"
+                                              .tr,
                                           style:
                                               TextStyle(color: theme.cardColor),
                                         )
@@ -298,7 +299,7 @@ class _PostAdState extends State<PostAd> {
                               Row(
                                 children: [
                                   Text(
-                                    "Add Title",
+                                    "Add Title".tr,
                                     style: TextStyle(
                                       fontSize: 22,
                                       fontWeight: FontWeight.w700,
@@ -352,8 +353,8 @@ class _PostAdState extends State<PostAd> {
                                                   color: theme.accentColor,
                                                   width: 2.0),
                                             ),
-                                            hintText: 'Enter Title here',
-                                            labelText: 'Title',
+                                            hintText: 'Enter Title here'.tr,
+                                            labelText: 'Title'.tr,
                                             fillColor: theme.cardColor,
                                             filled: true,
                                             isDense: true,
@@ -367,7 +368,7 @@ class _PostAdState extends State<PostAd> {
                                       Row(
                                         children: [
                                           Text(
-                                            "Add Price",
+                                            "Add Price".tr,
                                             style: TextStyle(
                                               fontSize: 22,
                                               fontWeight: FontWeight.w700,
@@ -415,8 +416,8 @@ class _PostAdState extends State<PostAd> {
                                                   color: theme.accentColor,
                                                   width: 2.0),
                                             ),
-                                            hintText: 'Enter Price here',
-                                            labelText: 'Price',
+                                            hintText: 'Enter Price here'.tr,
+                                            labelText: 'Price'.tr,
                                             fillColor: theme.cardColor,
                                             filled: true,
                                             isDense: true,
@@ -430,7 +431,7 @@ class _PostAdState extends State<PostAd> {
                                       Row(
                                         children: [
                                           Text(
-                                            "Add Category",
+                                            "Add Category".tr,
                                             style: TextStyle(
                                               fontSize: 22,
                                               fontWeight: FontWeight.w700,
@@ -445,8 +446,8 @@ class _PostAdState extends State<PostAd> {
                                           showSearchBox: true,
                                           showClearButton: true,
                                           items: categoryData,
-                                          label: "Category",
-                                          hint: "Please Select Category",
+                                          label: "Category".tr,
+                                          hint: "Please Select Category".tr,
                                           // popupItemDisabled: (String s) =>
                                           //     s.startsWith('I'),
                                           onChanged: (e) {
@@ -489,8 +490,9 @@ class _PostAdState extends State<PostAd> {
                                                         width: 2.0),
                                                   ),
                                                   hintText:
-                                                      'Please Select Category',
-                                                  labelText: 'Category',
+                                                      'Please Select Category'
+                                                          .tr,
+                                                  labelText: 'Category'.tr,
                                                   fillColor: theme.cardColor,
                                                   filled: true,
                                                   isDense: true,
@@ -504,7 +506,7 @@ class _PostAdState extends State<PostAd> {
                                       Row(
                                         children: [
                                           Text(
-                                            "Add Descriptions",
+                                            "Add Descriptions".tr,
                                             style: TextStyle(
                                               fontSize: 22,
                                               fontWeight: FontWeight.w700,
@@ -550,8 +552,8 @@ class _PostAdState extends State<PostAd> {
                                                 borderSide: BorderSide(
                                                     color: theme.accentColor,
                                                     width: 2)),
-                                            hintText: 'Add Descritions',
-                                            labelText: 'Description',
+                                            hintText: 'Add Descriptions'.tr,
+                                            labelText: 'Description'.tr,
                                             fillColor: theme.cardColor,
                                             filled: true,
                                             isDense: true,
@@ -565,7 +567,7 @@ class _PostAdState extends State<PostAd> {
                                       Row(
                                         children: [
                                           Text(
-                                            "Add Address",
+                                            "Add Address".tr,
                                             style: TextStyle(
                                               fontSize: 22,
                                               fontWeight: FontWeight.w700,
@@ -580,8 +582,8 @@ class _PostAdState extends State<PostAd> {
                                           showSearchBox: true,
                                           showClearButton: true,
                                           items: city,
-                                          label: "City",
-                                          hint: "Please Select City",
+                                          label: "City".tr,
+                                          hint: "Please Select City".tr,
                                           // popupItemDisabled: (String s) =>
                                           //     s.startsWith('I'),
                                           onChanged: (i) {
@@ -623,8 +625,8 @@ class _PostAdState extends State<PostAd> {
                                                         width: 2.0),
                                                   ),
                                                   hintText:
-                                                      'Please Select City',
-                                                  labelText: 'City',
+                                                      'Please Select City'.tr,
+                                                  labelText: 'City'.tr,
                                                   fillColor: theme.cardColor,
                                                   filled: true,
                                                   isDense: true,

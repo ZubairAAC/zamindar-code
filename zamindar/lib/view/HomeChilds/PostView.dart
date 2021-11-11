@@ -45,6 +45,8 @@ class _PostViewState extends State<PostView> {
             child: Container(
           margin: EdgeInsets.only(bottom: 150),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
                   height: 330,
@@ -54,28 +56,34 @@ class _PostViewState extends State<PostView> {
                       borderRadius: BorderRadius.circular(10)),
                   child: Image.memory(base64Decode(img))),
               Container(
-                margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                child: Text(
-                  title,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 5,
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: theme.accentColor,
-                    fontWeight: FontWeight.bold,
+                margin:
+                    EdgeInsets.only(top: 10, bottom: 10, left: 50, right: 50),
+                child: Center(
+                  child: Text(
+                    title,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 5,
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: theme.accentColor,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
               Container(
-                margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                child: Text(
-                  description,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 50,
-                  style: TextStyle(
-                    fontSize: 15,
-                    // color: theme.accentColor,
-                    fontWeight: FontWeight.normal,
+                margin:
+                    EdgeInsets.only(top: 10, bottom: 10, left: 50, right: 50),
+                child: Center(
+                  child: Text(
+                    description,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 50,
+                    style: TextStyle(
+                      fontSize: 15,
+                      // color: theme.accentColor,
+                      fontWeight: FontWeight.normal,
+                    ),
                   ),
                 ),
               )

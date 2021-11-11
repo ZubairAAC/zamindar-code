@@ -300,7 +300,7 @@ class today extends StatelessWidget {
                         size: 30,
                         color: theme.cardColor,
                       ),
-                      SizedBox(height: 10),
+                      SizedBox(height: 8),
                       Text(
                         "Temperature".tr,
                         style: TextStyle(fontSize: screenWidth * 0.027),
@@ -323,7 +323,7 @@ class today extends StatelessWidget {
                         size: 30,
                         color: theme.cardColor,
                       ),
-                      SizedBox(height: 10),
+                      SizedBox(height: 8),
                       Text("Humidity".tr,
                           style: TextStyle(fontSize: screenWidth * 0.027)),
                       SizedBox(height: 5),
@@ -344,7 +344,7 @@ class today extends StatelessWidget {
                         size: 30,
                         color: theme.cardColor,
                       ),
-                      SizedBox(height: 10),
+                      SizedBox(height: 8),
                       Text("Visibility".tr,
                           style: TextStyle(fontSize: screenWidth * 0.027)),
                       SizedBox(height: 5),
@@ -360,7 +360,7 @@ class today extends StatelessWidget {
           ),
           SizedBox(height: 5),
           Text(
-            "Weather in your farm",
+            "Weather in your Farms".tr,
             overflow: TextOverflow.ellipsis,
             maxLines: 1,
             style:
@@ -470,7 +470,7 @@ class _NextSevenDaysState extends State<NextSevenDays> {
                         borderRadius: BorderRadius.circular(10)),
                     child: Column(
                       children: [
-                        SizedBox(height: 10),
+                        SizedBox(height: 5),
                         Image.asset(
                           seven.image,
                           height: 70,
@@ -484,15 +484,15 @@ class _NextSevenDaysState extends State<NextSevenDays> {
                           seven.cinditions.tr,
                           style: TextStyle(fontSize: 12),
                         ),
-                        Spacer(),
                         SizedBox(height: 3),
-                        Text(weekend[index], style: TextStyle(fontSize: 10))
+                        Text(weekend[index], style: TextStyle(fontSize: 10)),
                       ],
                     ),
                   );
                 },
               );
             }
+            SizedBox(height: 10);
           }
           return Container();
         },

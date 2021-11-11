@@ -4,6 +4,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
+import 'package:get/instance_manager.dart';
 // import 'package:get/instance_manager.dart';
 
 CustomTheme currentTheme = CustomTheme();
@@ -19,6 +21,8 @@ class CustomTheme with ChangeNotifier {
   }
 
   static ThemeData get lightTheme {
+    var l = Get.locale?.languageCode;
+
     // ignore: duplicate_ignore
     return ThemeData(
         cardColor: Colors.white,
@@ -35,12 +39,15 @@ class CustomTheme with ChangeNotifier {
         scaffoldBackgroundColor: Colors.grey[200],
         focusColor: Colors.green,
         shadowColor: Colors.white,
+        fontFamily: l == 'ur_PK' ? 'Jameel Noori' : null,
         textTheme: TextTheme(
           caption: TextStyle(color: Colors.white),
           headline1: TextStyle(color: Colors.green),
           headline2: TextStyle(color: Colors.black),
           bodyText1: TextStyle(color: Colors.black),
           bodyText2: TextStyle(color: Colors.black),
+        ).apply(
+          fontFamily: l == 'ur_PK' ? 'Jameel Noori' : null,
         ),
         iconTheme: IconThemeData(
           color: Colors.green,
@@ -48,6 +55,8 @@ class CustomTheme with ChangeNotifier {
   }
 
   static ThemeData get darkTheme {
+    var l = Get.locale?.languageCode;
+
     return ThemeData(
         cardColor: Colors.black,
         primaryColor: Colors.black,
@@ -67,7 +76,9 @@ class CustomTheme with ChangeNotifier {
           headline2: TextStyle(color: Colors.white),
           bodyText1: TextStyle(color: Colors.white),
           bodyText2: TextStyle(color: Colors.white),
-        ).apply(),
+        ).apply(
+          fontFamily: l == 'ur_PK' ? 'Jameel Noori' : null,
+        ),
         iconTheme: IconThemeData(
           color: Colors.yellow[700],
         ));

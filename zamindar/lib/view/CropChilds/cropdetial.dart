@@ -95,7 +95,7 @@ class _CropDetailsState extends State<CropDetails> {
             ),
             SizedBox(height: h * 0.04),
             Container(
-              height: h * 0.60,
+              height: h * 0.61,
               margin: EdgeInsets.symmetric(horizontal: 30),
               padding: EdgeInsets.all(20),
               decoration: BoxDecoration(
@@ -106,7 +106,7 @@ class _CropDetailsState extends State<CropDetails> {
                   Row(
                     children: [
                       Text(
-                        "Zamindar Farming Tips",
+                        "Zamindar Farming Tips".tr,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             fontSize: w * 0.05, fontWeight: FontWeight.bold),
@@ -117,7 +117,7 @@ class _CropDetailsState extends State<CropDetails> {
                   Row(
                     children: [
                       Text(
-                        "To get daily updates on your crops add details",
+                        "To get daily updates on your crops add details".tr,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             fontSize: w * 0.03, fontWeight: FontWeight.normal),
@@ -153,7 +153,7 @@ class _CropDetailsState extends State<CropDetails> {
                           Text(
                             irrigationTime.irrigationTimeSelected
                                 ? irrigationTime.finalTime
-                                : "Select Irrigation time >  ",
+                                : "Select Irrigation time >".tr,
                             style: TextStyle(
                                 fontSize: w * 0.04,
                                 fontWeight: FontWeight.bold,
@@ -166,7 +166,7 @@ class _CropDetailsState extends State<CropDetails> {
                   SizedBox(height: h * 0.02),
                   Container(
                     height: h * 0.33,
-                    padding: EdgeInsets.all(20),
+                    padding: EdgeInsets.only(left: 20, right: 20, top: 20),
                     decoration: BoxDecoration(
                         color: theme.backgroundColor,
                         borderRadius: BorderRadius.circular(10)),
@@ -181,7 +181,7 @@ class _CropDetailsState extends State<CropDetails> {
                               color: theme.accentColor,
                             ),
                             SizedBox(width: w * 0.03),
-                            Text("Select Irrigation Type",
+                            Text("Select Irrigation Type".tr,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                     fontSize: w * 0.04,
@@ -190,7 +190,7 @@ class _CropDetailsState extends State<CropDetails> {
                             SizedBox(width: w * 0.05),
                           ],
                         ),
-                        SizedBox(height: h * 0.04),
+                        SizedBox(height: h * 0.03),
                         Container(
                           height: h * 0.08,
                           padding: EdgeInsets.all(20),
@@ -210,7 +210,8 @@ class _CropDetailsState extends State<CropDetails> {
                                   }),
                               SizedBox(width: w * 0.01),
                               Text(
-                                "Canal Irrigation",
+                                "Canal Irrigation".tr,
+                                overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   fontSize: w * 0.03,
                                   fontWeight: FontWeight.bold,
@@ -219,7 +220,7 @@ class _CropDetailsState extends State<CropDetails> {
                             ],
                           ),
                         ),
-                        SizedBox(height: h * 0.02),
+                        SizedBox(height: h * 0.015),
                         Container(
                           padding: EdgeInsets.all(20),
                           height: h * 0.08,
@@ -239,7 +240,8 @@ class _CropDetailsState extends State<CropDetails> {
                                   }),
                               SizedBox(width: w * 0.01),
                               Text(
-                                "Tube Well Irrigation",
+                                "Tube Well Irrigation".tr,
+                                overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   fontSize: w * 0.03,
                                   fontWeight: FontWeight.bold,

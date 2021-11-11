@@ -308,7 +308,7 @@ class _MySettingState extends State<MySetting> {
               ),
             ),
             Text(
-              "Change Language",
+              "Change Language".tr,
               style: TextStyle(fontSize: 18),
             ),
             InkWell(
