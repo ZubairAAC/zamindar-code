@@ -15,7 +15,6 @@ import 'package:zamindar/view/CropChilds/fertiliserCalculator.dart';
 import 'package:zamindar/view/CropChilds/addfarms.dart';
 import 'package:zamindar/view/CropChilds/cropSelection.dart';
 import 'package:zamindar/view/CropChilds/zamindarcenters.dart';
-import 'package:zamindar/view/parent/myhome.dart';
 import 'package:zamindar/view_model/internetChecker.dart';
 import 'package:zamindar/view_model/sharedPrefForScreen.dart';
 import 'package:zamindar/view_model/weatherApiCall.dart';
@@ -97,64 +96,71 @@ class _cropsState extends State<crops> {
                     // ignore: deprecated_member_use
                     color: theme.accentColor,
                   ),
-                  Container(
-                    height: 85,
-                    margin: EdgeInsets.only(
-                      left: MediaQuery.of(context).size.width * 0.55,
-                    ),
-                    decoration: BoxDecoration(
-                        color: theme.cardColor,
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(50),
-                          topLeft: Radius.circular(50),
-                        )),
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: 2,
-                      shrinkWrap: true,
-                      itemBuilder: (BuildContext context, int index) {
-                        return InkWell(
-                          onTap: () {
-                            if (index == 0) {
-                              Get.to(() => CropSelection());
-                            } else if (index == 1) {
-                              Get.to(() => addFarms());
-                            }
-                          },
-                          child: Visibility(
-                            visible: _isvisible,
-                            child: Container(
-                                margin: EdgeInsets.symmetric(
-                                    horizontal: 8, vertical: 8),
-                                height: 70,
-                                width: 70,
-                                decoration: BoxDecoration(
-                                  color: theme.backgroundColor,
-                                  borderRadius: BorderRadius.circular(50),
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    SvgPicture.asset(
-                                      ScrolImages[index],
-                                      height: 20,
-                                      width: 20,
-                                      // ignore: deprecated_member_use
-                                      color: theme.accentColor,
+                  Row(
+                    children: [
+                      Spacer(),
+                      Container(
+                        height: 85,
+                        margin: EdgeInsets.only(
+                          left: MediaQuery.of(context).size.width * 0.55,
+                        ),
+                        decoration: BoxDecoration(
+                            color: theme.cardColor,
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(50),
+                              topLeft: Radius.circular(50),
+                            )),
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: 2,
+                          shrinkWrap: true,
+                          itemBuilder: (BuildContext context, int index) {
+                            return InkWell(
+                              onTap: () {
+                                if (index == 0) {
+                                  Get.to(() => CropSelection());
+                                } else if (index == 1) {
+                                  Get.to(() => addFarms());
+                                }
+                              },
+                              child: Visibility(
+                                visible: _isvisible,
+                                child: Container(
+                                    margin: EdgeInsets.symmetric(
+                                        horizontal: 8, vertical: 8),
+                                    height: 70,
+                                    width: 70,
+                                    decoration: BoxDecoration(
+                                      color: theme.backgroundColor,
+                                      borderRadius: BorderRadius.circular(50),
                                     ),
-                                    SizedBox(height: 5),
-                                    Text(
-                                      ScrolNames[index].tr,
-                                      style: TextStyle(fontSize: 8),
-                                      overflow: TextOverflow.ellipsis,
-                                    )
-                                  ],
-                                )),
-                          ),
-                        );
-                      },
-                    ),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        SvgPicture.asset(
+                                          ScrolImages[index],
+                                          height: 20,
+                                          width: 20,
+                                          // ignore: deprecated_member_use
+                                          color: theme.accentColor,
+                                        ),
+                                        SizedBox(height: 5),
+                                        Text(
+                                          ScrolNames[index].tr,
+                                          style: TextStyle(fontSize: 8),
+                                          overflow: TextOverflow.ellipsis,
+                                        )
+                                      ],
+                                    )),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                   SizedBox(height: 20),
                   Visibility(

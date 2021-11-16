@@ -128,12 +128,6 @@ class _CropDetailsState extends State<CropDetails> {
                   InkWell(
                     onTap: () {
                       Get.to(() => irrigationTimeSelector());
-                      // showDialog(
-                      //   context: context,
-                      //   builder: (BuildContext context) {
-                      //     return DateTimePickerForCrop();
-                      //   },
-                      // );
                     },
                     child: Container(
                       height: h * 0.10,

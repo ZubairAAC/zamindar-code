@@ -1,40 +1,45 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:zamindar/model/chat.dart';
-import 'package:zamindar/view/MessageChild/chatInputField.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:zamindar/model/user.dart';
+import 'package:zamindar/view_model/Chats.dart';
 
 class inChat extends StatefulWidget {
-  inChat({Key? key}) : super(key: key);
+  String name;
+  String img;
+  String charroomid;
+  inChat({
+    Key? key,
+    required this.name,
+    required this.img,
+    required this.charroomid,
+  }) : super(key: key);
 
   @override
-  _inChatState createState() => _inChatState();
+  _inChatState createState() => _inChatState(name, img, charroomid);
 }
 
 class _inChatState extends State<inChat> {
-  late IO.Socket socket;
+  String name;
+  String img;
+  String charroomid;
+  _inChatState(
+    this.name,
+    this.img,
+    this.charroomid,
+  );
+  TextEditingController msgController = TextEditingController();
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-
-    connectAndListen();
-  }
-
-  void connectAndListen() {
-    print('Call func connectAndListen');
-    socket = IO.io("https://110.93.212.34:8000", <String, dynamic>{
-      "transports": ["websocket"],
-      "autoConnect": false,
-    });
-    socket.connect();
-    socket.onConnect((data) {
-      print("Connected");
-      socket.on("message", (msg) {
-        print(msg);
-      });
-    });
-    print(socket.connected);
-    print("out");
+  databseHelperMethods databaseMethods = new databseHelperMethods();
+  sendMsg() {
+    Map<String, dynamic> messageMap = {
+      "Message": msgController.text,
+      "SendBy": user.name,
+      "time": DateTime.now().microsecondsSinceEpoch
+    };
+    databaseMethods.addConversationMessage(widget.charroomid, messageMap);
   }
 
   @override
@@ -46,6 +51,109 @@ class _inChatState extends State<inChat> {
       backgroundColor: theme.backgroundColor,
       appBar: appBar(theme, myWidth),
       body: Body(),
+    );
+  }
+
+  Widget chatTextField() {
+    final theme = Theme.of(context);
+    bool isTyping = true;
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: 20 / 2,
+      ),
+      decoration: BoxDecoration(
+        color: theme.cardColor,
+        boxShadow: [
+          BoxShadow(
+            offset: Offset(0, 4),
+            blurRadius: 32,
+            color: Color(0xFF087949).withOpacity(0.08),
+          ),
+        ],
+      ),
+      child: SafeArea(
+        child: Row(
+          children: [
+            Icon(Icons.mic, color: theme.accentColor),
+            SizedBox(width: 5),
+            Expanded(
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 20 * 0.75,
+                ),
+                decoration: BoxDecoration(
+                  color: theme.backgroundColor,
+                  borderRadius: BorderRadius.circular(40),
+                ),
+                child: Row(
+                  children: [
+                    SizedBox(width: 20 / 4),
+                    Expanded(
+                      child: TextField(
+                        cursorColor: theme.accentColor,
+                        controller: msgController,
+                        decoration: InputDecoration(
+                          hintText: "Type message".tr,
+                          border: InputBorder.none,
+                        ),
+                        onChanged: (values) {
+                          if (values.isNotEmpty) {
+                            setState(() {
+                              isTyping = true;
+                            });
+                          } else {
+                            setState(() {
+                              isTyping = false;
+                            });
+                          }
+                        },
+                      ),
+                    ),
+                    isTyping
+                        ? Container(
+                            height: 40,
+                            width: 40,
+                            decoration: BoxDecoration(
+                                color: theme.accentColor,
+                                borderRadius: BorderRadius.circular(50)),
+                            child: Center(
+                              child: IconButton(
+                                  onPressed: () {
+                                    msgController.clear();
+                                    sendMsg();
+                                    setState(() {
+                                      isTyping = false;
+                                    });
+                                  },
+                                  icon: Icon(
+                                    Icons.send,
+                                    size: 20,
+                                    color: theme.cardColor,
+                                  )),
+                            ))
+                        : Container(
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.attach_file,
+                                  color: theme.accentColor,
+                                ),
+                                SizedBox(width: 20 / 4),
+                                Icon(
+                                  Icons.camera_alt_outlined,
+                                  color: theme.accentColor,
+                                ),
+                              ],
+                            ),
+                          )
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -64,7 +172,8 @@ class _inChatState extends State<inChat> {
               ),
             ),
           ),
-          ChatInputField(),
+          chatTextField(),
+          // ChatInputField(),
         ],
       );
 
@@ -78,30 +187,30 @@ class _inChatState extends State<inChat> {
             color: theme.cardColor,
           ),
           CircleAvatar(
-            backgroundImage: AssetImage("asset/logo/splash.png"),
+            backgroundImage: MemoryImage(base64Decode(img)),
           ),
           SizedBox(width: myWidth * 0.05),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Kristin Watson",
+                name,
                 style: TextStyle(fontSize: 16, color: theme.cardColor),
               ),
             ],
           )
         ],
       ),
-      actions: [
-        IconButton(
-          icon: Icon(
-            Icons.local_phone,
-            color: theme.cardColor,
-          ),
-          onPressed: () {},
-        ),
-        SizedBox(width: myWidth * 0.05),
-      ],
+      // actions: [
+      //   IconButton(
+      //     icon: Icon(
+      //       Icons.local_phone,
+      //       color: theme.cardColor,
+      //     ),
+      //     onPressed: () {},
+      //   ),
+      //   SizedBox(width: myWidth * 0.05),
+      // ],
     );
   }
 }

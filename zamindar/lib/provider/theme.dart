@@ -27,28 +27,79 @@ class CustomTheme with ChangeNotifier {
     return ThemeData(
         cardColor: Colors.white,
         brightness: Brightness.light,
+
         // ignore: prefer_const_constructors
         colorScheme: ColorScheme.light(),
         hoverColor: Colors.green,
         primaryColor: Colors.white,
         primaryColorLight: Colors.black,
         primarySwatch: Colors.green,
+
+        // timePickerTheme: TimePickerThemeData(
+        //   hourMinuteShape: RoundedRectangleBorder(
+        //       borderRadius: BorderRadius.circular(10),
+        //       side: BorderSide(color: Colors.green)),
+        //   dayPeriodBorderSide: BorderSide(color: Colors.green),
+        //   dayPeriodShape:
+        //       RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        //   shape:
+        //       RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        //   backgroundColor: Colors.grey[200],
+        //   dialHandColor: Colors.green,
+        //   dialBackgroundColor: Colors.white,
+        //   dialTextColor: Colors.black,
+        //   hourMinuteTextColor: Colors.green,
+        //   hourMinuteColor: Colors.white,
+        //   // dayPeriodColor: Colors.white,
+        //   inputDecorationTheme: InputDecorationTheme(
+        //     contentPadding: EdgeInsets.all(0),
+        //     focusedErrorBorder: OutlineInputBorder(
+        //       gapPadding: 0.0,
+        //       borderSide: BorderSide(
+        //         color: Colors.green,
+        //       ),
+        //     ),
+        //     errorBorder: OutlineInputBorder(
+        //         borderSide: BorderSide(
+        //       color: Colors.red,
+        //     )),
+        //     focusedBorder: OutlineInputBorder(
+        //         borderSide: BorderSide(
+        //       color: Colors.green,
+        //     )),
+        //     enabledBorder: OutlineInputBorder(
+        //         borderSide: BorderSide(
+        //       color: Colors.green,
+        //     )),
+        //   ),
+        //   dayPeriodTextColor: Colors.green,
+        //   entryModeIconColor: Colors.green,
+        //   // inputDecorationTheme: InputDecorationTheme()
+        // ),
+
         // ignore: deprecated_member_use
         accentColor: Colors.green,
+        popupMenuTheme: PopupMenuThemeData(
+            textStyle: TextStyle(
+          fontFamily: l == 'ur_PK' ? 'Jameel Noori' : null,
+        )),
         backgroundColor: Colors.grey[200],
         scaffoldBackgroundColor: Colors.grey[200],
         focusColor: Colors.green,
         shadowColor: Colors.white,
         fontFamily: l == 'ur_PK' ? 'Jameel Noori' : null,
         textTheme: TextTheme(
-          caption: TextStyle(color: Colors.white),
-          headline1: TextStyle(color: Colors.green),
-          headline2: TextStyle(color: Colors.black),
-          bodyText1: TextStyle(color: Colors.black),
-          bodyText2: TextStyle(color: Colors.black),
-        ).apply(
+            caption: TextStyle(color: Colors.white),
+            headline1: TextStyle(color: Colors.green),
+            headline2: TextStyle(color: Colors.black),
+            bodyText1: TextStyle(color: Colors.black),
+            bodyText2: TextStyle(color: Colors.black),
+            button: TextStyle(
+              fontFamily: l == 'ur_PK' ? 'Jameel Noori' : null,
+            )).apply(
           fontFamily: l == 'ur_PK' ? 'Jameel Noori' : null,
         ),
+        // buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.accent),
         iconTheme: IconThemeData(
           color: Colors.green,
         ));
@@ -69,14 +120,22 @@ class CustomTheme with ChangeNotifier {
         accentColor: Colors.yellow[700],
         backgroundColor: Colors.grey[900],
         focusColor: Colors.black,
+        popupMenuTheme: PopupMenuThemeData(
+            textStyle: TextStyle(
+          fontFamily: l == 'ur_PK' ? 'Jameel Noori' : null,
+        )),
         scaffoldBackgroundColor: Colors.grey[900],
+        // buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.accent),
+        fontFamily: l == 'ur_PK' ? 'Jameel Noori' : null,
         textTheme: TextTheme(
-          headline1: TextStyle(color: Colors.yellow[700]),
-          caption: TextStyle(color: Colors.white),
-          headline2: TextStyle(color: Colors.white),
-          bodyText1: TextStyle(color: Colors.white),
-          bodyText2: TextStyle(color: Colors.white),
-        ).apply(
+            headline1: TextStyle(color: Colors.yellow[700]),
+            caption: TextStyle(color: Colors.white),
+            headline2: TextStyle(color: Colors.white),
+            bodyText1: TextStyle(color: Colors.white),
+            bodyText2: TextStyle(color: Colors.white),
+            button: TextStyle(
+              fontFamily: l == 'ur_PK' ? 'Jameel Noori' : null,
+            )).apply(
           fontFamily: l == 'ur_PK' ? 'Jameel Noori' : null,
         ),
         iconTheme: IconThemeData(

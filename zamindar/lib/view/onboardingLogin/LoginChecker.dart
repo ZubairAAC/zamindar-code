@@ -74,7 +74,7 @@ class Login extends GetxController {
               child: Padding(
                   padding: MediaQuery.of(context).viewInsets,
                   child: Container(
-                    height: _sSize * 0.36,
+                    height: _sSize * 0.367,
                     decoration: BoxDecoration(
                         color: theme.backgroundColor,
                         borderRadius: BorderRadius.only(

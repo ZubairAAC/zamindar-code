@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
@@ -7,8 +6,11 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:get/instance_manager.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:zamindar/model/city.dart';
+import 'package:zamindar/model/user.dart';
+import 'package:zamindar/model/user.dart';
 import 'package:zamindar/view/MarketChild/callDailogue.dart';
 import 'package:zamindar/view/MessageChild/inchat.dart';
+import 'package:zamindar/view_model/Chats.dart';
 
 class MarketAdView extends StatefulWidget {
   String adtitle;
@@ -55,28 +57,42 @@ class _MarketAdViewState extends State<MarketAdView> {
       this.adphone,
       this.adphoto,
       this.myicon);
+
   var cityName;
 
   @override
   void initState() {
     super.initState();
-    // print("title: $adtitle");
-    // print("description: $addescription");
-    // print("category: $adcategory");
-    // print("city: $adcity");
-    // print("person: $adperson");
-    // print("photo: $adphoto");
-    // print("phone: $adphone");
-    // print("icon: $myicon");
-    // print(adcategory.substring(
-    //   0,
-    // ));
     var first = RegExp('[a-zA-Z]');
     var second = adcategory.replaceAll(first, "");
     cityName = second.replaceAll(": ", "");
     print(cityName);
 
     // print(adcategory.split(":"));
+  }
+
+  databseHelperMethods databasemethods = new databseHelperMethods();
+  String ourchatroomid = "";
+
+  createChatRoom(
+    String userName,
+  ) {
+    ourchatroomid = getchatroomid(userName, user.name);
+    List<String> users = [userName, user.name];
+    // List<String> usersPics = [profilePic, userProfilePicUrl];
+    Map<String, dynamic> sender = {
+      "contactPerson": user.name,
+    };
+    Map<String, dynamic> receiver = {
+      "contactPerson": userName,
+    };
+    Map<String, dynamic> chatRoomMap = {
+      "users": users,
+      "sender": sender,
+      "receiver": receiver,
+      "chatRoomID": ourchatroomid
+    };
+    databasemethods.createChatRoomsForChats(ourchatroomid, chatRoomMap);
   }
 
   @override
@@ -390,7 +406,12 @@ class _MarketAdViewState extends State<MarketAdView> {
                                       SizedBox(width: 20),
                                       InkWell(
                                         onTap: () {
-                                          Get.to(() => inChat());
+                                          createChatRoom(addescription);
+                                          Get.to(() => inChat(
+                                                name: addescription,
+                                                img: adphone,
+                                                charroomid: ourchatroomid,
+                                              ));
                                         },
                                         child: Container(
                                           height: 50,
@@ -435,6 +456,14 @@ class _MarketAdViewState extends State<MarketAdView> {
             ],
           ),
         )));
+  }
+}
+
+getchatroomid(String a, b) {
+  if (a.substring(0, 1).codeUnitAt(0) > b.substring(0, 1).codeUnitAt(0)) {
+    return "$b\_$a";
+  } else {
+    return "$a\_$b";
   }
 }
 

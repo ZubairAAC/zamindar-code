@@ -7,6 +7,7 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:zamindar/model/days.dart';
 import 'package:zamindar/model/irrigationTime.dart';
 import 'package:zamindar/view_model/sharedPrefForScreen.dart';
+import 'package:intl/intl.dart';
 
 class irrigationTimeSelector extends StatefulWidget {
   irrigationTimeSelector({Key? key}) : super(key: key);
@@ -19,6 +20,7 @@ class _irrigationTimeSelectorState extends State<irrigationTimeSelector> {
   int index = 2;
   String startDay = '';
   bool startDaySelected = false;
+  var selectedTime = TimeOfDay.now();
   late FixedExtentScrollController myscrollController;
 
   int timeindex = 2;
@@ -237,66 +239,7 @@ class _irrigationTimeSelectorState extends State<irrigationTimeSelector> {
                         SizedBox(width: w * 0.05),
                         InkWell(
                             onTap: () {
-                              myscrollControllerfortime.dispose();
-                              myscrollControllerfortime =
-                                  FixedExtentScrollController(
-                                      initialItem: timeindex);
-                              showCupertinoModalPopup(
-                                  context: context,
-                                  builder: (BuildContext bc) =>
-                                      CupertinoActionSheet(
-                                        message: Text(
-                                          "Select Time".tr,
-                                          style: TextStyle(
-                                              color: theme.primaryColorLight),
-                                        ),
-                                        cancelButton:
-                                            CupertinoActionSheetAction(
-                                                onPressed: () {
-                                                  Get.back();
-                                                },
-                                                child: Text(
-                                                  "Cancel".tr,
-                                                  style: TextStyle(
-                                                      color: theme.accentColor),
-                                                )),
-                                        actions: [
-                                          SizedBox(
-                                            height: h * 0.25,
-                                            child: CupertinoPicker(
-                                                scrollController:
-                                                    myscrollControllerfortime,
-                                                useMagnifier: true,
-                                                backgroundColor:
-                                                    theme.backgroundColor,
-                                                selectionOverlay:
-                                                    CupertinoPickerDefaultSelectionOverlay(
-                                                  background: theme.accentColor
-                                                      .withOpacity(0.2),
-                                                ),
-                                                itemExtent: 65,
-                                                onSelectedItemChanged: (e) {
-                                                  setState(() {
-                                                    starttimeSelected = true;
-                                                    this.index = e;
-                                                    starttime = times[e];
-                                                    irrigationTime.startTime =
-                                                        starttime;
-                                                  });
-                                                },
-                                                children: times
-                                                    .map((e) => Center(
-                                                          child: Text(
-                                                            e,
-                                                            style: TextStyle(
-                                                                color: theme
-                                                                    .primaryColorLight),
-                                                          ),
-                                                        ))
-                                                    .toList()),
-                                          )
-                                        ],
-                                      ));
+                              selectTime(context);
                             },
                             child: Container(
                               height: h * 0.08,
@@ -396,64 +339,7 @@ class _irrigationTimeSelectorState extends State<irrigationTimeSelector> {
                           SizedBox(width: w * 0.05),
                           InkWell(
                               onTap: () {
-                                showCupertinoModalPopup(
-                                    context: context,
-                                    builder: (BuildContext bc) =>
-                                        CupertinoActionSheet(
-                                          message: Text(
-                                            "Select Time".tr,
-                                            style: TextStyle(
-                                                color: theme.primaryColorLight),
-                                          ),
-                                          cancelButton:
-                                              CupertinoActionSheetAction(
-                                                  onPressed: () {
-                                                    Get.back();
-                                                  },
-                                                  child: Text(
-                                                    "Cancel".tr,
-                                                    style: TextStyle(
-                                                        color:
-                                                            theme.accentColor),
-                                                  )),
-                                          actions: [
-                                            SizedBox(
-                                              height: h * 0.25,
-                                              child: CupertinoPicker(
-                                                  scrollController:
-                                                      myscrollControllerforEndTime,
-                                                  useMagnifier: true,
-                                                  backgroundColor:
-                                                      theme.backgroundColor,
-                                                  selectionOverlay:
-                                                      CupertinoPickerDefaultSelectionOverlay(
-                                                    background: theme
-                                                        .accentColor
-                                                        .withOpacity(0.2),
-                                                  ),
-                                                  itemExtent: 65,
-                                                  onSelectedItemChanged: (e) {
-                                                    setState(() {
-                                                      endtimeSelected = true;
-                                                      this.index = e;
-                                                      endtime = times[e];
-                                                      irrigationTime.endTime =
-                                                          endtime;
-                                                    });
-                                                  },
-                                                  children: times
-                                                      .map((e) => Center(
-                                                            child: Text(
-                                                              e,
-                                                              style: TextStyle(
-                                                                  color: theme
-                                                                      .primaryColorLight),
-                                                            ),
-                                                          ))
-                                                      .toList()),
-                                            )
-                                          ],
-                                        ));
+                                selectEndTime(context);
                               },
                               child: Container(
                                 height: h * 0.08,
@@ -477,5 +363,122 @@ class _irrigationTimeSelectorState extends State<irrigationTimeSelector> {
         ),
       ),
     );
+  }
+
+  Future<void> selectTime(BuildContext context) async {
+    final TimeOfDay? picked_s = await showTimePicker(
+        builder: (BuildContext context, Widget? mychild) {
+          final theme = Theme.of(context);
+          return Theme(
+              data: ThemeData.light().copyWith(
+                timePickerTheme: TimePickerThemeData(
+                    backgroundColor: theme.backgroundColor,
+                    dialBackgroundColor: theme.cardColor,
+                    dialTextColor: theme.primaryColorLight,
+                    hourMinuteTextColor: theme.primaryColorLight,
+                    dayPeriodTextColor: theme.primaryColorLight,
+                    entryModeIconColor: theme.accentColor,
+                    helpTextStyle: TextStyle(color: theme.accentColor),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    dayPeriodBorderSide: BorderSide(color: theme.accentColor),
+                    hourMinuteShape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        side: BorderSide(color: theme.accentColor))),
+                colorScheme: ColorScheme.light(
+                  // change the border color
+                  primary: theme.accentColor,
+                  secondaryVariant: theme.accentColor,
+                  // change the text color
+                  onSurface: theme.cardColor,
+                ),
+                // button colors
+                // buttonTheme: ButtonThemeData(
+                //   colorScheme: ColorScheme.light(
+                //     primary: Colors.green,
+                //   ),
+                // ),
+              ),
+              child: mychild!);
+        },
+        context: context,
+        initialTime: selectedTime,
+        helpText: "Select Time".tr,
+        cancelText: "Cancel".tr,
+        confirmText: "Next".tr);
+
+    if (picked_s != null && picked_s != selectedTime)
+      setState(() {
+        // selectedTime = picked_s;
+        DateTime tempDate = DateFormat("hh:mm")
+            .parse(picked_s.hour.toString() + ":" + picked_s.minute.toString());
+        var dateFormat = DateFormat("h:mm a");
+        // you can change the format here
+        print(dateFormat.format(tempDate));
+        setState(() {
+          starttimeSelected = true;
+          starttime = dateFormat.format(tempDate);
+        });
+        // print(selectedTime);
+      });
+  }
+
+//end time
+  Future<void> selectEndTime(BuildContext context) async {
+    final TimeOfDay? picked_s = await showTimePicker(
+        builder: (BuildContext context, Widget? mychild) {
+          final theme = Theme.of(context);
+          return Theme(
+              data: ThemeData.light().copyWith(
+                timePickerTheme: TimePickerThemeData(
+                    backgroundColor: theme.backgroundColor,
+                    dialBackgroundColor: theme.cardColor,
+                    dialTextColor: theme.primaryColorLight,
+                    hourMinuteTextColor: theme.primaryColorLight,
+                    dayPeriodTextColor: theme.primaryColorLight,
+                    entryModeIconColor: theme.accentColor,
+                    helpTextStyle: TextStyle(color: theme.accentColor),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    dayPeriodBorderSide: BorderSide(color: theme.accentColor),
+                    hourMinuteShape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        side: BorderSide(color: theme.accentColor))),
+                colorScheme: ColorScheme.light(
+                  // change the border color
+                  primary: theme.accentColor,
+                  secondaryVariant: theme.accentColor,
+                  // change the text color
+                  onSurface: theme.cardColor,
+                ),
+                // button colors
+                // buttonTheme: ButtonThemeData(
+                //   colorScheme: ColorScheme.light(
+                //     primary: Colors.green,
+                //   ),
+                // ),
+              ),
+              child: mychild!);
+        },
+        context: context,
+        initialTime: selectedTime,
+        helpText: "Select Time".tr,
+        cancelText: "Cancel".tr,
+        confirmText: "Next".tr);
+
+    if (picked_s != null && picked_s != selectedTime)
+      setState(() {
+        // selectedTime = picked_s;
+        DateTime tempDate = DateFormat("hh:mm")
+            .parse(picked_s.hour.toString() + ":" + picked_s.minute.toString());
+        var dateFormat = DateFormat("h:mm a");
+        // you can change the format here
+        print(dateFormat.format(tempDate));
+        setState(() {
+          endtimeSelected = true;
+          endtime = dateFormat.format(tempDate);
+        });
+        // print(selectedTime);
+      });
   }
 }

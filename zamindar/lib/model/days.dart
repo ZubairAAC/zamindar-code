@@ -1,11 +1,13 @@
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
+
 List days = [
-  'Monday',
-  'Tuesday',
-  'Wednesday',
-  'Thursday',
-  'Friday',
-  'Saturday',
-  'Sunday'
+  'Monday'.tr,
+  'Tuesday'.tr,
+  'Wednesday'.tr,
+  'Thursday'.tr,
+  'Friday'.tr,
+  'Saturday'.tr,
+  'Sunday'.tr
 ];
 List times = [
   '1 Afternoon',
