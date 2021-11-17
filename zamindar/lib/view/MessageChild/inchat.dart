@@ -1,8 +1,6 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
-import 'package:zamindar/model/chat.dart';
 import 'package:zamindar/model/user.dart';
 import 'package:zamindar/view_model/Chats.dart';
 
@@ -30,16 +28,21 @@ class _inChatState extends State<inChat> {
     this.img,
     this.charroomid,
   );
-  TextEditingController msgController = TextEditingController();
+
   @override
   databseHelperMethods databaseMethods = new databseHelperMethods();
-  sendMsg() {
-    Map<String, dynamic> messageMap = {
-      "Message": msgController.text,
-      "SendBy": user.name,
-      "time": DateTime.now().microsecondsSinceEpoch
-    };
-    databaseMethods.addConversationMessage(widget.charroomid, messageMap);
+  Stream chatMessageStream = const Stream.empty();
+  TextEditingController msgController = new TextEditingController();
+  bool isTyping = false;
+
+  @override
+  void initState() {
+    databaseMethods.getConversationMessage(charroomid).then((value) {
+      setState(() {
+        chatMessageStream = value;
+      });
+    });
+    super.initState();
   }
 
   @override
@@ -50,132 +53,156 @@ class _inChatState extends State<inChat> {
     return Scaffold(
       backgroundColor: theme.backgroundColor,
       appBar: appBar(theme, myWidth),
-      body: Body(),
-    );
-  }
-
-  Widget chatTextField() {
-    final theme = Theme.of(context);
-    bool isTyping = true;
-    return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: 20,
-        vertical: 20 / 2,
-      ),
-      decoration: BoxDecoration(
-        color: theme.cardColor,
-        boxShadow: [
-          BoxShadow(
-            offset: Offset(0, 4),
-            blurRadius: 32,
-            color: Color(0xFF087949).withOpacity(0.08),
-          ),
-        ],
-      ),
-      child: SafeArea(
-        child: Row(
-          children: [
-            Icon(Icons.mic, color: theme.accentColor),
-            SizedBox(width: 5),
-            Expanded(
-              child: Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 20 * 0.75,
-                ),
-                decoration: BoxDecoration(
-                  color: theme.backgroundColor,
-                  borderRadius: BorderRadius.circular(40),
-                ),
-                child: Row(
-                  children: [
-                    SizedBox(width: 20 / 4),
-                    Expanded(
-                      child: TextField(
-                        cursorColor: theme.accentColor,
-                        controller: msgController,
-                        decoration: InputDecoration(
-                          hintText: "Type message".tr,
-                          border: InputBorder.none,
-                        ),
-                        onChanged: (values) {
-                          if (values.isNotEmpty) {
-                            setState(() {
-                              isTyping = true;
-                            });
-                          } else {
-                            setState(() {
-                              isTyping = false;
-                            });
-                          }
-                        },
-                      ),
-                    ),
-                    isTyping
-                        ? Container(
-                            height: 40,
-                            width: 40,
-                            decoration: BoxDecoration(
-                                color: theme.accentColor,
-                                borderRadius: BorderRadius.circular(50)),
-                            child: Center(
-                              child: IconButton(
-                                  onPressed: () {
-                                    msgController.clear();
-                                    sendMsg();
-                                    setState(() {
-                                      isTyping = false;
-                                    });
-                                  },
-                                  icon: Icon(
-                                    Icons.send,
-                                    size: 20,
-                                    color: theme.cardColor,
-                                  )),
-                            ))
-                        : Container(
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Icons.attach_file,
-                                  color: theme.accentColor,
-                                ),
-                                SizedBox(width: 20 / 4),
-                                Icon(
-                                  Icons.camera_alt_outlined,
-                                  color: theme.accentColor,
-                                ),
-                              ],
-                            ),
-                          )
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Column Body() => Column(
+      body: Column(
         children: [
           Expanded(
             child: Padding(
               padding:
                   const EdgeInsets.only(left: 20, right: 20, top: 0, bottom: 5),
-              child: ListView.builder(
-                itemCount: demeChatMessages.length,
-                shrinkWrap: true,
-                itemBuilder: (BuildContext context, int index) {
-                  return Message(message: demeChatMessages[index]);
-                },
-              ),
+              child: StreamBuilder(
+                  stream: chatMessageStream,
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    return ListView.builder(
+                      itemCount: snapshot.data!.docs.length ?? 0,
+                      shrinkWrap: true,
+                      itemBuilder: (BuildContext context, int index) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Center(
+                            child: CircularProgressIndicator(
+                              color: Theme.of(context).accentColor,
+                            ),
+                          );
+                        }
+                        if (snapshot.hasError) {
+                          return const Center(
+                            child: Text("Something went wrong"),
+                          );
+                        }
+                        if (snapshot.data == null) {
+                          return Container();
+                        }
+                        return messageTile(
+                            message: snapshot.data.docs[index]['Message'],
+                            isSendByMe: snapshot.data.docs[index]['SendBy'] ==
+                                user.name);
+                        // return Message(message: demeChatMessages[index]);
+                      },
+                    );
+                  }),
             ),
           ),
-          chatTextField(),
+          Container(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 20,
+              vertical: 20 / 2,
+            ),
+            decoration: BoxDecoration(
+              color: theme.cardColor,
+              boxShadow: [
+                BoxShadow(
+                  offset: Offset(0, 4),
+                  blurRadius: 32,
+                  color: Color(0xFF087949).withOpacity(0.08),
+                ),
+              ],
+            ),
+            child: SafeArea(
+              child: Row(
+                children: [
+                  Icon(Icons.mic, color: theme.accentColor),
+                  SizedBox(width: 5),
+                  Expanded(
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 20 * 0.75,
+                      ),
+                      decoration: BoxDecoration(
+                        color: theme.backgroundColor,
+                        borderRadius: BorderRadius.circular(40),
+                      ),
+                      child: Row(
+                        children: [
+                          SizedBox(width: 20 / 4),
+                          Expanded(
+                            child: TextField(
+                              cursorColor: theme.accentColor,
+                              controller: msgController,
+                              decoration: InputDecoration(
+                                hintText: "Type message".tr,
+                                border: InputBorder.none,
+                              ),
+                              onChanged: (values) {
+                                if (values.length > 0) {
+                                  setState(() {
+                                    isTyping = true;
+                                  });
+                                } else {
+                                  setState(() {
+                                    isTyping = false;
+                                  });
+                                }
+                              },
+                            ),
+                          ),
+                          isTyping
+                              ? Container(
+                                  height: 40,
+                                  width: 40,
+                                  decoration: BoxDecoration(
+                                      color: theme.accentColor,
+                                      borderRadius: BorderRadius.circular(50)),
+                                  child: Center(
+                                    child: IconButton(
+                                        onPressed: () {
+                                          sendMsg(msgController.text);
+                                          msgController.clear();
+                                          setState(() {
+                                            isTyping = false;
+                                          });
+                                        },
+                                        icon: Icon(
+                                          Icons.send,
+                                          size: 20,
+                                          color: theme.cardColor,
+                                        )),
+                                  ))
+                              : Row(
+                                  children: [
+                                    Icon(
+                                      Icons.attach_file,
+                                      color: theme.accentColor,
+                                    ),
+                                    SizedBox(width: 20 / 4),
+                                    Icon(
+                                      Icons.camera_alt_outlined,
+                                      color: theme.accentColor,
+                                    ),
+                                  ],
+                                )
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          )
+          // chatTextField(),
           // ChatInputField(),
         ],
-      );
+      ),
+    );
+  }
+
+  sendMsg(String mytext) {
+    Map<String, dynamic> messageMap = {
+      "Message": mytext,
+      "SendBy": user.name,
+      "time": DateTime.now().microsecondsSinceEpoch
+    };
+    databaseMethods.addConversationMessage(charroomid, messageMap);
+  }
 
   AppBar appBar(ThemeData theme, double myWidth) {
     return AppBar(
@@ -215,176 +242,41 @@ class _inChatState extends State<inChat> {
   }
 }
 
-class Message extends StatelessWidget {
-  const Message({
-    Key? key,
-    required this.message,
-  }) : super(key: key);
-
-  final ChatMessage message;
-
-  @override
-  Widget build(BuildContext context) {
-    Widget messageContaint(ChatMessage message) {
-      switch (message.messageType) {
-        case ChatMessageType.text:
-          return TextMessage(message: message);
-        case ChatMessageType.audio:
-          return AudioMessage(message: message);
-        case ChatMessageType.video:
-          return VideoMessage();
-        default:
-          return SizedBox();
-      }
-    }
-
-    return Padding(
-      padding: const EdgeInsets.only(top: 20),
-      child: Row(
-        mainAxisAlignment:
-            message.isSender ? MainAxisAlignment.end : MainAxisAlignment.start,
-        children: [
-          if (!message.isSender) ...[
-            CircleAvatar(
-              radius: 12,
-              backgroundImage: AssetImage("asset/logo/splash.png"),
-            ),
-            SizedBox(width: 20 / 2),
-          ],
-          messageContaint(message),
-        ],
-      ),
-    );
-  }
-}
-
-class TextMessage extends StatelessWidget {
-  const TextMessage({
-    Key? key,
-    this.message,
-  }) : super(key: key);
-
-  final ChatMessage? message;
+// ignore: camel_case_types
+class messageTile extends StatelessWidget {
+  final String message;
+  final bool isSendByMe;
+  const messageTile({Key? key, required this.message, required this.isSendByMe})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: 20 * 0.75,
-        vertical: 20 / 2,
-      ),
-      decoration: BoxDecoration(
-        color: Theme.of(context)
-            .accentColor
-            .withOpacity(message!.isSender ? 1 : 0.1),
-        borderRadius: BorderRadius.circular(30),
-      ),
-      child: Text(
-        message!.text,
-        style: TextStyle(
-          color: message!.isSender ? Theme.of(context).cardColor : null,
+      width: MediaQuery.of(context).size.width / 2,
+      alignment: isSendByMe ? Alignment.centerRight : Alignment.centerLeft,
+      child: Container(
+        margin: EdgeInsets.only(
+            top: 3, left: isSendByMe ? 70 : 0, right: isSendByMe ? 0 : 70),
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        decoration: BoxDecoration(
+          color:
+              Theme.of(context).accentColor.withOpacity(isSendByMe ? 0.38 : 1),
+          borderRadius: isSendByMe
+              ? BorderRadius.only(
+                  topLeft: Radius.circular(23),
+                  topRight: Radius.circular(23),
+                  bottomLeft: Radius.circular(23))
+              : BorderRadius.only(
+                  topLeft: Radius.circular(23),
+                  topRight: Radius.circular(23),
+                  bottomRight: Radius.circular(23)),
         ),
-      ),
-    );
-  }
-}
-
-class AudioMessage extends StatelessWidget {
-  final ChatMessage? message;
-
-  const AudioMessage({Key? key, this.message}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width * 0.55,
-      padding: EdgeInsets.symmetric(
-        horizontal: 20 * 0.75,
-        vertical: 20 / 2.5,
-      ),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(30),
-        color: Theme.of(context)
-            .accentColor
-            .withOpacity(message!.isSender ? 1 : 0.1),
-      ),
-      child: Row(
-        children: [
-          Icon(
-            Icons.play_arrow,
-            color: message!.isSender
-                ? Colors.white
-                : Theme.of(context).accentColor,
+        child: Text(
+          message,
+          style: TextStyle(
+            fontSize: 15,
+            color: isSendByMe ? Colors.black : Colors.black,
           ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20 / 2),
-              child: Stack(
-                clipBehavior: Clip.none,
-                alignment: Alignment.center,
-                children: [
-                  Container(
-                    width: double.infinity,
-                    height: 2,
-                    color: message!.isSender
-                        ? Colors.white
-                        : Theme.of(context).accentColor.withOpacity(0.4),
-                  ),
-                  Positioned(
-                    left: 0,
-                    child: Container(
-                      height: 8,
-                      width: 8,
-                      decoration: BoxDecoration(
-                        color: message!.isSender
-                            ? Colors.white
-                            : Theme.of(context).accentColor,
-                        shape: BoxShape.circle,
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
-          Text(
-            "0.37",
-            style: TextStyle(
-                fontSize: 12, color: message!.isSender ? Colors.white : null),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class VideoMessage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.45, // 45% of total width
-      child: AspectRatio(
-        aspectRatio: 1.6,
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: Image.asset("asset/logo/welcome.png"),
-            ),
-            Container(
-              height: 25,
-              width: 25,
-              decoration: BoxDecoration(
-                color: Theme.of(context).accentColor,
-                shape: BoxShape.circle,
-              ),
-              child: Icon(
-                Icons.play_arrow,
-                size: 16,
-                color: Colors.white,
-              ),
-            )
-          ],
         ),
       ),
     );

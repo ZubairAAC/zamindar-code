@@ -76,15 +76,18 @@ class _MarketAdViewState extends State<MarketAdView> {
 
   createChatRoom(
     String userName,
+    String userIMG,
   ) {
     ourchatroomid = getchatroomid(userName, user.name);
     List<String> users = [userName, user.name];
     // List<String> usersPics = [profilePic, userProfilePicUrl];
     Map<String, dynamic> sender = {
       "contactPerson": user.name,
+      "contactPersonIMG": user.image,
     };
     Map<String, dynamic> receiver = {
       "contactPerson": userName,
+      "contactPersonIMG": userIMG,
     };
     Map<String, dynamic> chatRoomMap = {
       "users": users,
@@ -406,7 +409,8 @@ class _MarketAdViewState extends State<MarketAdView> {
                                       SizedBox(width: 20),
                                       InkWell(
                                         onTap: () {
-                                          createChatRoom(addescription);
+                                          createChatRoom(
+                                              addescription, adphone);
                                           Get.to(() => inChat(
                                                 name: addescription,
                                                 img: adphone,

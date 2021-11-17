@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
@@ -9,6 +8,7 @@ import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:zamindar/view/widgets/RateUs.dart';
 import 'package:zamindar/view/widgets/colorswitcher.dart';
+import 'package:zamindar/view_model/sharedPrefForScreen.dart';
 
 class mydrawer extends StatelessWidget {
   const mydrawer({Key? key}) : super(key: key);
@@ -291,6 +291,7 @@ class mydrawer extends StatelessWidget {
             InkWell(
               onTap: () {
                 updateLocale(Locale("en_US"), context);
+                setLocaleFlag("en_US");
                 Get.back();
               },
               child: Container(
@@ -312,6 +313,7 @@ class mydrawer extends StatelessWidget {
             InkWell(
               onTap: () {
                 updateLocale(Locale("ur_PK"), context);
+                setLocaleFlag("ur_PK");
                 Get.back();
               },
               child: Container(

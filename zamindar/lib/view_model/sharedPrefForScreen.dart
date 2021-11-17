@@ -82,3 +82,14 @@ getFarmLocationFlag() async {
   print("farm lat is ${farm.farmlat}");
   print("farm long is ${farm.farmloc}");
 }
+
+setLocaleFlag(String myLocale) async {
+  SharedPreferences sp = await SharedPreferences.getInstance();
+  sp.setString("locale", myLocale);
+}
+
+getLocaleFlag() async {
+  SharedPreferences sp = await SharedPreferences.getInstance();
+  String? myL = sp.getString("locale");
+  return myL;
+}

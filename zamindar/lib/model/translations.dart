@@ -250,6 +250,8 @@ class myTranslations extends Translations {
           "Please Allow permissions to access the app":
               "Please Allow permissions to access the app",
           "Allow Permission": "Allow Permission",
+          "Add Question Details": "Add Question Details",
+          "Type your question": "Type your question",
         },
         'ur_PK': {
           'Home': 'ہوم',
@@ -499,6 +501,8 @@ class myTranslations extends Translations {
           "Please Allow permissions to access the app":
               "براہ کرم ایپ تک رسائی کی اجازت دیں",
           "Allow Permission": "اجازت دیں",
+          "Add Question Details": "سوال کی تفصیلات شامل کریں۔",
+          "Type your question": "اپنا سوال ٹائپ کریں۔",
         }
       };
 }

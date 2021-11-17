@@ -2,6 +2,7 @@
 
 import 'dart:ui';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
@@ -27,6 +28,15 @@ class CustomTheme with ChangeNotifier {
     return ThemeData(
         cardColor: Colors.white,
         brightness: Brightness.light,
+        cupertinoOverrideTheme: CupertinoThemeData(
+            textTheme: CupertinoTextThemeData(
+          textStyle: TextStyle(
+            fontFamily: l == 'ur_PK' ? 'Jameel Noori' : null,
+          ),
+          actionTextStyle: TextStyle(
+            fontFamily: l == 'ur_PK' ? 'Jameel Noori' : null,
+          ),
+        )),
 
         // ignore: prefer_const_constructors
         colorScheme: ColorScheme.light(),
@@ -34,50 +44,6 @@ class CustomTheme with ChangeNotifier {
         primaryColor: Colors.white,
         primaryColorLight: Colors.black,
         primarySwatch: Colors.green,
-
-        // timePickerTheme: TimePickerThemeData(
-        //   hourMinuteShape: RoundedRectangleBorder(
-        //       borderRadius: BorderRadius.circular(10),
-        //       side: BorderSide(color: Colors.green)),
-        //   dayPeriodBorderSide: BorderSide(color: Colors.green),
-        //   dayPeriodShape:
-        //       RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        //   shape:
-        //       RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        //   backgroundColor: Colors.grey[200],
-        //   dialHandColor: Colors.green,
-        //   dialBackgroundColor: Colors.white,
-        //   dialTextColor: Colors.black,
-        //   hourMinuteTextColor: Colors.green,
-        //   hourMinuteColor: Colors.white,
-        //   // dayPeriodColor: Colors.white,
-        //   inputDecorationTheme: InputDecorationTheme(
-        //     contentPadding: EdgeInsets.all(0),
-        //     focusedErrorBorder: OutlineInputBorder(
-        //       gapPadding: 0.0,
-        //       borderSide: BorderSide(
-        //         color: Colors.green,
-        //       ),
-        //     ),
-        //     errorBorder: OutlineInputBorder(
-        //         borderSide: BorderSide(
-        //       color: Colors.red,
-        //     )),
-        //     focusedBorder: OutlineInputBorder(
-        //         borderSide: BorderSide(
-        //       color: Colors.green,
-        //     )),
-        //     enabledBorder: OutlineInputBorder(
-        //         borderSide: BorderSide(
-        //       color: Colors.green,
-        //     )),
-        //   ),
-        //   dayPeriodTextColor: Colors.green,
-        //   entryModeIconColor: Colors.green,
-        //   // inputDecorationTheme: InputDecorationTheme()
-        // ),
-
-        // ignore: deprecated_member_use
         accentColor: Colors.green,
         popupMenuTheme: PopupMenuThemeData(
             textStyle: TextStyle(

@@ -85,7 +85,7 @@ class _AskState extends State<Ask> {
                   color: theme.accentColor,
                 ),
                 Container(
-                  height: h * 0.42,
+                  height: h * 0.47,
                   margin: EdgeInsets.all(30),
                   decoration: BoxDecoration(
                       color: theme.cardColor,
@@ -97,7 +97,7 @@ class _AskState extends State<Ask> {
                           Padding(
                             padding: const EdgeInsets.only(
                                 left: 20, right: 20, top: 20),
-                            child: Text("Type your question"),
+                            child: Text("Type your question".tr),
                           ),
                         ],
                       ),
@@ -148,8 +148,8 @@ class _AskState extends State<Ask> {
                             enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
                                     color: theme.accentColor, width: 2)),
-                            hintText: 'Add Question Details',
-                            labelText: 'Ask Question',
+                            hintText: 'Add Question Details'.tr,
+                            labelText: 'Ask Question'.tr,
                             fillColor: theme.cardColor,
                             filled: true,
                             isDense: true,

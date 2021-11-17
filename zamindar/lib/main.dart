@@ -37,13 +37,19 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+    getLocales();
     getUserInfoFromDB();
     print("flag is ====> $flag");
 
     currentTheme.addListener(() {
       setState(() {});
     });
-    Get.updateLocale(Locale("ur_PK"));
+  }
+
+  getLocales() async {
+    String myL = await getLocaleFlag();
+    print(myL);
+    Get.updateLocale(Locale(myL));
   }
 
   getUserInfoFromDB() async {

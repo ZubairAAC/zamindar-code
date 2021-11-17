@@ -103,7 +103,7 @@ class _profileState extends State<profile> with SingleTickerProviderStateMixin {
                                   SizedBox(height: 5),
                                   Text(
                                     user.phone.isNotEmpty
-                                        ? user.phone
+                                        ? user.phone.replaceRange(10, 13, "***")
                                         : '0300123****',
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(

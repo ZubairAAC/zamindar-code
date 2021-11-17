@@ -1,8 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
+import 'package:get/instance_manager.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:zamindar/model/user.dart';
+import 'package:zamindar/view/MessageChild/inchat.dart';
 import 'package:zamindar/view/onboardingLogin/LoginChecker.dart';
 import 'package:zamindar/view_model/Chats.dart';
 
@@ -23,18 +28,22 @@ class _MessageState extends State<Message> {
   @override
   void initState() {
     super.initState();
+
     getdata();
   }
 
-  getdata() {
+  getdata() async {
     if (user.id != null) {
-      databasemethods.getchatRooms("test").then((value) {
+      final String u = "${user.name}";
+      // print(new1);
+      databasemethods.getchatRooms(u).then((value) {
         setState(() {
           chatRoomsStream = value;
         });
       });
     } else
       print("no user");
+
     return null;
   }
 
@@ -110,76 +119,106 @@ class _MessageState extends State<Message> {
                         shrinkWrap: true,
                         physics: NeverScrollableScrollPhysics(),
                         itemBuilder: (BuildContext context, int index) {
-                          return Container(
-                              margin:
-                                  EdgeInsets.only(top: 1, left: 2, right: 2),
-                              padding: EdgeInsets.only(left: 20, right: 20),
-                              height: 70,
-                              color: theme.backgroundColor,
-                              child: Row(
-                                children: [
-                                  Container(
-                                    height: 40,
-                                    width: 40,
-                                    decoration: BoxDecoration(
-                                        color: Colors.red,
-                                        borderRadius:
-                                            BorderRadius.circular(50)),
-                                  ),
-                                  SizedBox(width: 10),
-                                  Container(
-                                    height: 70,
-                                    width: 230,
-                                    // color: Colors.blue,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        SizedBox(height: 15),
-                                        Text(
-                                          "Zubair Ayaz Asim Chaudhry",
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 15),
-                                        ),
-                                        SizedBox(height: 3),
-                                        Text(
-                                          "This is the last message from me see u good bye have a nice day",
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 2,
-                                          style: TextStyle(
-                                              color: Colors.grey,
-                                              fontWeight: FontWeight.normal,
-                                              fontSize: 10),
-                                        ),
-                                      ],
+                          String ori = snapshot.data.docs[index]["chatRoomID"];
+                          final find = '_';
+                          final replaceWith = '';
+                          final newString = ori.replaceAll(find, replaceWith);
+                          final find1 = '${user.name}';
+                          final replaceWith1 = '';
+                          final title =
+                              newString.replaceAll(find1, replaceWith1);
+                          String receiver = snapshot.data.docs[index]
+                              ["receiver"]["contactPerson"];
+                          String receiverIMG = snapshot.data.docs[index]
+                              ["receiver"]["contactPersonIMG"];
+                          String sender = snapshot.data.docs[index]["sender"]
+                              ["contactPerson"];
+
+                          // String userToDisplay = checkUser(sender, receiver);
+                          // print(userToDisplay);
+
+                          // print(snapshot.data.docs["chatRoomID"]);
+                          return InkWell(
+                            onTap: () {
+                              Get.to(() => inChat(
+                                  name: receiver,
+                                  img: receiverIMG,
+                                  charroomid: ori));
+                            },
+                            child: Container(
+                                margin:
+                                    EdgeInsets.only(top: 1, left: 2, right: 2),
+                                padding: EdgeInsets.only(left: 20, right: 20),
+                                height: 70,
+                                color: theme.backgroundColor,
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      height: 40,
+                                      width: 40,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(50)),
+                                      child: CircleAvatar(
+                                        foregroundImage: MemoryImage(
+                                            base64Decode(receiverIMG)),
+                                      ),
                                     ),
-                                  ),
-                                  // SizedBox(width: 10),
-                                  Spacer(),
-                                  Container(
-                                    margin:
-                                        EdgeInsets.only(left: 10, right: 10),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          "31-12-2021",
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                              color: Colors.grey,
-                                              fontWeight: FontWeight.normal,
-                                              fontSize: 8),
-                                        ),
-                                      ],
+                                    SizedBox(width: 10),
+                                    Container(
+                                      height: 70,
+                                      width: 230,
+                                      // color: Colors.blue,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          SizedBox(height: 15),
+                                          Text(
+                                            receiver,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 15),
+                                          ),
+                                          SizedBox(height: 3),
+                                          Text(
+                                            "This is the last message from me see u good bye have a nice day",
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 2,
+                                            style: TextStyle(
+                                                color: Colors.grey,
+                                                fontWeight: FontWeight.normal,
+                                                fontSize: 10),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  )
-                                ],
-                              ));
+                                    // SizedBox(width: 10),
+                                    Spacer(),
+                                    Container(
+                                      margin:
+                                          EdgeInsets.only(left: 10, right: 10),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            "31-12-2021",
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                                color: Colors.grey,
+                                                fontWeight: FontWeight.normal,
+                                                fontSize: 8),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                )),
+                          );
                         },
                       );
                     }
@@ -198,5 +237,13 @@ class _MessageState extends State<Message> {
               ),
             ),
     );
+  }
+
+  checkUser(String sender, String receiver) {
+    if (sender != user.name) {
+      return receiver;
+    } else {
+      return sender;
+    }
   }
 }

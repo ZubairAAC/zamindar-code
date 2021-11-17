@@ -15,7 +15,6 @@ import 'package:zamindar/view/profile.dart';
 import 'package:zamindar/view/onboardingLogin/LoginChecker.dart';
 import 'package:zamindar/view/HomeChilds/drawer.dart';
 import 'package:zamindar/view_model/IrrigationAlerts.dart';
-import 'package:zamindar/view_model/getInfo.dart';
 import 'package:zamindar/view_model/internetChecker.dart';
 import 'package:zamindar/view_model/sharedPrefForScreen.dart';
 import 'package:zamindar/view_model/sqfliteDb.dart';
@@ -37,8 +36,15 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     getNotification();
     getFlag();
     checkConnection();
+    getLocale();
 
     // getInfoFromApi();
+  }
+
+  getLocale() async {
+    String myL = await getLocaleFlag();
+    print(myL);
+    Get.updateLocale(Locale(myL));
   }
 
   checkConnection() async {

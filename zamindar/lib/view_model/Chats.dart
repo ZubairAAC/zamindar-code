@@ -40,10 +40,10 @@ class databseHelperMethods {
         .snapshots();
   }
 
-  getlast() async {
+  getlast(String doc) async {
     return await FirebaseFirestore.instance
         .collection("ChatRoom")
-        .doc("Zubair Ayaz Asim Chaudhry_zubair ayaz asim")
+        .doc(doc)
         .collection("chats")
         .snapshots()
         .last;
