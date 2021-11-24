@@ -56,6 +56,9 @@ dependencies:
   
   flutter_local_notifications: ^9.0.1
   share: ^2.0.4
+  open_file: ^3.2.1
+  syncfusion_flutter_pdfviewer: ^19.3.55-beta
+ 
 
   # multi_image_picker2: ^5.0.2
   # camera: any

@@ -4,6 +4,7 @@ import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:get/instance_manager.dart';
 import 'package:zamindar/view/parent/colorSelection.dart';
+import 'package:zamindar/view_model/sharedPrefForScreen.dart';
 
 class StartLanguageScreen extends StatefulWidget {
   StartLanguageScreen({Key? key}) : super(key: key);
@@ -64,6 +65,7 @@ class _StartLanguageScreenState extends State<StartLanguageScreen> {
                               onTap: () {
                                 setState(() {
                                   updateLocale(Locale("en_US"), context);
+                                  setLocaleFlag("en_US");
                                   Navigator.of(context).pushReplacement(
                                       MaterialPageRoute(
                                           builder: (context) =>
@@ -92,6 +94,7 @@ class _StartLanguageScreenState extends State<StartLanguageScreen> {
                               onTap: () {
                                 setState(() {
                                   updateLocale(Locale("ur_PK"), context);
+                                  setLocaleFlag("ur_PK");
                                   Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(
                                         builder: (context) => ColorSelection()),
